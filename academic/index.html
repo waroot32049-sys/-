@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1d4ed8">
+<meta name="description" content="ระบบบริหารงานวิชาการและติดตามความก้าวหน้า โรงเรียนบ้านจรูกแขวะ">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Academic Hub | โรงเรียนบ้านจรูกแขวะ</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--line:#e5e9f2;--primary:#1d4ed8;--good:#15803d;--warn:#b45309;--bad:#b91c1c;--soft:#eef4ff;font-family:"Leelawadee UI",Tahoma,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}.top{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line)}.topin{max-width:1500px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 18px}.brand{display:flex;align-items:center;gap:11px}.logo{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#1d4ed8,#60a5fa);color:#fff;display:grid;place-items:center;font-weight:800}.brand h1{font-size:18px;margin:0}.brand p{margin:3px 0 0;font-size:12px;color:var(--muted)}.actions{display:flex;gap:7px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 11px;cursor:pointer}.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}.btn.danger{color:var(--bad);border-color:#fecaca}.layout{max-width:1500px;margin:auto;display:grid;grid-template-columns:220px minmax(0,1fr);min-height:calc(100vh - 70px)}aside{background:#fff;border-right:1px solid var(--line);padding:14px 10px}nav{display:flex;flex-direction:column;gap:5px;position:sticky;top:84px}nav button{border:0;background:transparent;text-align:left;padding:10px 11px;border-radius:9px;cursor:pointer;color:#344054}nav button.active{background:var(--soft);color:var(--primary);font-weight:700}main{padding:20px;min-width:0}.page{display:none}.page.active{display:block}.hero{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.hero h2{margin:0 0 4px;font-size:23px}.hero p{margin:0;color:var(--muted)}.notice{padding:10px 12px;background:#fff8e8;border:1px solid #fde68a;border-radius:11px;color:#7c4a03;margin-bottom:14px}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin-bottom:14px}.metric,.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px}.metric .label{font-size:12px;color:var(--muted)}.metric .value{font-size:27px;font-weight:800;margin-top:5px}.metric .sub{font-size:12px;color:var(--muted);margin-top:4px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card h3{margin:0 0 11px;font-size:16px}.barrow{margin:11px 0}.barlabel{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:5px}.bar{height:9px;background:#eef1f6;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#1d4ed8,#60a5fa)}.chip{display:inline-block;padding:4px 8px;border-radius:99px;font-size:12px;font-weight:700}.good{background:#ecfdf3;color:var(--good)}.warn{background:#fff7ed;color:var(--warn)}.bad{background:#fef2f2;color:var(--bad)}.none{background:#f2f4f7;color:#667085}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.control{border:1px solid #d6dbe6;border-radius:9px;background:#fff;padding:8px 9px}.grow{flex:1;min-width:180px}.list{display:flex;flex-direction:column;gap:9px}.item{border:1px solid var(--line);border-radius:11px;padding:11px}.itemhead{display:flex;justify-content:space-between;gap:12px}.title{font-weight:700}.meta{font-size:12px;color:var(--muted);margin-top:3px}.itemactions{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:720px}.table th,.table td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.table th{background:#fafbfc;color:var(--muted);font-size:12px}.range{width:100%}.kpi{border:1px solid var(--line);border-radius:11px;padding:13px}.kpi .big{font-size:24px;font-weight:800;margin:9px 0}.small{font-size:12px;color:var(--muted)}.calendar{display:grid;grid-template-columns:1fr 1fr;gap:11px}.event{border-left:4px solid var(--primary);background:#f8fbff;border-radius:8px;padding:10px}.empty{text-align:center;color:var(--muted);padding:18px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px;font-size:13px}.field input,.field select,.field textarea{border:1px solid #d6dbe6;border-radius:9px;padding:8px}.span2{grid-column:1/-1}dialog{border:0;border-radius:15px;padding:0;max-width:650px;width:calc(100% - 26px);box-shadow:0 25px 70px rgba(0,0,0,.25)}dialog::backdrop{background:rgba(15,23,42,.45)}.modal{padding:17px}.modalhead{display:flex;justify-content:space-between;align-items:center}.x{border:0;border-radius:8px;width:34px;height:34px;cursor:pointer}.savebar{display:flex;justify-content:flex-end;gap:7px;margin-top:13px}
+@media(max-width:950px){.metrics{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.topin{align-items:flex-start}.actions{display:none}.layout{grid-template-columns:1fr}aside{position:sticky;top:69px;z-index:20;border-right:0;border-bottom:1px solid var(--line);overflow:auto;padding:7px}nav{position:static;flex-direction:row;min-width:max-content}nav button{white-space:nowrap}main{padding:13px}.metrics,.grid2,.grid3,.calendar{grid-template-columns:1fr}.hero{flex-direction:column}.formgrid{grid-template-columns:1fr}.span2{grid-column:auto}}
+@media print{.top,aside,.noprint{display:none!important}.layout{display:block}.page{display:block!important;break-after:page}main{padding:0}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin"><div class="brand"><div class="logo">วช</div><div><h1>CHARUKKHAWAE Academic Hub</h1><p>โรงเรียนบ้านจรูกแขวะ • ปีการศึกษา 2569</p></div></div><div class="actions"><button class="btn" id="backup">สำรองข้อมูล</button><label class="btn" for="restore">นำเข้า JSON</label><input id="restore" type="file" accept=".json" hidden><button class="btn primary" onclick="window.print()">พิมพ์ / PDF</button></div></div></header>
+<div class="layout">
+<aside><nav id="nav">
+<button class="active" data-page="dash">ภาพรวม</button>
+<button data-page="achievement">ผลสัมฤทธิ์</button>
+<button data-page="reading">อ่านออกเขียนได้</button>
+<button data-page="projects">งาน/โครงการ</button>
+<button data-page="supervision">นิเทศภายใน</button>
+<button data-page="plc">PLC</button>
+<button data-page="plans">แผนการสอน</button>
+<button data-page="pa">PA / ตัวชี้วัด</button>
+<button data-page="qa">ประกันคุณภาพ</button>
+<button data-page="calendar">ปฏิทิน</button>
+<button data-page="reports">รายงาน</button>
+<button data-page="settings">ตั้งค่า</button>
+</nav></aside>
+<main>
+<section class="page active" id="dash">
+<div class="hero"><div><h2>ภาพรวมงานวิชาการ</h2><p>ติดตามผลผู้เรียน งานค้าง ตัวชี้วัด และกำหนดการจากหน้าเดียว</p></div></div>
+<div class="notice">ระบบไม่เดาค่าความก้าวหน้าที่ไม่มีหลักฐาน ค่าใดที่ยังไม่ทราบจะแสดง “ยังไม่บันทึก”</div>
+<div class="metrics" id="metrics"></div>
+<div class="grid2"><div class="card"><h3>ตัวชี้วัดสำคัญ</h3><div id="kpibars"></div></div><div class="card"><h3>งานที่ต้องติดตาม</h3><div id="attention"></div></div></div>
+<div class="grid2"><div class="card"><h3>ผลอ่านเขียนล่าสุด</h3><div id="readsum"></div></div><div class="card"><h3>กิจกรรมใกล้ถึงกำหนด</h3><div id="upcoming"></div></div></div>
+</section>
+
+<section class="page" id="achievement">
+<div class="hero"><div><h2>ผลสัมฤทธิ์และการประเมิน</h2><p>บันทึก RT, NT, O-NET ผลสัมฤทธิ์รายวิชา และผลประเมินภายใน</p></div><button class="btn primary noprint" data-open="assessment">+ เพิ่มผลประเมิน</button></div>
+<div class="grid3" id="achievementcards"></div><div class="card" style="margin-top:14px"><div class="tablewrap"><table class="table"><thead><tr><th>รายการ</th><th>กลุ่ม</th><th>วันที่</th><th>ผล</th><th>เป้าหมาย</th><th>หมายเหตุ</th><th></th></tr></thead><tbody id="assessmentrows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="reading">
+<div class="hero"><div><h2>อ่านออกเขียนได้</h2><p>ติดตามผลภาพรวมโดยไม่เก็บรายชื่อนักเรียนใน repository</p></div><button class="btn primary noprint" data-open="reading">+ บันทึกผล</button></div>
+<div class="grid3" id="readingcards"></div><div class="card" style="margin-top:14px"><div class="tablewrap"><table class="table"><thead><tr><th>ครั้ง</th><th>ผู้ประเมิน</th><th>อ่านออกเสียง</th><th>เขียนเรื่อง</th><th>อ่านรู้เรื่อง</th><th>หมายเหตุ</th><th></th></tr></thead><tbody id="readingrows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="projects">
+<div class="hero"><div><h2>งานและโครงการวิชาการ</h2><p>ปรับเปอร์เซ็นต์ความก้าวหน้าได้ทันทีและเก็บข้อมูลในเครื่อง</p></div><button class="btn primary noprint" data-open="project">+ เพิ่มงาน</button></div>
+<div class="toolbar noprint"><input id="q" class="control grow" placeholder="ค้นหางาน"><select id="statusfilter" class="control"><option value="">ทุกสถานะ</option><option>ยังไม่บันทึก</option><option>กำลังดำเนินการ</option><option>เสร็จแล้ว</option><option>ล่าช้า</option></select></div>
+<div class="card"><div id="projectlist" class="list"></div></div>
+</section>
+
+<section class="page" id="supervision">
+<div class="hero"><div><h2>นิเทศภายใน</h2><p>บันทึกผลนิเทศและ Active Learning</p></div><button class="btn primary noprint" data-open="supervision">+ เพิ่มรายการนิเทศ</button></div>
+<div class="metrics" id="supmetrics"></div><div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>เดือน/วันที่</th><th>ครู</th><th>วิชา/ชั้น</th><th>Active Learning</th><th>สถานะ</th><th>ข้อเสนอแนะ</th><th></th></tr></thead><tbody id="suprows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="plc">
+<div class="hero"><div><h2>PLC</h2><p>บันทึกหัวข้อ กลุ่มเป้าหมาย ชั่วโมง และผลที่นำไปใช้</p></div><button class="btn primary noprint" data-open="plc">+ บันทึก PLC</button></div>
+<div class="metrics" id="plcmetrics"></div><div class="card"><div id="plclist" class="list"></div></div>
+</section>
+
+<section class="page" id="plans">
+<div class="hero"><div><h2>แผนการสอน สื่อ และวิจัย</h2><p>ติดตามการส่ง ตรวจ และแก้ไขเอกสารวิชาการ</p></div><button class="btn primary noprint" data-open="plan">+ เพิ่มรายการ</button></div>
+<div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>รายการ</th><th>เจ้าของงาน</th><th>กำหนดส่ง</th><th>สถานะ</th><th>หมายเหตุ</th><th></th></tr></thead><tbody id="planrows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="pa">
+<div class="hero"><div><h2>PA และตัวชี้วัด</h2><p>บันทึกผลปัจจุบันเทียบเป้าหมายของโรงเรียน</p></div></div>
+<div class="grid3" id="pacards"></div><div class="card" style="margin-top:14px"><h3>ปรับค่าผลปัจจุบัน</h3><div id="paedit"></div></div>
+</section>
+
+<section class="page" id="qa">
+<div class="hero"><div><h2>ประกันคุณภาพ</h2><p>ติดตามวิจัย SAR รายงานประจำปี และหลักฐาน</p></div><button class="btn primary noprint" data-open="qa">+ เพิ่มรายการ</button></div>
+<div class="metrics" id="qametrics"></div><div class="card"><div id="qalist" class="list"></div></div>
+</section>
+
+<section class="page" id="calendar">
+<div class="hero"><div><h2>ปฏิทินวิชาการ</h2><p>รวมวันสอบ นิเทศ PLC และกำหนดส่ง</p></div><button class="btn primary noprint" data-open="event">+ เพิ่มกิจกรรม</button></div>
+<div class="calendar" id="eventlist"></div>
+</section>
+
+<section class="page" id="reports">
+<div class="hero"><div><h2>รายงานสำหรับผู้บริหาร</h2><p>สรุปเฉพาะข้อมูลที่มีการบันทึกจริง</p></div><button class="btn primary noprint" onclick="window.print()">พิมพ์รายงาน</button></div>
+<div class="grid2"><div class="card"><h3>สรุปงาน</h3><div id="reportprojects"></div></div><div class="card"><h3>สรุปตัวชี้วัด</h3><div id="reportkpi"></div></div></div><div class="card"><h3>ข้อควรติดตาม</h3><div id="reportattention"></div></div>
+</section>
+
+<section class="page" id="settings">
+<div class="hero"><div><h2>ตั้งค่า</h2><p>ข้อมูลทำงานเก็บใน Local Storage ของอุปกรณ์นี้</p></div></div>
+<div class="grid2">
+<div class="card"><h3>ข้อมูลสถานศึกษา</h3><div class="formgrid"><label class="field span2">ชื่อโรงเรียน<input id="schoolname"></label><label class="field">ปีการศึกษา<input id="schoolyear" type="number"></label><label class="field">นักเรียน<input id="students" type="number"></label><label class="field">ครูผู้สอน<input id="teachers" type="number"></label></div><div class="savebar"><button class="btn primary" id="savesettings">บันทึก</button></div></div>
+<div class="card"><h3>สำรองและกู้คืน</h3><p class="small">ดาวน์โหลด JSON หลังอัปเดตข้อมูลสำคัญ เพื่อย้ายเครื่องหรือกู้คืนภายหลัง</p><div class="itemactions"><button class="btn" id="backup2">ดาวน์โหลด JSON</button><label class="btn" for="restore2">นำเข้า JSON</label><input id="restore2" type="file" accept=".json" hidden><button class="btn danger" id="reset">คืนค่าตั้งต้น</button></div></div>
+</div>
+</section>
+</main></div>
+
+<dialog id="modal"><div class="modal"><div class="modalhead"><h3 id="modaltitle"></h3><button class="x" id="close">×</button></div><form id="form"><div id="fields" class="formgrid"></div><div class="savebar"><button type="button" class="btn" id="cancel">ยกเลิก</button><button class="btn primary" type="submit">บันทึก</button></div></form></div></dialog>
+
+<script>
+(function(){
+'use strict';
+var KEY='charukkhawe-academic-v1';
+var seed={
+school:{name:'โรงเรียนบ้านจรูกแขวะ',year:2569,students:51,teachers:7,kindergarten:10},
+targets:[
+{id:'active',name:'ครูจัดการเรียนรู้แบบ Active Learning',target:85,current:null},
+{id:'planmedia',name:'แผนการสอน/สื่อผ่านเกณฑ์',target:80,current:null},
+{id:'studentpass',name:'ผู้เรียนผ่านเกณฑ์ที่กำหนด',target:80,current:null},
+{id:'innovation',name:'ครูมีนวัตกรรม',target:100,current:null}
+],
+readings:[{id:1,label:'ครั้งที่ 1/2569',date:'2026-08-20',students:41,oral:87.80,writing:73.17,comprehension:56.10,note:'ข้อมูลภาพรวมโรงเรียน'}],
+assessments:[{id:1,name:'การอ่านรู้เรื่อง ป.5 ระดับดีขึ้นไป',group:'ป.5',date:'2026-08-20',result:22.22,target:null,unit:'%',note:'การประเมินการอ่านเขียน ครั้งที่ 1/2569'}],
+projects:[
+{id:1,name:'ส่งเสริมการอ่านออกเขียนได้',owner:'งานวิชาการ',target:'ยกระดับผลการอ่านและการเขียน',progress:null,status:'ยังไม่บันทึก',due:'',evidence:''},
+{id:2,name:'ยกระดับ RT / NT / O-NET และผลสัมฤทธิ์',owner:'งานวิชาการ',target:'ผลสัมฤทธิ์เพิ่มขึ้นตามเป้าหมายของโรงเรียน',progress:null,status:'ยังไม่บันทึก',due:'',evidence:''},
+{id:3,name:'พัฒนา Active Learning',owner:'งานวิชาการ',target:'ครูผ่านเกณฑ์ไม่น้อยกว่า 85%',progress:null,status:'ยังไม่บันทึก',due:'',evidence:''},
+{id:4,name:'นิเทศภายในและสะท้อนผลการสอน',owner:'ผู้บริหาร/วิชาการ',target:'นิเทศครูครบ 100%',progress:null,status:'ยังไม่บันทึก',due:'',evidence:''},
+{id:5,name:'PLC เพื่อพัฒนาการเรียนรู้',owner:'งานวิชาการ',target:'ดำเนิน PLC และนำผลไปใช้',progress:null,status:'ยังไม่บันทึก',due:'',evidence:''},
+{id:6,name:'พัฒนาสื่อและนวัตกรรมการเรียนรู้',owner:'ครูผู้สอน',target:'แผน/สื่อผ่านเกณฑ์ไม่น้อยกว่า 80%',progress:null,status:'ยังไม่บันทึก',due:'',evidence:''},
+{id:7,name:'วิจัยในชั้นเรียนและรายงานผล',owner:'ครูผู้สอน',target:'วิจัยภาคเรียนละ 1 เรื่อง',progress:null,status:'ยังไม่บันทึก',due:'',evidence:''},
+{id:8,name:'ประกันคุณภาพด้านวิชาการ',owner:'งานวิชาการ',target:'SAR และรายงานประจำปีครบถ้วน',progress:null,status:'ยังไม่บันทึก',due:'',evidence:''}
+],
+supervisions:[
+{id:1,when:'มิถุนายน 2569',teacher:'',subject:'',active:null,status:'วางแผน',note:''},
+{id:2,when:'กรกฎาคม 2569',teacher:'',subject:'',active:null,status:'วางแผน',note:''},
+{id:3,when:'สิงหาคม 2569',teacher:'',subject:'',active:null,status:'วางแผน',note:''},
+{id:4,when:'กันยายน 2569',teacher:'',subject:'',active:null,status:'วางแผน',note:''},
+{id:5,when:'ตุลาคม 2569',teacher:'',subject:'',active:null,status:'วางแผน',note:''}
+],
+plc:[{id:1,date:'',topic:'PLC อนุบาล–ป.3',group:'ครูผู้สอนระดับอนุบาล–ป.3',hours:null,result:'',status:'ยังไม่บันทึก'}],
+plans:[
+{id:1,name:'แผนการจัดการเรียนรู้',owner:'ครูผู้สอน',due:'',status:'ยังไม่บันทึก',note:''},
+{id:2,name:'วิจัยในชั้นเรียน ภาคเรียนที่ 1',owner:'ครูผู้สอน',due:'',status:'ยังไม่บันทึก',note:''},
+{id:3,name:'SAR ครู',owner:'ครูผู้สอน',due:'',status:'ยังไม่บันทึก',note:''}
+],
+qa:[
+{id:1,name:'วิจัยในชั้นเรียน ภาคเรียนละ 1 เรื่อง',progress:null,status:'ยังไม่บันทึก',note:''},
+{id:2,name:'SAR ครู',progress:null,status:'ยังไม่บันทึก',note:''},
+{id:3,name:'รายงานประจำปีของสถานศึกษา',progress:null,status:'ยังไม่บันทึก',note:''},
+{id:4,name:'เอกสาร PA2 / หลักฐานที่เกี่ยวข้อง',progress:null,status:'ยังไม่บันทึก',note:''}
+],
+events:[
+{id:1,date:'2026-08-20',title:'ประเมินการอ่านเขียน ครั้งที่ 1/2569',type:'ประเมินผล',note:''},
+{id:2,date:'2026-10-01',title:'สอบกลางภาคเรียน ปีการศึกษา 2569',type:'สอบ',note:'วันที่ 1'},
+{id:3,date:'2026-10-02',title:'สอบกลางภาคเรียน ปีการศึกษา 2569',type:'สอบ',note:'วันที่ 2'}
+]};
+function clone(x){return JSON.parse(JSON.stringify(x))}
+function load(){try{var x=JSON.parse(localStorage.getItem(KEY));return x&&x.school?x:clone(seed)}catch(e){return clone(seed)}}
+var state=load();
+function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function pct(v){return v==null?'ยังไม่บันทึก':Number(v).toFixed(1)+'%'}
+function tdate(s){if(!s)return 'ยังไม่ระบุ';return new Date(s+'T00:00:00').toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'})}
+function cls(s){if(s==='เสร็จแล้ว'||s==='ผ่าน'||s==='ส่งแล้ว')return'good';if(s==='ล่าช้า')return'bad';if(s==='กำลังดำเนินการ'||s==='รอตรวจ'||s==='วางแผน')return'warn';return'none'}
+function chip(s){return '<span class="chip '+cls(s)+'">'+esc(s||'ยังไม่บันทึก')+'</span>'}
+function bar(label,val,target){var w=val==null?0:Math.max(0,Math.min(100,Number(val)));var r=val==null?'ยังไม่บันทึก':pct(val)+(target!=null?' / เป้า '+target+'%':'');return '<div class="barrow"><div class="barlabel"><span>'+esc(label)+'</span><strong>'+r+'</strong></div><div class="bar"><i style="width:'+w+'%"></i></div></div>'}
+function setpage(id){document.querySelectorAll('.page').forEach(function(x){x.classList.toggle('active',x.id===id)});document.querySelectorAll('#nav button').forEach(function(x){x.classList.toggle('active',x.dataset.page===id)});window.scrollTo(0,0)}
+document.querySelectorAll('[data-page]').forEach(function(b){b.onclick=function(){setpage(b.dataset.page)}});
+function stats(){var vals=state.projects.filter(function(x){return x.progress!=null}).map(function(x){return Number(x.progress)});return{recorded:vals.length,avg:vals.length?vals.reduce(function(a,b){return a+b},0)/vals.length:null,done:state.projects.filter(function(x){return x.status==='เสร็จแล้ว'}).length}}
+function rdash(){
+var s=stats();var tk=state.targets.filter(function(x){return x.current!=null}).length;
+document.getElementById('metrics').innerHTML='<div class="metric"><div class="label">นักเรียนทั้งหมด</div><div class="value">'+state.school.students+'</div><div class="sub">อนุบาล 2–3 '+state.school.kindergarten+' คน</div></div><div class="metric"><div class="label">ครูผู้สอน</div><div class="value">'+state.school.teachers+'</div><div class="sub">ข้อมูลตั้งต้น</div></div><div class="metric"><div class="label">งานวิชาการที่ติดตาม</div><div class="value">'+state.projects.length+'</div><div class="sub">บันทึกความก้าวหน้าแล้ว '+s.recorded+' งาน</div></div><div class="metric"><div class="label">ตัวชี้วัดมีผลปัจจุบัน</div><div class="value">'+tk+'/'+state.targets.length+'</div><div class="sub">ไม่ประมาณค่าที่ไม่ทราบ</div></div>';
+document.getElementById('kpibars').innerHTML=state.targets.map(function(x){return bar(x.name,x.current,x.target)}).join('');
+var a=state.projects.filter(function(x){return x.status!=='เสร็จแล้ว'}).slice(0,6);document.getElementById('attention').innerHTML=a.map(function(x){return '<div class="item"><div class="itemhead"><div><div class="title">'+esc(x.name)+'</div><div class="meta">'+esc(x.owner)+' • '+pct(x.progress)+'</div></div>'+chip(x.status)+'</div></div>'}).join('')||'<div class="empty">ไม่มีงานค้าง</div>';
+var r=state.readings[state.readings.length-1];document.getElementById('readsum').innerHTML=r?bar('อ่านออกเสียง',r.oral,100)+bar('เขียนเรื่อง',r.writing,100)+bar('อ่านรู้เรื่อง',r.comprehension,100)+'<div class="small">ประเมิน '+r.students+' คน • '+tdate(r.date)+'</div>':'<div class="empty">ยังไม่มีข้อมูล</div>';
+var now=new Date();var ev=state.events.slice().sort(function(a,b){return a.date.localeCompare(b.date)}).filter(function(x){return new Date(x.date+'T23:59:59')>=now}).slice(0,5);document.getElementById('upcoming').innerHTML=ev.map(function(x){return '<div class="item"><strong>'+tdate(x.date)+'</strong><div>'+esc(x.title)+'</div><div class="meta">'+esc(x.type)+'</div></div>'}).join('')||'<div class="empty">ยังไม่มีกิจกรรมในอนาคต</div>';
+}
+function rach(){
+document.getElementById('achievementcards').innerHTML=state.assessments.slice(-3).map(function(x){return '<div class="kpi"><strong>'+esc(x.name)+'</strong><div class="big">'+Number(x.result).toFixed(2)+esc(x.unit||'')+'</div><div class="small">'+esc(x.group)+' • '+tdate(x.date)+'</div></div>'}).join('');
+document.getElementById('assessmentrows').innerHTML=state.assessments.map(function(x){return '<tr><td>'+esc(x.name)+'</td><td>'+esc(x.group)+'</td><td>'+tdate(x.date)+'</td><td>'+Number(x.result).toFixed(2)+esc(x.unit||'')+'</td><td>'+(x.target==null?'ยังไม่ระบุ':Number(x.target).toFixed(2)+esc(x.unit||''))+'</td><td>'+esc(x.note)+'</td><td><button class="btn danger noprint" data-del="assessment" data-id="'+x.id+'">ลบ</button></td></tr>'}).join('');
+}
+function rreading(){var r=state.readings[state.readings.length-1];document.getElementById('readingcards').innerHTML=r?[['อ่านออกเสียง',r.oral],['เขียนเรื่อง',r.writing],['อ่านรู้เรื่อง',r.comprehension]].map(function(a){return '<div class="kpi"><strong>'+a[0]+'</strong><div class="big">'+pct(a[1])+'</div><div class="small">'+esc(r.label)+' • '+r.students+' คน</div></div>'}).join(''):'';document.getElementById('readingrows').innerHTML=state.readings.map(function(x){return '<tr><td><strong>'+esc(x.label)+'</strong><div class="small">'+tdate(x.date)+'</div></td><td>'+x.students+'</td><td>'+pct(x.oral)+'</td><td>'+pct(x.writing)+'</td><td>'+pct(x.comprehension)+'</td><td>'+esc(x.note)+'</td><td><button class="btn danger noprint" data-del="reading" data-id="'+x.id+'">ลบ</button></td></tr>'}).join('')}
+function rprojects(){var q=(document.getElementById('q').value||'').toLowerCase(),f=document.getElementById('statusfilter').value;var rows=state.projects.filter(function(x){return(!q||(x.name+' '+x.owner).toLowerCase().indexOf(q)>-1)&&(!f||x.status===f)});document.getElementById('projectlist').innerHTML=rows.map(function(x){var p=x.progress==null?0:Number(x.progress);return '<div class="item"><div class="itemhead"><div><div class="title">'+esc(x.name)+'</div><div class="meta">'+esc(x.owner)+' • เป้าหมาย: '+esc(x.target)+'</div></div>'+chip(x.status)+'</div><div class="barrow"><div class="barlabel"><span>ความก้าวหน้า</span><strong>'+pct(x.progress)+'</strong></div><input class="range noprint" type="range" min="0" max="100" value="'+p+'" data-progress="'+x.id+'"><div class="bar"><i style="width:'+p+'%"></i></div></div><div class="small">กำหนด: '+(x.due?tdate(x.due):'ยังไม่ระบุ')+' • หลักฐาน: '+(x.evidence?esc(x.evidence):'ยังไม่บันทึก')+'</div><div class="itemactions noprint"><button class="btn" data-edit="'+x.id+'">แก้ไข</button><button class="btn danger" data-del="project" data-id="'+x.id+'">ลบ</button></div></div>'}).join('')||'<div class="empty">ไม่พบรายการ</div>'}
+function rsup(){var done=state.supervisions.filter(function(x){return x.status==='เสร็จแล้ว'}).length;var vals=state.supervisions.filter(function(x){return x.active!=null}).map(function(x){return Number(x.active)});var avg=vals.length?vals.reduce(function(a,b){return a+b},0)/vals.length:null;document.getElementById('supmetrics').innerHTML='<div class="metric"><div class="label">รายการนิเทศ</div><div class="value">'+state.supervisions.length+'</div></div><div class="metric"><div class="label">เสร็จแล้ว</div><div class="value">'+done+'</div></div><div class="metric"><div class="label">Active Learning เฉลี่ย</div><div class="value">'+(avg==null?'–':avg.toFixed(1)+'%')+'</div></div><div class="metric"><div class="label">เป้าหมาย</div><div class="value">85%</div></div>';document.getElementById('suprows').innerHTML=state.supervisions.map(function(x){return '<tr><td>'+esc(x.when)+'</td><td>'+esc(x.teacher||'ยังไม่ระบุ')+'</td><td>'+esc(x.subject||'ยังไม่ระบุ')+'</td><td>'+pct(x.active)+'</td><td>'+chip(x.status)+'</td><td>'+esc(x.note)+'</td><td><button class="btn danger noprint" data-del="supervision" data-id="'+x.id+'">ลบ</button></td></tr>'}).join('')}
+function rplc(){var hrs=state.plc.filter(function(x){return x.hours!=null}).reduce(function(a,b){return a+Number(b.hours)},0);document.getElementById('plcmetrics').innerHTML='<div class="metric"><div class="label">กิจกรรม PLC</div><div class="value">'+state.plc.length+'</div></div><div class="metric"><div class="label">ชั่วโมงรวม</div><div class="value">'+hrs+'</div></div>';document.getElementById('plclist').innerHTML=state.plc.map(function(x){return '<div class="item"><div class="itemhead"><div><div class="title">'+esc(x.topic)+'</div><div class="meta">'+esc(x.group)+' • '+(x.date?tdate(x.date):'ยังไม่ระบุวันที่')+' • '+(x.hours==null?'ยังไม่ระบุชั่วโมง':x.hours+' ชม.')+'</div></div>'+chip(x.status)+'</div><div style="margin-top:7px">'+esc(x.result||'ยังไม่บันทึกผลที่นำไปใช้')+'</div><div class="itemactions"><button class="btn danger noprint" data-del="plc" data-id="'+x.id+'">ลบ</button></div></div>'}).join('')}
+function rplans(){document.getElementById('planrows').innerHTML=state.plans.map(function(x){return '<tr><td>'+esc(x.name)+'</td><td>'+esc(x.owner)+'</td><td>'+(x.due?tdate(x.due):'ยังไม่ระบุ')+'</td><td>'+chip(x.status)+'</td><td>'+esc(x.note)+'</td><td><button class="btn danger noprint" data-del="plan" data-id="'+x.id+'">ลบ</button></td></tr>'}).join('')}
+function rpa(){document.getElementById('pacards').innerHTML=state.targets.map(function(x){var ok=x.current!=null&&Number(x.current)>=Number(x.target);return '<div class="kpi"><strong>'+esc(x.name)+'</strong><div class="big">'+pct(x.current)+'</div><div class="small">เป้าหมาย '+x.target+'% • '+(x.current==null?'ยังไม่บันทึก':ok?'ถึงเป้าหมาย':'ต่ำกว่าเป้าหมาย')+'</div></div>'}).join('');document.getElementById('paedit').innerHTML=state.targets.map(function(x){return '<div class="barrow"><div class="barlabel"><span>'+esc(x.name)+'</span><strong>เป้า '+x.target+'%</strong></div><div class="toolbar"><input class="control" type="number" min="0" max="100" step="0.1" placeholder="ยังไม่บันทึก" value="'+(x.current==null?'':x.current)+'" data-pa="'+x.id+'"><button class="btn noprint" data-clearpa="'+x.id+'">ล้างค่า</button></div></div>'}).join('')}
+function rqa(){var vals=state.qa.filter(function(x){return x.progress!=null}).map(function(x){return Number(x.progress)});var avg=vals.length?vals.reduce(function(a,b){return a+b},0)/vals.length:null;document.getElementById('qametrics').innerHTML='<div class="metric"><div class="label">รายการติดตาม</div><div class="value">'+state.qa.length+'</div></div><div class="metric"><div class="label">ความก้าวหน้าเฉลี่ย</div><div class="value">'+(avg==null?'–':avg.toFixed(1)+'%')+'</div></div>';document.getElementById('qalist').innerHTML=state.qa.map(function(x){return '<div class="item"><div class="itemhead"><div><div class="title">'+esc(x.name)+'</div><div class="meta">'+esc(x.note)+'</div></div>'+chip(x.status)+'</div>'+bar('ความก้าวหน้า',x.progress,100)+'<div class="itemactions"><button class="btn danger noprint" data-del="qa" data-id="'+x.id+'">ลบ</button></div></div>'}).join('')}
+function rcal(){document.getElementById('eventlist').innerHTML=state.events.slice().sort(function(a,b){return a.date.localeCompare(b.date)}).map(function(x){return '<div class="event"><strong>'+tdate(x.date)+'</strong><div>'+esc(x.title)+'</div><div class="meta">'+esc(x.type)+(x.note?' • '+esc(x.note):'')+'</div><div class="itemactions"><button class="btn danger noprint" data-del="event" data-id="'+x.id+'">ลบ</button></div></div>'}).join('')}
+function rreports(){var s=stats();document.getElementById('reportprojects').innerHTML='<p>งานทั้งหมด <strong>'+state.projects.length+'</strong> รายการ</p><p>บันทึกความก้าวหน้าแล้ว <strong>'+s.recorded+'</strong></p><p>เสร็จแล้ว <strong>'+s.done+'</strong></p><p>ความก้าวหน้าเฉลี่ย <strong>'+(s.avg==null?'ยังไม่บันทึก':s.avg.toFixed(1)+'%')+'</strong></p>';document.getElementById('reportkpi').innerHTML=state.targets.map(function(x){return bar(x.name,x.current,x.target)}).join('');var z=[];state.projects.forEach(function(x){if(x.progress==null)z.push(x.name+' — ยังไม่บันทึกความก้าวหน้า');else if(x.status==='ล่าช้า')z.push(x.name+' — ล่าช้า')});state.targets.forEach(function(x){if(x.current==null)z.push(x.name+' — ยังไม่บันทึกผลปัจจุบัน');else if(Number(x.current)<Number(x.target))z.push(x.name+' — ต่ำกว่าเป้าหมาย')});document.getElementById('reportattention').innerHTML=z.length?'<ul>'+z.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>':'<p>ไม่มีรายการที่ต้องติดตาม</p>'}
+function rsettings(){document.getElementById('schoolname').value=state.school.name;document.getElementById('schoolyear').value=state.school.year;document.getElementById('students').value=state.school.students;document.getElementById('teachers').value=state.school.teachers}
+function render(){rdash();rach();rreading();rprojects();rsup();rplc();rplans();rpa();rqa();rcal();rreports();rsettings()}
+document.getElementById('q').oninput=rprojects;document.getElementById('statusfilter').onchange=rprojects;
+document.addEventListener('input',function(e){if(e.target.matches('[data-progress]')){var x=state.projects.find(function(a){return a.id===Number(e.target.dataset.progress)});if(x){x.progress=Number(e.target.value);x.status=x.progress>=100?'เสร็จแล้ว':x.progress>0?'กำลังดำเนินการ':'ยังไม่บันทึก';localStorage.setItem(KEY,JSON.stringify(state));rprojects();rdash();rreports()}}if(e.target.matches('[data-pa]')){var p=state.targets.find(function(a){return a.id===e.target.dataset.pa});if(p){p.current=e.target.value===''?null:Number(e.target.value);localStorage.setItem(KEY,JSON.stringify(state));rpa();rdash();rreports()}}});
+document.addEventListener('click',function(e){var d=e.target.closest('[data-del]');if(d){var map={assessment:'assessments',reading:'readings',project:'projects',supervision:'supervisions',plc:'plc',plan:'plans',qa:'qa',event:'events'};var key=map[d.dataset.del];if(key&&confirm('ยืนยันการลบรายการนี้?')){state[key]=state[key].filter(function(x){return x.id!==Number(d.dataset.id)});save()}}var ed=e.target.closest('[data-edit]');if(ed)openform('project',Number(ed.dataset.edit));var cp=e.target.closest('[data-clearpa]');if(cp){var p=state.targets.find(function(a){return a.id===cp.dataset.clearpa});if(p){p.current=null;save()}}});
+var modal=document.getElementById('modal'),form=document.getElementById('form'),fields=document.getElementById('fields'),ftype='',editid=null;
+function f(label,name,type,opt){opt=opt||{};var v=opt.value==null?'':opt.value;if(type==='textarea')return '<label class="field '+(opt.span?'span2':'')+'">'+label+'<textarea name="'+name+'">'+esc(v)+'</textarea></label>';if(type==='select')return '<label class="field">'+label+'<select name="'+name+'">'+opt.options.map(function(o){return '<option '+(String(o)===String(v)?'selected':'')+'>'+esc(o)+'</option>'}).join('')+'</select></label>';return '<label class="field '+(opt.span?'span2':'')+'">'+label+'<input name="'+name+'" type="'+(type||'text')+'" '+(opt.min!=null?'min="'+opt.min+'" ':'')+(opt.max!=null?'max="'+opt.max+'" ':'')+(opt.step!=null?'step="'+opt.step+'" ':'')+'value="'+esc(v)+'"></label>'}
+function openform(type,id){ftype=type;editid=id||null;var x={};if(type==='project'){x=id?state.projects.find(function(a){return a.id===id}):{};document.getElementById('modaltitle').textContent=id?'แก้ไขงาน':'เพิ่มงาน';fields.innerHTML=f('ชื่องาน','name','text',{value:x.name,span:true})+f('ผู้รับผิดชอบ','owner','text',{value:x.owner})+f('กำหนดเสร็จ','due','date',{value:x.due})+f('เป้าหมาย','target','textarea',{value:x.target,span:true})+f('ความก้าวหน้า (%)','progress','number',{value:x.progress,min:0,max:100})+f('สถานะ','status','select',{value:x.status||'ยังไม่บันทึก',options:['ยังไม่บันทึก','กำลังดำเนินการ','เสร็จแล้ว','ล่าช้า']})+f('หลักฐาน/ลิงก์','evidence','textarea',{value:x.evidence,span:true})}
+if(type==='reading'){document.getElementById('modaltitle').textContent='บันทึกผลอ่านเขียน';fields.innerHTML=f('ชื่อครั้ง','label','text',{})+f('วันที่','date','date',{})+f('จำนวนผู้ประเมิน','students','number',{min:0})+f('อ่านออกเสียง (%)','oral','number',{min:0,max:100,step:.01})+f('เขียนเรื่อง (%)','writing','number',{min:0,max:100,step:.01})+f('อ่านรู้เรื่อง (%)','comprehension','number',{min:0,max:100,step:.01})+f('หมายเหตุ','note','textarea',{span:true})}
+if(type==='assessment'){document.getElementById('modaltitle').textContent='เพิ่มผลประเมิน';fields.innerHTML=f('รายการ','name','text',{span:true})+f('กลุ่ม','group','text',{})+f('วันที่','date','date',{})+f('ผล','result','number',{step:.01})+f('หน่วย','unit','text',{value:'%'})+f('เป้าหมาย','target','number',{step:.01})+f('หมายเหตุ','note','textarea',{span:true})}
+if(type==='supervision'){document.getElementById('modaltitle').textContent='เพิ่มรายการนิเทศ';fields.innerHTML=f('เดือน/วันที่','when','text',{})+f('ครู','teacher','text',{})+f('วิชา/ชั้น','subject','text',{})+f('Active Learning (%)','active','number',{min:0,max:100,step:.1})+f('สถานะ','status','select',{value:'วางแผน',options:['วางแผน','กำลังดำเนินการ','เสร็จแล้ว','ล่าช้า']})+f('ข้อเสนอแนะ','note','textarea',{span:true})}
+if(type==='plc'){document.getElementById('modaltitle').textContent='บันทึก PLC';fields.innerHTML=f('วันที่','date','date',{})+f('ชั่วโมง','hours','number',{min:0,step:.5})+f('หัวข้อ','topic','text',{span:true})+f('กลุ่มเป้าหมาย','group','text',{span:true})+f('ผลที่นำไปใช้','result','textarea',{span:true})+f('สถานะ','status','select',{value:'ยังไม่บันทึก',options:['ยังไม่บันทึก','กำลังดำเนินการ','เสร็จแล้ว']})}
+if(type==='plan'){document.getElementById('modaltitle').textContent='เพิ่มรายการเอกสาร';fields.innerHTML=f('รายการ','name','text',{span:true})+f('เจ้าของงาน','owner','text',{})+f('กำหนดส่ง','due','date',{})+f('สถานะ','status','select',{value:'ยังไม่บันทึก',options:['ยังไม่บันทึก','รอตรวจ','ส่งแล้ว','ผ่าน','แก้ไข']})+f('หมายเหตุ','note','textarea',{span:true})}
+if(type==='qa'){document.getElementById('modaltitle').textContent='เพิ่มรายการประกันคุณภาพ';fields.innerHTML=f('รายการ','name','text',{span:true})+f('ความก้าวหน้า (%)','progress','number',{min:0,max:100})+f('สถานะ','status','select',{value:'ยังไม่บันทึก',options:['ยังไม่บันทึก','กำลังดำเนินการ','เสร็จแล้ว','ล่าช้า']})+f('หมายเหตุ','note','textarea',{span:true})}
+if(type==='event'){document.getElementById('modaltitle').textContent='เพิ่มกิจกรรม';fields.innerHTML=f('วันที่','date','date',{})+f('ประเภท','type','text',{value:'กิจกรรม'})+f('ชื่อกิจกรรม','title','text',{span:true})+f('หมายเหตุ','note','textarea',{span:true})}
+modal.showModal()}
+document.querySelectorAll('[data-open]').forEach(function(b){b.onclick=function(){openform(b.dataset.open)}});
+function closem(){modal.close();form.reset()}document.getElementById('close').onclick=closem;document.getElementById('cancel').onclick=closem;
+form.onsubmit=function(e){e.preventDefault();var fd=new FormData(form),o={};fd.forEach(function(v,k){o[k]=v});function n(k){o[k]=o[k]===''?null:Number(o[k])}var key='';if(ftype==='project'){n('progress');key='projects'}if(ftype==='reading'){n('students');n('oral');n('writing');n('comprehension');key='readings'}if(ftype==='assessment'){n('result');n('target');key='assessments'}if(ftype==='supervision'){n('active');key='supervisions'}if(ftype==='plc'){n('hours');key='plc'}if(ftype==='plan')key='plans';if(ftype==='qa'){n('progress');key='qa'}if(ftype==='event')key='events';if(ftype==='project'&&editid){o.id=editid;state.projects[state.projects.findIndex(function(x){return x.id===editid})]=o}else{o.id=Date.now();state[key].push(o)}closem();save()};
+document.getElementById('savesettings').onclick=function(){state.school.name=document.getElementById('schoolname').value||state.school.name;state.school.year=Number(document.getElementById('schoolyear').value)||state.school.year;state.school.students=Number(document.getElementById('students').value)||0;state.school.teachers=Number(document.getElementById('teachers').value)||0;save();alert('บันทึกแล้ว')};
+function backup(){var b=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='academic-hub-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href)}document.getElementById('backup').onclick=backup;document.getElementById('backup2').onclick=backup;
+function restore(file){if(!file)return;var r=new FileReader();r.onload=function(){try{var x=JSON.parse(r.result);if(!x.school||!x.projects)throw new Error('bad');state=x;save();alert('นำเข้าข้อมูลแล้ว')}catch(e){alert('ไฟล์ไม่ถูกต้อง')}};r.readAsText(file)}document.getElementById('restore').onchange=function(){restore(this.files[0])};document.getElementById('restore2').onchange=function(){restore(this.files[0])};
+document.getElementById('reset').onclick=function(){if(confirm('คืนค่าตั้งต้นและลบข้อมูลที่บันทึกในเครื่องนี้?')){state=clone(seed);save()}};
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})})}
+render();
+})();
+</script>
+</body>
+</html>
