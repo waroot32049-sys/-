@@ -1,0 +1,10 @@
+{
+  "name": "ระบบบริหารงานทั่วไป โรงเรียนบ้านจรูกแขวะ",
+  "short_name": "บริหารทั่วไป",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#0f766e",
+  "lang": "th"
+}
