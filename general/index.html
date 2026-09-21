@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="description" content="ระบบบริหารงานทั่วไป โรงเรียนบ้านจรูกแขวะ">
+  <title>บริหารงานทั่วไป | โรงเรียนบ้านจรูกแขวะ</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <style>
+    :root{--bg:#f5f7fb;--card:#fff;--ink:#15202b;--muted:#667085;--line:#e5e7eb;--brand:#0f766e;--brand2:#0b5f59;--soft:#e6fffb;--ok:#15803d;--warn:#b45309;--danger:#b91c1c;--shadow:0 8px 24px rgba(15,23,42,.08);--radius:18px}
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Thai","Tahoma",sans-serif;background:var(--bg);color:var(--ink)}
+    button,input,select,textarea{font:inherit} button{cursor:pointer}
+    .app{min-height:100vh}.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .topbar-inner{max-width:1280px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:14px}
+    .brand-mark{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--brand),#22c55e);display:grid;place-items:center;color:#fff;font-weight:800}
+    .brand{min-width:0}.brand h1{font-size:18px;margin:0;line-height:1.25}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
+    .spacer{flex:1}.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .btn{border:0;border-radius:12px;padding:10px 14px;background:#fff;border:1px solid var(--line);color:var(--ink);font-weight:650}
+    .btn:hover{box-shadow:0 4px 14px rgba(15,23,42,.07)}.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}.btn.danger{color:var(--danger)}
+    .nav{max-width:1280px;margin:auto;padding:0 18px 10px;display:flex;gap:8px;overflow:auto}.nav button{white-space:nowrap;border:0;border-radius:999px;padding:9px 14px;background:#eef2f6;color:#475467}
+    .nav button.active{background:var(--brand);color:#fff}
+    main{max-width:1280px;margin:auto;padding:22px 18px 60px}.view{display:none}.view.active{display:block}
+    .hero{background:linear-gradient(135deg,#0f766e,#14532d);color:#fff;border-radius:24px;padding:24px;box-shadow:var(--shadow);display:flex;gap:18px;align-items:flex-end;justify-content:space-between}
+    .hero h2{margin:0 0 6px;font-size:27px}.hero p{margin:0;opacity:.86}.hero .overall{font-size:42px;font-weight:850;line-height:1}.hero .overall small{font-size:14px;font-weight:500;display:block;margin-top:6px;opacity:.8;text-align:right}
+    .grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(5,minmax(0,1fr));margin-top:16px}.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 3px 14px rgba(15,23,42,.04)}
+    .stat .num{font-size:28px;font-weight:800}.stat .label{font-size:12px;color:var(--muted);margin-top:4px}
+    .section-title{display:flex;align-items:center;gap:10px;margin:24px 0 12px}.section-title h3{margin:0;font-size:19px}.section-title span{color:var(--muted);font-size:13px}
+    .project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .project{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:0 3px 14px rgba(15,23,42,.04);display:flex;flex-direction:column;gap:12px}
+    .project-head{display:flex;gap:12px;align-items:flex-start}.code{flex:0 0 auto;background:var(--soft);color:var(--brand2);border-radius:10px;padding:6px 9px;font-weight:800;font-size:12px}.project h4{margin:0;font-size:16px;line-height:1.45}
+    .meta{display:flex;gap:8px;flex-wrap:wrap}.pill{border-radius:999px;padding:5px 9px;font-size:12px;background:#f2f4f7;color:#475467}.pill.ok{background:#dcfce7;color:#166534}.pill.warn{background:#fef3c7;color:#92400e}
+    .progress-row{display:flex;align-items:center;gap:10px}.bar{height:9px;background:#eef2f6;border-radius:99px;overflow:hidden;flex:1}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),#22c55e);border-radius:99px}.pct{width:44px;text-align:right;font-weight:800;font-size:13px}
+    .project-actions{display:flex;gap:8px;margin-top:auto}.project-actions .btn{flex:1}
+    .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.search{flex:1;min-width:220px;border:1px solid var(--line);border-radius:12px;padding:11px 13px;background:#fff}
+    .attachment-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.attachment-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+    .attachment-preview{height:160px;background:#eef2f6;display:grid;place-items:center;overflow:hidden}.attachment-preview img{width:100%;height:100%;object-fit:cover}.pdf-badge{font-size:40px}
+    .attachment-body{padding:12px}.attachment-body h5{margin:0 0 5px;font-size:14px}.attachment-body p{margin:0;color:var(--muted);font-size:12px}.attachment-actions{display:flex;gap:6px;padding:0 12px 12px}.attachment-actions .btn{padding:7px 9px;font-size:12px;flex:1}
+    .empty{background:#fff;border:1px dashed #cbd5e1;border-radius:16px;padding:28px;text-align:center;color:var(--muted)}
+    .report-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}.report-table{width:100%;border-collapse:collapse}.report-table th,.report-table td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.report-table th{font-size:12px;color:var(--muted)}.report-table td{font-size:13px}
+    dialog{border:0;border-radius:22px;padding:0;max-width:860px;width:calc(100% - 24px);box-shadow:0 30px 80px rgba(15,23,42,.28)}dialog::backdrop{background:rgba(2,6,23,.62)}
+    .modal-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}.modal-head h3{margin:0;font-size:19px;line-height:1.45}.modal-head p{margin:5px 0 0;color:var(--muted);font-size:12px}.close{margin-left:auto;border:0;background:#eef2f6;width:36px;height:36px;border-radius:50%}
+    .modal-body{padding:20px;max-height:72vh;overflow:auto}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field label{display:block;font-size:12px;color:#475467;margin-bottom:6px;font-weight:700}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff}
+    .upload-zone{border:1px dashed #94a3b8;border-radius:16px;padding:14px;background:#f8fafc}.upload-zone h4{margin:0 0 8px;font-size:14px}.upload-zone p{margin:0 0 10px;color:var(--muted);font-size:12px}.upload-zone input{width:100%}
+    .activities{margin:12px 0;padding-left:20px}.activities li{margin:6px 0;color:#475467;font-size:13px}.modal-section{margin-top:20px}.modal-section h4{margin:0 0 10px}
+    .notice{background:#fffbeb;border:1px solid #fde68a;border-radius:14px;padding:12px;color:#854d0e;font-size:12px;margin-top:12px}
+    .toast{position:fixed;right:18px;bottom:18px;background:#111827;color:#fff;padding:12px 15px;border-radius:12px;box-shadow:var(--shadow);display:none;z-index:99}
+    .toast.show{display:block}.small{font-size:12px;color:var(--muted)}
+    @media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.project-grid{grid-template-columns:1fr}.attachment-list{grid-template-columns:repeat(2,1fr)}.hero{align-items:flex-start}.hero .overall{font-size:34px}}
+    @media(max-width:640px){.topbar-inner{align-items:flex-start}.top-actions{display:none}.hero{flex-direction:column}.stats{grid-template-columns:1fr 1fr}.attachment-list{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.project-actions{flex-direction:column}main{padding-left:12px;padding-right:12px}.nav{padding-left:12px;padding-right:12px}}
+    @media print{.topbar,.toolbar,.btn,.project-actions,.notice{display:none!important}body{background:#fff}main{max-width:none;padding:0}.view{display:none!important}#reports{display:block!important}.report-card{border:0;padding:0}.report-table th,.report-table td{font-size:10px;padding:6px}.report-table{page-break-inside:auto}tr{page-break-inside:avoid}.section-title{margin-top:0}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-mark">ท</div>
+      <div class="brand">
+        <h1>ระบบบริหารงานทั่วไป</h1>
+        <p>โรงเรียนบ้านจรูกแขวะ • ปีงบประมาณ 2569</p>
+      </div>
+      <div class="spacer"></div>
+      <div class="top-actions">
+        <a class="btn" href="../">หน้าระบบหลัก</a>
+        <button class="btn primary" id="printQuick">พิมพ์รายงาน</button>
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="active" data-view="dashboard">ภาพรวม</button>
+      <button data-view="projects">11 โครงการ</button>
+      <button data-view="attachments">หลักฐาน</button>
+      <button data-view="reports">รายงาน</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="view active" id="dashboard">
+      <div class="hero">
+        <div>
+          <h2>ติดตามงานบริหารทั่วไป</h2>
+          <p>ความก้าวหน้า โครงการ กิจกรรม ภาพหลักฐาน และรายงาน PDF ในพื้นที่เดียว</p>
+        </div>
+        <div class="overall" id="overallPct">0%<small>ความก้าวหน้ารวม</small></div>
+      </div>
+      <div class="grid stats" id="stats"></div>
+      <div class="section-title"><h3>ความก้าวหน้ารายโครงการ</h3><span>อัปเดตจากข้อมูลที่บันทึกในเครื่องนี้</span></div>
+      <div class="grid project-grid" id="dashboardProjects"></div>
+    </section>
+
+    <section class="view" id="projects">
+      <div class="section-title"><h3>ทะเบียนโครงการบริหารทั่วไป</h3><span>อ้างอิงข้อมูลแผนปฏิบัติการ 2569</span></div>
+      <div class="toolbar">
+        <input id="projectSearch" class="search" type="search" placeholder="ค้นหารหัส ชื่อโครงการ หรือกิจกรรม">
+        <select id="projectFilter" class="btn">
+          <option value="all">ทุกสถานะ</option>
+          <option value="0">ยังไม่เริ่ม</option>
+          <option value="25">เริ่มดำเนินการ</option>
+          <option value="50">อยู่ระหว่างดำเนินการ</option>
+          <option value="75">ใกล้เสร็จ</option>
+          <option value="100">เสร็จแล้ว</option>
+        </select>
+      </div>
+      <div class="grid project-grid" id="projectList"></div>
+    </section>
+
+    <section class="view" id="attachments">
+      <div class="section-title"><h3>คลังหลักฐาน</h3><span>ภาพและไฟล์ PDF ที่แนบไว้กับโครงการ</span></div>
+      <div class="toolbar">
+        <select id="attachmentProject" class="btn"></select>
+        <select id="attachmentType" class="btn">
+          <option value="all">ทุกประเภท</option>
+          <option value="image">เฉพาะภาพ</option>
+          <option value="pdf">เฉพาะ PDF</option>
+        </select>
+      </div>
+      <div id="allAttachments" class="attachment-list"></div>
+      <div id="attachmentEmpty" class="empty" style="display:none">ยังไม่มีไฟล์หลักฐานในรายการที่เลือก</div>
+    </section>
+
+    <section class="view" id="reports">
+      <div class="section-title"><h3>รายงานสรุปความก้าวหน้า</h3><span>ใช้ปุ่มพิมพ์เพื่อบันทึกเป็น PDF ได้</span></div>
+      <div class="toolbar">
+        <button class="btn primary" id="printReport">พิมพ์ / บันทึก PDF</button>
+      </div>
+      <div class="report-card">
+        <h3 style="margin-top:0">รายงานความก้าวหน้างานบริหารทั่วไป ปีงบประมาณ 2569</h3>
+        <p class="small">โรงเรียนบ้านจรูกแขวะ สำนักงานเขตพื้นที่การศึกษาประถมศึกษาสุรินทร์ เขต 3</p>
+        <table class="report-table">
+          <thead><tr><th>โครงการ</th><th>งบตามรายการ</th><th>สถานะ</th><th>ความก้าวหน้า</th><th>หลักฐาน</th></tr></thead>
+          <tbody id="reportRows"></tbody>
+        </table>
+      </div>
+      <div class="notice">ข้อมูลความก้าวหน้าและไฟล์แนบถูกเก็บในเบราว์เซอร์ของอุปกรณ์ที่ใช้งาน เพื่อให้เว็บแบบ GitHub Pages ใช้งานได้โดยไม่ต้องมีเซิร์ฟเวอร์ฐานข้อมูล หากเปลี่ยนอุปกรณ์ ข้อมูลที่บันทึกไว้จะไม่ย้ายตามอัตโนมัติ</div>
+    </section>
+  </main>
+</div>
+
+<dialog id="projectModal">
+  <div class="modal-head">
+    <div>
+      <h3 id="modalTitle"></h3>
+      <p id="modalSub"></p>
+    </div>
+    <button class="close" id="closeModal" aria-label="ปิด">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="form-grid">
+      <div class="field">
+        <label>ความก้าวหน้า</label>
+        <select id="progressSelect">
+          <option value="0">0% ยังไม่เริ่ม</option>
+          <option value="25">25% เริ่มดำเนินการ</option>
+          <option value="50">50% อยู่ระหว่างดำเนินการ</option>
+          <option value="75">75% ใกล้เสร็จ</option>
+          <option value="100">100% ดำเนินการเสร็จแล้ว</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>วันที่อัปเดต</label>
+        <input id="updatedAt" type="date">
+      </div>
+      <div class="field" style="grid-column:1/-1">
+        <label>บันทึกผล/หมายเหตุ</label>
+        <textarea id="projectNote" rows="3" placeholder="สรุปสิ่งที่ดำเนินการ ปัญหา หรือผลที่เกิดขึ้น"></textarea>
+      </div>
+    </div>
+    <div style="margin-top:12px"><button class="btn primary" id="saveProgress">บันทึกความก้าวหน้า</button></div>
+
+    <div class="modal-section">
+      <h4>กิจกรรมตามแผน</h4>
+      <ul class="activities" id="modalActivities"></ul>
+    </div>
+
+    <div class="modal-section">
+      <h4>เพิ่มหลักฐาน</h4>
+      <div class="form-grid">
+        <div class="upload-zone">
+          <h4>ไฟล์ภาพ</h4>
+          <p>รองรับ JPG, JPEG, PNG, WEBP และเลือกได้หลายภาพ</p>
+          <div class="field">
+            <label>ช่วงของภาพ</label>
+            <select id="imageStage">
+              <option value="before">ก่อนดำเนินการ</option>
+              <option value="during">ระหว่างดำเนินการ</option>
+              <option value="after">หลังดำเนินการ</option>
+              <option value="evidence">ภาพหลักฐานทั่วไป</option>
+            </select>
+          </div>
+          <div class="field" style="margin-top:8px"><label>คำอธิบาย</label><input id="imageTitle" placeholder="เช่น ตรวจระบบไฟฟ้าอาคารเรียน"></div>
+          <input id="imageFiles" style="margin-top:10px" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+        </div>
+        <div class="upload-zone">
+          <h4>รายงาน / เอกสาร PDF</h4>
+          <p>แนบรายงานผล คำสั่ง บันทึกข้อความ แบบตรวจ หรือเอกสารประกอบ</p>
+          <div class="field">
+            <label>ประเภทเอกสาร</label>
+            <select id="pdfStage">
+              <option value="report">รายงานผล</option>
+              <option value="order">คำสั่ง</option>
+              <option value="memo">บันทึกข้อความ</option>
+              <option value="form">แบบตรวจ/แบบประเมิน</option>
+              <option value="other">เอกสารประกอบ</option>
+            </select>
+          </div>
+          <div class="field" style="margin-top:8px"><label>ชื่อเอกสาร</label><input id="pdfTitle" placeholder="เช่น รายงานผลโครงการประจำปี"></div>
+          <input id="pdfFiles" style="margin-top:10px" type="file" accept="application/pdf" multiple>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <h4>ไฟล์ที่แนบกับโครงการนี้</h4>
+      <div id="modalAttachments" class="attachment-list"></div>
+      <div id="modalAttachmentEmpty" class="empty" style="display:none">ยังไม่มีไฟล์แนบ</div>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script src="../plan-data.js"></script>
+<script>
+(function(){
+  "use strict";
+  var STORAGE_KEY = "bk-general-progress-v1";
+  var DB_NAME = "bk-general-files-v1";
+  var STORE = "files";
+  var activeProjectId = null;
+  var db = null;
+  var projectState = {};
+  var projects = ((window.PLAN_DATA && window.PLAN_DATA.projects) || []).filter(function(p){ return p.department === "บริหารทั่วไป"; });
+
+  function el(id){ return document.getElementById(id); }
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function baht(n){ return Number(n||0).toLocaleString("th-TH") + " บาท"; }
+  function statusText(p){ p=Number(p||0); if(p>=100)return "เสร็จแล้ว"; if(p>=75)return "ใกล้เสร็จ"; if(p>=50)return "อยู่ระหว่างดำเนินการ"; if(p>=25)return "เริ่มดำเนินการ"; return "ยังไม่เริ่ม"; }
+  function stageText(s){ return ({before:"ก่อนดำเนินการ",during:"ระหว่างดำเนินการ",after:"หลังดำเนินการ",evidence:"ภาพหลักฐาน",report:"รายงานผล",order:"คำสั่ง",memo:"บันทึกข้อความ",form:"แบบตรวจ/แบบประเมิน",other:"เอกสารประกอบ"})[s] || s || ""; }
+  function nowDate(){ var d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+  function toast(msg){ var t=el("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(function(){t.classList.remove("show");},2200); }
+  function loadState(){ try{ projectState=JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}"); }catch(e){ projectState={}; } }
+  function saveState(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(projectState)); }
+  function rec(id){ if(!projectState[id]) projectState[id]={progress:0,note:"",updatedAt:""}; return projectState[id]; }
+
+  function openDB(){
+    return new Promise(function(resolve,reject){
+      var req=indexedDB.open(DB_NAME,1);
+      req.onupgradeneeded=function(){ var d=req.result; if(!d.objectStoreNames.contains(STORE)){ var s=d.createObjectStore(STORE,{keyPath:"id"}); s.createIndex("projectId","projectId",{unique:false}); s.createIndex("type","type",{unique:false}); } };
+      req.onsuccess=function(){ db=req.result; resolve(db); };
+      req.onerror=function(){ reject(req.error); };
+    });
+  }
+  function putFile(record){ return new Promise(function(resolve,reject){ var tx=db.transaction(STORE,"readwrite"); tx.objectStore(STORE).put(record); tx.oncomplete=function(){resolve(record);}; tx.onerror=function(){reject(tx.error);}; }); }
+  function getAllFiles(){ return new Promise(function(resolve,reject){ var tx=db.transaction(STORE,"readonly"); var req=tx.objectStore(STORE).getAll(); req.onsuccess=function(){resolve(req.result||[]);}; req.onerror=function(){reject(req.error);}; }); }
+  function getProjectFiles(projectId){ return new Promise(function(resolve,reject){ var tx=db.transaction(STORE,"readonly"); var req=tx.objectStore(STORE).index("projectId").getAll(projectId); req.onsuccess=function(){resolve(req.result||[]);}; req.onerror=function(){reject(req.error);}; }); }
+  function deleteFile(id){ return new Promise(function(resolve,reject){ var tx=db.transaction(STORE,"readwrite"); tx.objectStore(STORE).delete(id); tx.oncomplete=function(){resolve();}; tx.onerror=function(){reject(tx.error);}; }); }
+  function newId(){ return (crypto.randomUUID ? crypto.randomUUID() : "f-"+Date.now()+"-"+Math.random().toString(16).slice(2)); }
+
+  function projectCard(p){
+    var r=rec(p.id), pc=Number(r.progress||0);
+    var activities=(p.activities||[]).slice(0,2).map(function(a){return esc(a);}).join(" • ");
+    return '<article class="project" data-project="'+esc(p.id)+'">'+
+      '<div class="project-head"><span class="code">'+esc(p.id)+'</span><div><h4>'+esc(p.name)+'</h4></div></div>'+
+      '<div class="meta"><span class="pill">'+esc(baht(p.budget))+'</span><span class="pill '+(pc===100?"ok":pc>=50?"warn":"")+'">'+esc(statusText(pc))+'</span></div>'+
+      '<div class="small">'+activities+(p.activities&&p.activities.length>2?" • …":"")+'</div>'+
+      '<div class="progress-row"><div class="bar"><i style="width:'+pc+'%"></i></div><div class="pct">'+pc+'%</div></div>'+
+      '<div class="project-actions"><button class="btn primary" data-open="'+esc(p.id)+'">บันทึก/แนบหลักฐาน</button></div>'+
+    '</article>';
+  }
+
+  async function renderDashboard(){
+    var vals=projects.map(function(p){return Number(rec(p.id).progress||0);});
+    var avg=vals.length?Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length):0;
+    var done=vals.filter(function(v){return v===100;}).length;
+    var doing=vals.filter(function(v){return v>0&&v<100;}).length;
+    var notStarted=vals.filter(function(v){return v===0;}).length;
+    var files=await getAllFiles().catch(function(){return [];});
+    var imageCount=files.filter(function(f){return f.type==="image";}).length;
+    var pdfCount=files.filter(function(f){return f.type==="pdf";}).length;
+    el("overallPct").innerHTML=avg+'%<small>ความก้าวหน้ารวม</small>';
+    el("stats").innerHTML=
+      '<div class="stat"><div class="num">'+projects.length+'</div><div class="label">โครงการทั้งหมด</div></div>'+
+      '<div class="stat"><div class="num">'+done+'</div><div class="label">เสร็จแล้ว</div></div>'+
+      '<div class="stat"><div class="num">'+doing+'</div><div class="label">กำลังดำเนินการ</div></div>'+
+      '<div class="stat"><div class="num">'+notStarted+'</div><div class="label">ยังไม่เริ่ม</div></div>'+
+      '<div class="stat"><div class="num">'+(imageCount+pdfCount)+'</div><div class="label">ไฟล์หลักฐาน ('+imageCount+' ภาพ / '+pdfCount+' PDF)</div></div>';
+    el("dashboardProjects").innerHTML=projects.map(projectCard).join("");
+    bindOpenButtons();
+  }
+
+  function renderProjects(){
+    var q=el("projectSearch").value.trim().toLowerCase();
+    var f=el("projectFilter").value;
+    var list=projects.filter(function(p){
+      var r=rec(p.id);
+      var hay=(p.id+" "+p.name+" "+(p.activities||[]).join(" ")).toLowerCase();
+      return (!q||hay.indexOf(q)>=0) && (f==="all"||String(r.progress||0)===f);
+    });
+    el("projectList").innerHTML=list.length?list.map(projectCard).join(""):'<div class="empty">ไม่พบโครงการตามเงื่อนไข</div>';
+    bindOpenButtons();
+  }
+
+  function bindOpenButtons(){
+    document.querySelectorAll("[data-open]").forEach(function(b){ b.onclick=function(){ openProject(b.getAttribute("data-open")); }; });
+  }
+
+  async function openProject(id){
+    var p=projects.find(function(x){return x.id===id;}); if(!p)return;
+    activeProjectId=id;
+    var r=rec(id);
+    el("modalTitle").textContent=p.id+" • "+p.name;
+    el("modalSub").textContent="งบตามรายการ "+baht(p.budget)+(p.sourcePage?" • อ้างอิงหน้า "+p.sourcePage:"");
+    el("progressSelect").value=String(r.progress||0);
+    el("updatedAt").value=r.updatedAt||nowDate();
+    el("projectNote").value=r.note||"";
+    el("modalActivities").innerHTML=(p.activities||[]).map(function(a){return "<li>"+esc(a)+"</li>";}).join("");
+    el("imageFiles").value=""; el("pdfFiles").value=""; el("imageTitle").value=""; el("pdfTitle").value="";
+    await renderModalAttachments();
+    el("projectModal").showModal();
+  }
+
+  async function renderAttachmentCards(target,files){
+    var box=el(target); box.innerHTML="";
+    files.sort(function(a,b){return (b.createdAt||"").localeCompare(a.createdAt||"");});
+    files.forEach(function(f){
+      var card=document.createElement("article"); card.className="attachment-card";
+      var url=URL.createObjectURL(f.blob);
+      var preview=f.type==="image"?'<div class="attachment-preview"><img src="'+url+'" alt=""></div>':'<div class="attachment-preview"><div class="pdf-badge">PDF</div></div>';
+      card.innerHTML=preview+
+        '<div class="attachment-body"><h5>'+esc(f.title||f.fileName)+'</h5><p>'+esc(stageText(f.stage))+' • '+esc(f.fileName)+'</p><p>'+new Date(f.createdAt).toLocaleString("th-TH")+'</p></div>'+
+        '<div class="attachment-actions"><button class="btn" data-file-open>เปิด</button><button class="btn" data-file-download>ดาวน์โหลด</button><button class="btn danger" data-file-delete>ลบ</button></div>';
+      card.querySelector("[data-file-open]").onclick=function(){ window.open(url,"_blank","noopener"); };
+      card.querySelector("[data-file-download]").onclick=function(){ var a=document.createElement("a");a.href=url;a.download=f.fileName;a.click(); };
+      card.querySelector("[data-file-delete]").onclick=async function(){ if(confirm("ลบไฟล์นี้หรือไม่?")){ await deleteFile(f.id); URL.revokeObjectURL(url); await renderAll(); if(activeProjectId)await renderModalAttachments(); toast("ลบไฟล์แล้ว"); } };
+      box.appendChild(card);
+    });
+  }
+
+  async function renderModalAttachments(){
+    if(!activeProjectId)return;
+    var files=await getProjectFiles(activeProjectId).catch(function(){return [];});
+    el("modalAttachmentEmpty").style.display=files.length?"none":"block";
+    await renderAttachmentCards("modalAttachments",files);
+  }
+
+  async function renderAllAttachments(){
+    var all=await getAllFiles().catch(function(){return [];});
+    var pid=el("attachmentProject").value;
+    var type=el("attachmentType").value;
+    var files=all.filter(function(f){return (pid==="all"||f.projectId===pid)&&(type==="all"||f.type===type);});
+    el("attachmentEmpty").style.display=files.length?"none":"block";
+    await renderAttachmentCards("allAttachments",files);
+  }
+
+  async function renderReport(){
+    var all=await getAllFiles().catch(function(){return [];});
+    el("reportRows").innerHTML=projects.map(function(p){
+      var r=rec(p.id), count=all.filter(function(f){return f.projectId===p.id;}).length;
+      return '<tr><td><strong>'+esc(p.id)+'</strong> '+esc(p.name)+'</td><td>'+esc(baht(p.budget))+'</td><td>'+esc(statusText(r.progress))+'</td><td>'+Number(r.progress||0)+'%</td><td>'+count+' ไฟล์</td></tr>';
+    }).join("");
+  }
+
+  function setupAttachmentProjectSelect(){
+    el("attachmentProject").innerHTML='<option value="all">ทุกโครงการ</option>'+projects.map(function(p){return '<option value="'+esc(p.id)+'">'+esc(p.id+" "+p.name)+'</option>';}).join("");
+  }
+
+  async function addFiles(type,fileList,stage,title){
+    if(!activeProjectId||!fileList||!fileList.length)return;
+    var files=Array.from(fileList);
+    for(var i=0;i<files.length;i++){
+      var file=files[i];
+      if(type==="pdf" && file.type!=="application/pdf"){ toast("ข้ามไฟล์ที่ไม่ใช่ PDF"); continue; }
+      if(type==="image" && !/^image\/(jpeg|png|webp)$/.test(file.type)){ toast("ข้ามไฟล์ภาพที่ไม่รองรับ"); continue; }
+      await putFile({id:newId(),projectId:activeProjectId,type:type,stage:stage,title:title||file.name,fileName:file.name,mime:file.type,size:file.size,createdAt:new Date().toISOString(),blob:file});
+    }
+    toast("เพิ่มไฟล์หลักฐานแล้ว");
+    await renderAll();
+    await renderModalAttachments();
+  }
+
+  async function renderAll(){
+    renderProjects();
+    await renderDashboard();
+    await renderAllAttachments();
+    await renderReport();
+  }
+
+  document.querySelectorAll(".nav button").forEach(function(b){
+    b.onclick=function(){
+      document.querySelectorAll(".nav button").forEach(function(x){x.classList.remove("active");});
+      document.querySelectorAll(".view").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active"); el(b.getAttribute("data-view")).classList.add("active");
+      if(b.getAttribute("data-view")==="attachments")renderAllAttachments();
+      if(b.getAttribute("data-view")==="reports")renderReport();
+    };
+  });
+  el("projectSearch").oninput=renderProjects;
+  el("projectFilter").onchange=renderProjects;
+  el("attachmentProject").onchange=renderAllAttachments;
+  el("attachmentType").onchange=renderAllAttachments;
+  el("closeModal").onclick=function(){el("projectModal").close();};
+  el("projectModal").addEventListener("click",function(e){ if(e.target===el("projectModal"))el("projectModal").close(); });
+  el("saveProgress").onclick=async function(){
+    if(!activeProjectId)return;
+    projectState[activeProjectId]={progress:Number(el("progressSelect").value),updatedAt:el("updatedAt").value||nowDate(),note:el("projectNote").value.trim()};
+    saveState(); await renderAll(); toast("บันทึกความก้าวหน้าแล้ว");
+  };
+  el("imageFiles").onchange=function(){ addFiles("image",this.files,el("imageStage").value,el("imageTitle").value.trim()); };
+  el("pdfFiles").onchange=function(){ addFiles("pdf",this.files,el("pdfStage").value,el("pdfTitle").value.trim()); };
+  el("printReport").onclick=function(){window.print();};
+  el("printQuick").onclick=function(){ document.querySelector('[data-view="reports"]').click(); setTimeout(function(){window.print();},120); };
+
+  async function init(){
+    loadState();
+    setupAttachmentProjectSelect();
+    if(!projects.length){ document.querySelector("main").innerHTML='<div class="empty">ไม่พบข้อมูลโครงการบริหารทั่วไปจากไฟล์ plan-data.js</div>'; return; }
+    try{ await openDB(); }catch(e){ alert("เบราว์เซอร์นี้ไม่สามารถเปิดพื้นที่เก็บไฟล์แนบได้"); }
+    await renderAll();
+    if("serviceWorker" in navigator){ navigator.serviceWorker.register("./sw.js").catch(function(){}); }
+  }
+  init();
+})();
+</script>
+</body>
+</html>
