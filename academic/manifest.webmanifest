@@ -1,0 +1,9 @@
+{
+  "name": "CHARUKKHAWAE Academic Hub",
+  "short_name": "Academic Hub",
+  "lang": "th",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#1d4ed8"
+}
