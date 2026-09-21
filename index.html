@@ -1,302 +1,168 @@
 <!doctype html>
 <html lang="th">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#0f766e" />
-  <meta name="description" content="ระบบบริหารงานงบประมาณโรงเรียนบ้านจรูกแขวะ" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <title>ระบบบริหารงานงบประมาณโรงเรียน</title>
-  <style>
-    :root{
-      --bg:#f5f7fb;--panel:#fff;--text:#172033;--muted:#667085;--line:#e5e7eb;
-      --primary:#0f766e;--primary2:#115e59;--soft:#ecfdf5;--warn:#b45309;--danger:#b42318;
-      --shadow:0 10px 30px rgba(16,24,40,.07);--radius:18px
-    }
-    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;background:var(--bg);color:var(--text)}
-    button,input,select,textarea{font:inherit} button{cursor:pointer}
-    .app{min-height:100vh}.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .topbar-inner{max-width:1440px;margin:auto;padding:14px 18px;display:flex;gap:14px;align-items:center;justify-content:space-between}
-    .brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#0f766e,#14b8a6);display:grid;place-items:center;color:white;font-weight:800}
-    .brand h1{font-size:18px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
-    .top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-    .btn{border:1px solid var(--line);background:white;color:var(--text);padding:9px 12px;border-radius:12px}.btn:hover{background:#f8fafc}
-    .btn.primary{background:var(--primary);color:white;border-color:var(--primary)} .btn.primary:hover{background:var(--primary2)}
-    .btn.danger{color:var(--danger)}
-    .layout{max-width:1440px;margin:auto;display:grid;grid-template-columns:250px 1fr;gap:18px;padding:18px}
-    .sidebar{background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--radius);padding:12px;height:fit-content;position:sticky;top:88px}
-    .nav button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:11px 12px;border-radius:12px;text-align:left;color:#344054;margin:3px 0}
-    .nav button.active{background:#ecfdf5;color:var(--primary);font-weight:700}.nav small{display:block;color:var(--muted);padding:12px 10px 4px}
-    main{min-width:0}.page{display:none}.page.active{display:block}
-    .hero{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:4px 0 16px}.hero h2{margin:0 0 5px;font-size:25px}.hero p{margin:0;color:var(--muted)}
-    .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
-    .metric .label{font-size:13px;color:var(--muted)}.metric .value{font-size:25px;font-weight:800;margin:7px 0 4px}.metric .sub{font-size:12px;color:var(--muted)}
-    .grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.section-title h3{font-size:16px;margin:0}
-    .progress{height:10px;background:#eef2f6;border-radius:999px;overflow:hidden}.progress>span{display:block;height:100%;background:linear-gradient(90deg,#14b8a6,#0f766e)}
-    .row{display:flex;gap:10px;align-items:center}.between{justify-content:space-between}.muted{color:var(--muted)} .small{font-size:12px}
-    .list{display:grid;gap:9px}.list-item{border:1px solid var(--line);border-radius:14px;padding:12px}.list-item h4{margin:0 0 5px;font-size:14px}
-    .pill{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#475467;font-size:11px;font-weight:700}
-    .pill.done{background:#ecfdf3;color:#027a48}.pill.work{background:#eff8ff;color:#175cd3}.pill.wait{background:#fffaeb;color:#b54708}.pill.late{background:#fef3f2;color:#b42318}
-    table{width:100%;border-collapse:collapse}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}
-    th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;font-size:13px}th{background:#f8fafc;color:#475467;font-weight:700}tr:last-child td{border-bottom:0}
-    .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.field{display:grid;gap:6px}.field label{font-size:12px;color:#475467;font-weight:700}
-    .field input,.field select,.field textarea{width:100%;border:1px solid #d0d5dd;border-radius:11px;padding:10px;background:white;color:var(--text)}
-    .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.span2{grid-column:1/-1}
-    dialog{border:0;border-radius:20px;padding:0;box-shadow:0 30px 80px rgba(0,0,0,.25);width:min(720px,calc(100vw - 28px))}
-    dialog::backdrop{background:rgba(15,23,42,.45)}.modal{padding:18px}.modal h3{margin:0 0 14px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
-    .empty{padding:24px;text-align:center;color:var(--muted)} .kpi-line{display:grid;grid-template-columns:120px 1fr 60px;gap:10px;align-items:center;margin:10px 0}
-    .status-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px;background:#98a2b3}
-    .notice{background:#fffaeb;border:1px solid #fedf89;border-radius:14px;padding:12px;color:#7a2e0e;font-size:13px}
-    .footer{max-width:1440px;margin:0 auto;padding:0 18px 24px;color:var(--muted);font-size:12px}
-    @media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.sidebar{position:static}.nav{display:flex;overflow:auto}.nav small{display:none}.nav button{min-width:max-content}}
-    @media(max-width:650px){.topbar-inner{align-items:flex-start}.top-actions .btn{padding:8px}.brand p{display:none}.layout{padding:12px}.cards,.grid3,.form-grid{grid-template-columns:1fr}.span2{grid-column:auto}.hero{align-items:flex-start;flex-direction:column}.hero h2{font-size:22px}.kpi-line{grid-template-columns:90px 1fr 48px}}
-    @media print{.topbar,.sidebar,.no-print,.footer{display:none!important}.layout{display:block;padding:0}.card{box-shadow:none}.page{display:none!important}.page.active{display:block!important}}
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#14532d">
+  <meta name="description" content="ระบบบริหารงบประมาณและติดตามแผนปฏิบัติการ โรงเรียนบ้านจรูกแขวะ ปีงบประมาณ 2569">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <title>แผนปฏิบัติการ 2569 | โรงเรียนบ้านจรูกแขวะ</title>
 </head>
 <body>
-<div class="app">
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="logo">฿</div>
-        <div><h1>ระบบบริหารงานงบประมาณโรงเรียน</h1><p>โรงเรียนบ้านจรูกแขวะ • ปีงบประมาณ 2569</p></div>
-      </div>
-      <div class="top-actions">
-        <button class="btn" id="exportBtn">ส่งออกข้อมูล</button>
-        <label class="btn" for="importFile">นำเข้าข้อมูล</label><input id="importFile" type="file" accept=".json" hidden />
-        <button class="btn" onclick="window.print()">พิมพ์รายงาน</button>
-      </div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">จข</div>
+      <div><h1>ระบบบริหารงบประมาณและติดตามแผนปฏิบัติการ</h1><p>โรงเรียนบ้านจรูกแขวะ • ปีงบประมาณ 2569</p></div>
     </div>
-  </header>
-
-  <div class="layout">
-    <aside class="sidebar no-print">
-      <nav class="nav" id="nav">
-        <small>เมนูหลัก</small>
-        <button class="active" data-page="dashboard">ภาพรวม</button>
-        <button data-page="projects">แผนงานและโครงการ</button>
-        <button data-page="transactions">รายรับ-รายจ่าย</button>
-        <button data-page="procurement">จัดซื้อจัดจ้าง</button>
-        <button data-page="tasks">งานที่ต้องดำเนินการ</button>
-        <button data-page="reports">รายงาน</button>
-        <small>ระบบ</small>
-        <button data-page="settings">ตั้งค่าและสำรองข้อมูล</button>
-      </nav>
-    </aside>
-
-    <main>
-      <section class="page active" id="dashboard">
-        <div class="hero"><div><h2>ภาพรวมงบประมาณ</h2><p>ติดตามงบประมาณ การเบิกจ่าย และความคืบหน้าของโครงการจากข้อมูลจริงที่บันทึกในระบบ</p></div><button class="btn primary no-print" onclick="openProject()">+ เพิ่มโครงการ</button></div>
-        <div class="cards" id="metrics"></div>
-        <div class="grid2">
-          <div class="card"><div class="section-title"><h3>การใช้จ่ายตามแหล่งเงิน</h3><span class="small muted">คำนวณจากรายการรายจ่าย</span></div><div id="fundProgress"></div></div>
-          <div class="card"><div class="section-title"><h3>สถานะโครงการ</h3><span class="small muted">จำนวนโครงการ</span></div><div id="projectStatus"></div></div>
-        </div>
-        <div class="grid2">
-          <div class="card"><div class="section-title"><h3>โครงการล่าสุด</h3><button class="btn no-print" data-goto="projects">ดูทั้งหมด</button></div><div class="list" id="recentProjects"></div></div>
-          <div class="card"><div class="section-title"><h3>สิ่งที่ต้องติดตาม</h3><button class="btn no-print" data-goto="tasks">ดูงาน</button></div><div class="list" id="urgentTasks"></div></div>
-        </div>
-      </section>
-
-      <section class="page" id="projects">
-        <div class="hero"><div><h2>แผนงานและโครงการ</h2><p>กำหนดงบ ผู้รับผิดชอบ เป้าหมาย ความก้าวหน้า และสถานะของแต่ละโครงการ</p></div><button class="btn primary" onclick="openProject()">+ เพิ่มโครงการ</button></div>
-        <div class="card"><div class="toolbar"><input id="projectSearch" placeholder="ค้นหาโครงการ..." class="btn" style="min-width:240px;text-align:left"><select id="projectFilter" class="btn"><option value="">ทุกสถานะ</option><option>ยังไม่เริ่ม</option><option>กำลังดำเนินการ</option><option>รอเอกสาร</option><option>รออนุมัติ</option><option>รอตรวจรับ</option><option>เบิกจ่ายแล้ว</option><option>เสร็จสิ้น</option></select></div><div class="table-wrap"><table><thead><tr><th>โครงการ</th><th>ผู้รับผิดชอบ</th><th>แหล่งเงิน</th><th>งบประมาณ</th><th>ใช้แล้ว</th><th>ความก้าวหน้า</th><th>สถานะ</th><th></th></tr></thead><tbody id="projectRows"></tbody></table></div></div>
-      </section>
-
-      <section class="page" id="transactions">
-        <div class="hero"><div><h2>รายรับ-รายจ่าย</h2><p>ทะเบียนคุมเงิน แยกตามแหล่งเงินและโครงการ พร้อมคำนวณยอดคงเหลืออัตโนมัติ</p></div><button class="btn primary" onclick="openTransaction()">+ บันทึกรายการ</button></div>
-        <div class="cards" id="transactionMetrics"></div>
-        <div class="card" style="margin-top:14px"><div class="toolbar"><select id="txTypeFilter" class="btn"><option value="">ทั้งหมด</option><option value="income">รายรับ</option><option value="expense">รายจ่าย</option></select><select id="txFundFilter" class="btn"></select></div><div class="table-wrap"><table><thead><tr><th>วันที่</th><th>เลขที่เอกสาร</th><th>ประเภท</th><th>รายการ</th><th>แหล่งเงิน</th><th>โครงการ</th><th>จำนวนเงิน</th><th></th></tr></thead><tbody id="transactionRows"></tbody></table></div></div>
-      </section>
-
-      <section class="page" id="procurement">
-        <div class="hero"><div><h2>จัดซื้อจัดจ้าง</h2><p>ติดตามคำขอซื้อ/จ้าง ผู้ขาย วงเงิน สถานะตรวจรับ และเอกสารที่เกี่ยวข้อง</p></div><button class="btn primary" onclick="openProcurement()">+ เพิ่มรายการ</button></div>
-        <div class="card"><div class="table-wrap"><table><thead><tr><th>วันที่</th><th>รายการ</th><th>โครงการ</th><th>ผู้ขาย/ผู้รับจ้าง</th><th>วงเงิน</th><th>สถานะ</th><th>กำหนดตรวจรับ</th><th></th></tr></thead><tbody id="procurementRows"></tbody></table></div></div>
-      </section>
-
-      <section class="page" id="tasks">
-        <div class="hero"><div><h2>งานที่ต้องดำเนินการ</h2><p>รายการที่ค้าง รอเอกสาร รออนุมัติ รอตรวจรับ และใกล้ครบกำหนด</p></div><button class="btn primary" onclick="openTask()">+ เพิ่มงาน</button></div>
-        <div class="grid3" id="taskColumns"></div>
-      </section>
-
-      <section class="page" id="reports">
-        <div class="hero"><div><h2>รายงานสำหรับผู้บริหาร</h2><p>สรุปงบประมาณ การใช้จ่าย และความก้าวหน้าโครงการในหน้าเดียว</p></div><button class="btn no-print" onclick="window.print()">พิมพ์ / บันทึก PDF</button></div>
-        <div class="card"><div class="section-title"><h3>สรุปประจำปีงบประมาณ 2569</h3><span class="small muted" id="reportDate"></span></div><div class="cards" id="reportMetrics"></div></div>
-        <div class="grid2"><div class="card"><h3>สรุปแหล่งเงิน</h3><div id="reportFunds"></div></div><div class="card"><h3>สรุปความก้าวหน้าโครงการ</h3><div id="reportProjects"></div></div></div>
-      </section>
-
-      <section class="page" id="settings">
-        <div class="hero"><div><h2>ตั้งค่าและสำรองข้อมูล</h2><p>ข้อมูลบันทึกในเบราว์เซอร์ของอุปกรณ์นี้ สามารถส่งออกไฟล์ JSON เพื่อสำรองและย้ายเครื่องได้</p></div></div>
-        <div class="grid2">
-          <div class="card"><h3>ข้อมูลสถานศึกษา</h3><div class="form-grid"><div class="field span2"><label>ชื่อสถานศึกษา</label><input id="schoolName"></div><div class="field"><label>ปีงบประมาณ</label><input id="fiscalYear" type="number"></div><div class="field"><label>ผู้รับผิดชอบงานงบประมาณ</label><input id="budgetOwner"></div></div><div class="modal-actions"><button class="btn primary" id="saveSettings">บันทึกการตั้งค่า</button></div></div>
-          <div class="card"><h3>การสำรองข้อมูล</h3><p class="muted">แนะนำให้ส่งออกข้อมูลเป็นระยะ โดยเฉพาะก่อนล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนอุปกรณ์</p><div class="row" style="flex-wrap:wrap"><button class="btn" id="exportBtn2">ดาวน์โหลดไฟล์สำรอง</button><button class="btn danger" id="resetBtn">ล้างข้อมูลทั้งหมด</button></div><div class="notice" style="margin-top:14px">เวอร์ชันนี้เป็นระบบใช้งานภายในบนอุปกรณ์เดียว ยังไม่มีการยืนยันตัวตนหรือฐานข้อมูลส่วนกลาง จึงไม่ควรบันทึกข้อมูลส่วนบุคคลอ่อนไหวหรือข้อมูลลับที่ไม่จำเป็น</div></div>
-        </div>
-      </section>
-    </main>
+    <div class="top-actions">
+      <button class="btn" id="backupBtn">สำรองข้อมูล</button>
+      <label class="btn" for="restoreFile">นำเข้าข้อมูล</label>
+      <input id="restoreFile" type="file" accept=".json" hidden>
+      <button class="btn primary" id="printSummaryBtn">พิมพ์สรุป PDF</button>
+    </div>
   </div>
-  <div class="footer">ระบบบริหารงานงบประมาณโรงเรียน • ข้อมูลคำนวณจากรายการที่บันทึกในระบบ</div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav id="nav">
+      <button class="active" data-page="dashboard">ภาพรวม</button>
+      <button data-page="projects">โครงการตามแผน</button>
+      <button data-page="transactions">รายรับ-รายจ่าย</button>
+      <button data-page="progress">ติดตามความคืบหน้า</button>
+      <button data-page="reports">รายงาน</button>
+      <button data-page="audit">ตรวจสอบข้อมูลจากไฟล์</button>
+      <button data-page="settings">ตั้งค่า / สำรองข้อมูล</button>
+    </nav>
+  </aside>
+
+  <main>
+    <section class="page active" id="dashboard">
+      <div class="hero">
+        <div><h2>ภาพรวมแผนปฏิบัติการ</h2><p>ข้อมูลตั้งต้นอ้างอิงจากแผนปฏิบัติการประจำปีงบประมาณ 2569 ที่แนบมา และผลการดำเนินงานที่บันทึกในระบบ</p></div>
+      </div>
+      <div class="source-banner">แผนฉบับรับรองระบุ 24 โครงการ แบ่งเป็น วิชาการ 8 • งบประมาณ 3 • บุคคล 2 • บริหารทั่วไป 11 โครงการ ระบบใช้ 24 โครงการนี้เป็นทะเบียนหลัก และแยกรายการที่คลาดเคลื่อนในไฟล์ไว้ในหน้า “ตรวจสอบข้อมูลจากไฟล์”</div>
+      <div class="metrics" id="dashboardMetrics"></div>
+      <div class="grid2">
+        <article class="card"><div class="section-head"><h3>กรอบจัดสรรตามโครงสร้างงาน</h3><span>ตามแผน</span></div><div id="allocationBars"></div></article>
+        <article class="card"><div class="section-head"><h3>สถานะโครงการ</h3><span>ข้อมูลปัจจุบัน</span></div><div id="statusSummary"></div></article>
+      </div>
+      <div class="grid2">
+        <article class="card"><div class="section-head"><h3>ความก้าวหน้าตามฝ่าย</h3><button class="link-btn" data-goto="progress">ดูทั้งหมด</button></div><div id="departmentProgress"></div></article>
+        <article class="card"><div class="section-head"><h3>โครงการที่ควรติดตาม</h3><button class="link-btn" data-goto="projects">เปิดทะเบียน</button></div><div id="attentionList"></div></article>
+      </div>
+    </section>
+
+    <section class="page" id="projects">
+      <div class="hero">
+        <div><h2>โครงการตามแผนปฏิบัติการ</h2><p>ทะเบียน 24 โครงการตามมติรับรอง พร้อมกิจกรรม งบประมาณ ผู้รับผิดชอบ และผลการดำเนินงาน</p></div>
+      </div>
+      <div class="card">
+        <div class="toolbar">
+          <input id="projectSearch" class="control grow" placeholder="ค้นหาชื่อโครงการ กิจกรรม หรือผู้รับผิดชอบ">
+          <select id="deptFilter" class="control"><option value="">ทุกฝ่าย</option></select>
+          <select id="statusFilter" class="control"><option value="">ทุกสถานะ</option></select>
+        </div>
+        <div id="projectCards" class="project-list"></div>
+      </div>
+    </section>
+
+    <section class="page" id="transactions">
+      <div class="hero"><div><h2>รายรับ-รายจ่าย</h2><p>บันทึกรายการจริงและผูกกับโครงการ เพื่อคำนวณใช้จ่ายและยอดคงเหลืออัตโนมัติ</p></div><button class="btn primary" id="addTxBtn">+ บันทึกรายการ</button></div>
+      <div class="metrics" id="txMetrics"></div>
+      <div class="card">
+        <div class="toolbar">
+          <select id="txTypeFilter" class="control"><option value="">ทั้งหมด</option><option value="income">รายรับ</option><option value="expense">รายจ่าย</option></select>
+          <select id="txProjectFilter" class="control"><option value="">ทุกโครงการ</option></select>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>วันที่</th><th>เลขที่เอกสาร</th><th>ประเภท</th><th>รายการ</th><th>โครงการ</th><th>จำนวนเงิน</th><th></th></tr></thead><tbody id="txRows"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="page" id="progress">
+      <div class="hero"><div><h2>ติดตามความคืบหน้า</h2><p>แยกความก้าวหน้ากิจกรรม ผลตัวชี้วัด และความครบถ้วนของหลักฐาน เพื่อไม่ให้เปอร์เซ็นต์เดียวกลบรายละเอียด</p></div></div>
+      <div class="card"><div id="progressBoard"></div></div>
+    </section>
+
+    <section class="page" id="reports">
+      <div class="hero"><div><h2>รายงาน</h2><p>พิมพ์รายงานโครงการรายโครงการ หรือสรุปทั้งแผนเป็น A4 และเลือก “บันทึกเป็น PDF” จากหน้าพิมพ์ของเบราว์เซอร์</p></div><button class="btn primary" id="printSummaryBtn2">พิมพ์สรุปทั้งแผน</button></div>
+      <div class="card"><div id="reportProjectList" class="report-list"></div></div>
+    </section>
+
+    <section class="page" id="audit">
+      <div class="hero"><div><h2>ตรวจสอบข้อมูลจากไฟล์</h2><p>รายการที่พบความไม่สอดคล้องในต้นฉบับถูกเก็บไว้เพื่อให้ตรวจสอบ โดยระบบไม่แก้ข้อมูลแทนผู้ใช้</p></div></div>
+      <div class="card" id="auditContent"></div>
+    </section>
+
+    <section class="page" id="settings">
+      <div class="hero"><div><h2>ตั้งค่าและสำรองข้อมูล</h2><p>ข้อมูลผลการดำเนินงานเก็บในเบราว์เซอร์ของอุปกรณ์นี้ ควรสำรองไฟล์ JSON เป็นระยะ</p></div></div>
+      <div class="grid2">
+        <article class="card">
+          <h3>ข้อมูลสถานศึกษา</h3>
+          <div class="form-grid">
+            <label class="field span2">ชื่อสถานศึกษา<input id="schoolName"></label>
+            <label class="field">ปีงบประมาณ<input id="fiscalYear" type="number"></label>
+            <label class="field">ผู้บริหาร/ผู้รับรองรายงาน<input id="directorName"></label>
+            <label class="field span2">ผู้รับผิดชอบงานงบประมาณ<input id="budgetOfficer"></label>
+          </div>
+          <div class="actions"><button class="btn primary" id="saveSettingsBtn">บันทึก</button></div>
+        </article>
+        <article class="card">
+          <h3>สำรองและกู้คืน</h3>
+          <p class="muted">การล้างข้อมูลจะลบเฉพาะผลการดำเนินงานที่บันทึกในเครื่อง แล้วคืนทะเบียนโครงการจากแผนฉบับตั้งต้น</p>
+          <div class="actions left"><button class="btn" id="backupBtn2">ดาวน์โหลด JSON</button><button class="btn danger" id="resetBtn">คืนค่าเริ่มต้น</button></div>
+        </article>
+      </div>
+    </section>
+  </main>
 </div>
 
-<dialog id="projectDialog"><form method="dialog" class="modal" id="projectForm"><h3 id="projectDialogTitle">เพิ่มโครงการ</h3><input type="hidden" name="id">
-<div class="form-grid">
-<div class="field span2"><label>ชื่อโครงการ</label><input name="name" required></div>
-<div class="field"><label>ผู้รับผิดชอบ</label><input name="owner" required></div><div class="field"><label>แหล่งเงิน</label><select name="fund" required></select></div>
-<div class="field"><label>งบประมาณ</label><input name="budget" type="number" min="0" step="0.01" required></div><div class="field"><label>ความก้าวหน้า (%)</label><input name="progress" type="number" min="0" max="100" required></div>
-<div class="field"><label>สถานะ</label><select name="status"><option>ยังไม่เริ่ม</option><option>กำลังดำเนินการ</option><option>รอเอกสาร</option><option>รออนุมัติ</option><option>รอตรวจรับ</option><option>เบิกจ่ายแล้ว</option><option>เสร็จสิ้น</option></select></div><div class="field"><label>กำหนดสิ้นสุด</label><input name="due" type="date"></div>
-<div class="field span2"><label>เป้าหมาย/ตัวชี้วัด</label><textarea name="target" rows="3"></textarea></div></div>
-<div class="modal-actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" value="default" id="saveProjectBtn">บันทึก</button></div></form></dialog>
+<dialog id="projectDialog">
+  <form method="dialog" class="modal" id="projectForm">
+    <div class="modal-head"><div><h3 id="projectDialogTitle">บันทึกผลโครงการ</h3><p id="projectDialogSub"></p></div><button class="icon-btn" value="cancel" aria-label="ปิด">×</button></div>
+    <input type="hidden" name="projectId">
+    <div class="form-grid">
+      <label class="field">สถานะ<select name="status"></select></label>
+      <label class="field">ความก้าวหน้ากิจกรรม (%)<input name="activityProgress" type="number" min="0" max="100"></label>
+      <label class="field">ผลตัวชี้วัด (%)<input name="indicatorProgress" type="number" min="0" max="100"></label>
+      <label class="field">ความครบถ้วนหลักฐาน (%)<input name="evidenceProgress" type="number" min="0" max="100"></label>
+      <label class="field">วันที่เริ่ม<input name="startDate" type="date"></label>
+      <label class="field">วันที่สิ้นสุด/สรุปผล<input name="endDate" type="date"></label>
+      <label class="field span2">ผลการดำเนินงาน<textarea name="resultSummary" rows="4"></textarea></label>
+      <label class="field span2">ปัญหา/อุปสรรค<textarea name="problems" rows="3"></textarea></label>
+      <label class="field span2">ข้อเสนอแนะ/แนวทางพัฒนาต่อ<textarea name="suggestions" rows="3"></textarea></label>
+    </div>
+    <div class="activity-editor">
+      <h4>กิจกรรมตามแผน</h4><div id="activityChecklist"></div>
+    </div>
+    <div class="evidence-editor">
+      <div class="section-head"><h4>ภาพหลักฐาน</h4><span>สูงสุด 6 ภาพ/โครงการ</span></div>
+      <input id="evidenceInput" type="file" accept="image/*" multiple>
+      <div id="evidencePreview" class="evidence-grid"></div>
+    </div>
+    <div class="actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" id="saveProjectProgressBtn" value="default">บันทึกผล</button></div>
+  </form>
+</dialog>
 
-<dialog id="transactionDialog"><form method="dialog" class="modal" id="transactionForm"><h3>บันทึกรายรับ-รายจ่าย</h3>
-<div class="form-grid"><div class="field"><label>วันที่</label><input name="date" type="date" required></div><div class="field"><label>เลขที่เอกสาร</label><input name="docNo"></div>
-<div class="field"><label>ประเภท</label><select name="type"><option value="income">รายรับ</option><option value="expense">รายจ่าย</option></select></div><div class="field"><label>แหล่งเงิน</label><select name="fund" required></select></div>
-<div class="field span2"><label>รายการ</label><input name="title" required></div><div class="field"><label>โครงการ</label><select name="projectId"></select></div><div class="field"><label>จำนวนเงิน</label><input name="amount" type="number" min="0" step="0.01" required></div></div>
-<div class="modal-actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" value="default" id="saveTransactionBtn">บันทึก</button></div></form></dialog>
+<dialog id="txDialog">
+  <form method="dialog" class="modal" id="txForm">
+    <div class="modal-head"><h3>บันทึกรายรับ-รายจ่าย</h3><button class="icon-btn" value="cancel">×</button></div>
+    <div class="form-grid">
+      <label class="field">วันที่<input name="date" type="date" required></label>
+      <label class="field">เลขที่เอกสาร<input name="docNo"></label>
+      <label class="field">ประเภท<select name="type"><option value="income">รายรับ</option><option value="expense">รายจ่าย</option></select></label>
+      <label class="field">โครงการ<select name="projectId"></select></label>
+      <label class="field span2">รายการ<input name="title" required></label>
+      <label class="field">แหล่งเงิน<input name="fundSource" placeholder="เช่น เงินอุดหนุนรายหัว"></label>
+      <label class="field">จำนวนเงิน<input name="amount" type="number" min="0" step="0.01" required></label>
+    </div>
+    <div class="actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" id="saveTxBtn" value="default">บันทึก</button></div>
+  </form>
+</dialog>
 
-<dialog id="procurementDialog"><form method="dialog" class="modal" id="procurementForm"><h3>เพิ่มรายการจัดซื้อจัดจ้าง</h3>
-<div class="form-grid"><div class="field"><label>วันที่</label><input name="date" type="date" required></div><div class="field"><label>โครงการ</label><select name="projectId"></select></div>
-<div class="field span2"><label>รายการ</label><input name="title" required></div><div class="field"><label>ผู้ขาย/ผู้รับจ้าง</label><input name="vendor"></div><div class="field"><label>วงเงิน</label><input name="amount" type="number" min="0" step="0.01" required></div>
-<div class="field"><label>สถานะ</label><select name="status"><option>รออนุมัติ</option><option>ดำเนินการจัดซื้อ/จัดจ้าง</option><option>รอตรวจรับ</option><option>ตรวจรับแล้ว</option><option>เบิกจ่ายแล้ว</option><option>เสร็จสิ้น</option></select></div><div class="field"><label>กำหนดตรวจรับ</label><input name="inspectDue" type="date"></div></div>
-<div class="modal-actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" value="default" id="saveProcurementBtn">บันทึก</button></div></form></dialog>
-
-<dialog id="taskDialog"><form method="dialog" class="modal" id="taskForm"><h3>เพิ่มงานที่ต้องดำเนินการ</h3>
-<div class="form-grid"><div class="field span2"><label>งาน</label><input name="title" required></div><div class="field"><label>หมวด</label><select name="category"><option>รอเอกสาร</option><option>รออนุมัติ</option><option>รอตรวจรับ</option><option>ติดตามโครงการ</option><option>อื่น ๆ</option></select></div><div class="field"><label>กำหนดเสร็จ</label><input name="due" type="date"></div><div class="field span2"><label>หมายเหตุ</label><textarea name="note" rows="3"></textarea></div></div>
-<div class="modal-actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" value="default" id="saveTaskBtn">บันทึก</button></div></form></dialog>
-
-<script>
-const FUNDS=["เงินอุดหนุนรายหัว","เงินกิจกรรมพัฒนาผู้เรียน","เงินอาหารกลางวัน","เงินรายได้สถานศึกษา","เงินบริจาค","งบอื่น ๆ"];
-const KEY="schoolBudgetAppV1";
-const seed={
- settings:{schoolName:"โรงเรียนบ้านจรูกแขวะ",fiscalYear:2569,budgetOwner:""},
- projects:[
-  {id:"p1",name:"โครงการส่งเสริมการอ่านออกเขียนได้",owner:"ฝ่ายวิชาการ",fund:"เงินอุดหนุนรายหัว",budget:10000,progress:75,status:"กำลังดำเนินการ",due:"2026-09-30",target:"พัฒนาความสามารถด้านการอ่านและการเขียนของผู้เรียน"},
-  {id:"p2",name:"โครงการพัฒนาสภาพแวดล้อมในโรงเรียน",owner:"ฝ่ายบริหารทั่วไป",fund:"เงินอุดหนุนรายหัว",budget:15000,progress:50,status:"รอตรวจรับ",due:"2026-10-15",target:"ปรับปรุงสภาพแวดล้อมให้ปลอดภัยและเอื้อต่อการเรียนรู้"}
- ],
- transactions:[
-  {id:"t1",date:"2026-09-01",docNo:"รับ-001",type:"income",title:"รับจัดสรรเงินอุดหนุน",fund:"เงินอุดหนุนรายหัว",projectId:"",amount:50000},
-  {id:"t2",date:"2026-09-05",docNo:"จ-001",type:"expense",title:"วัสดุส่งเสริมการอ่าน",fund:"เงินอุดหนุนรายหัว",projectId:"p1",amount:6500}
- ],
- procurement:[
-  {id:"b1",date:"2026-09-10",projectId:"p2",title:"วัสดุปรับปรุงบริเวณโรงเรียน",vendor:"",amount:7500,status:"รอตรวจรับ",inspectDue:"2026-09-24"}
- ],
- tasks:[
-  {id:"k1",title:"ตรวจรับวัสดุปรับปรุงบริเวณโรงเรียน",category:"รอตรวจรับ",due:"2026-09-24",note:"ตรวจสอบรายการและหลักฐานก่อนเบิกจ่าย",done:false}
- ]
-};
-let data=load();
-function load(){try{const v=localStorage.getItem(KEY);return v?JSON.parse(v):structuredClone(seed)}catch(e){return structuredClone(seed)}}
-function save(){localStorage.setItem(KEY,JSON.stringify(data));renderAll()}
-function money(v){return new Intl.NumberFormat("th-TH",{style:"currency",currency:"THB",maximumFractionDigits:2}).format(Number(v||0))}
-function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function uid(p){return p+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
-function dateTH(s){if(!s)return "-";const d=new Date(s+"T00:00:00");return d.toLocaleDateString("th-TH",{day:"2-digit",month:"short",year:"numeric"})}
-function projectName(id){return data.projects.find(p=>p.id===id)?.name||"-"}
-function projectSpent(id){return data.transactions.filter(t=>t.type==="expense"&&t.projectId===id).reduce((a,b)=>a+Number(b.amount),0)}
-function sums(){const income=data.transactions.filter(x=>x.type==="income").reduce((a,b)=>a+Number(b.amount),0);const expense=data.transactions.filter(x=>x.type==="expense").reduce((a,b)=>a+Number(b.amount),0);const allocated=data.projects.reduce((a,b)=>a+Number(b.budget),0);return {income,expense,allocated,balance:income-expense}}
-function statusClass(s){if(["เสร็จสิ้น","เบิกจ่ายแล้ว","ตรวจรับแล้ว"].includes(s))return"done";if(["กำลังดำเนินการ","ดำเนินการจัดซื้อ/จัดจ้าง"].includes(s))return"work";if(["รอเอกสาร","รออนุมัติ","รอตรวจรับ","ยังไม่เริ่ม"].includes(s))return"wait";return""}
-function gotoPage(id){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("#nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===id));window.scrollTo({top:0,behavior:"smooth"});if(id==="reports")renderReports()}
-document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>gotoPage(b.dataset.page));
-document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>gotoPage(b.dataset.goto));
-
-function renderMetrics(){
- const s=sums(),done=data.projects.filter(p=>p.status==="เสร็จสิ้น").length,total=data.projects.length,avg=total?Math.round(data.projects.reduce((a,p)=>a+Number(p.progress||0),0)/total):0;
- const cards=[
-  ["งบประมาณตามโครงการ",money(s.allocated),"วงเงินที่กำหนดไว้ในแผน"],
-  ["รายรับสะสม",money(s.income),"รายการรับเงินที่บันทึกแล้ว"],
-  ["เบิกจ่ายแล้ว",money(s.expense),s.income?((s.expense/s.income)*100).toFixed(1)+"% ของรายรับ":"ยังไม่มีรายรับ"],
-  ["ความก้าวหน้าโครงการ",avg+"%",done+" จาก "+total+" โครงการเสร็จสิ้น"]
- ];
- metrics.innerHTML=cards.map(c=>'<div class="card metric"><div class="label">'+c[0]+'</div><div class="value">'+c[1]+'</div><div class="sub">'+c[2]+'</div></div>').join("");
-}
-function renderFunds(){
- const out=FUNDS.map(f=>{const budget=data.projects.filter(p=>p.fund===f).reduce((a,b)=>a+Number(b.budget),0);const spent=data.transactions.filter(t=>t.type==="expense"&&t.fund===f).reduce((a,b)=>a+Number(b.amount),0);const pct=budget?Math.min(100,spent/budget*100):0;return '<div class="kpi-line"><span class="small">'+esc(f)+'</span><div><div class="progress"><span style="width:'+pct+'%"></span></div><div class="small muted" style="margin-top:4px">'+money(spent)+' / '+money(budget)+'</div></div><strong class="small">'+pct.toFixed(0)+'%</strong></div>'}).join("");
- fundProgress.innerHTML=out||'<div class="empty">ยังไม่มีข้อมูล</div>';
-}
-function renderProjectStatus(){
- const statuses=["ยังไม่เริ่ม","กำลังดำเนินการ","รอเอกสาร","รออนุมัติ","รอตรวจรับ","เบิกจ่ายแล้ว","เสร็จสิ้น"];
- projectStatus.innerHTML=statuses.map(s=>{const n=data.projects.filter(p=>p.status===s).length;return '<div class="row between list-item"><span><span class="status-dot"></span>'+s+'</span><strong>'+n+'</strong></div>'}).join("");
-}
-function renderRecent(){
- const arr=[...data.projects].slice(-5).reverse();
- recentProjects.innerHTML=arr.length?arr.map(p=>'<div class="list-item"><div class="row between"><h4>'+esc(p.name)+'</h4><span class="pill '+statusClass(p.status)+'">'+esc(p.status)+'</span></div><div class="row between small muted"><span>'+esc(p.owner)+'</span><span>'+Number(p.progress||0)+'%</span></div><div class="progress" style="margin-top:8px"><span style="width:'+Number(p.progress||0)+'%"></span></div></div>').join(""):'<div class="empty">ยังไม่มีโครงการ</div>';
-}
-function effectiveTasks(){
- const manual=data.tasks.filter(t=>!t.done).map(t=>({...t,source:"งาน"}));
- const proc=data.procurement.filter(p=>!["เสร็จสิ้น","เบิกจ่ายแล้ว"].includes(p.status)).map(p=>({id:"proc-"+p.id,title:p.title,category:p.status,due:p.inspectDue,note:"รายการจัดซื้อจัดจ้าง",source:"จัดซื้อ"}));
- const proj=data.projects.filter(p=>["รอเอกสาร","รออนุมัติ","รอตรวจรับ"].includes(p.status)).map(p=>({id:"proj-"+p.id,title:p.name,category:p.status,due:p.due,note:"สถานะโครงการ",source:"โครงการ"}));
- return [...manual,...proc,...proj].sort((a,b)=>(a.due||"9999").localeCompare(b.due||"9999"));
-}
-function renderUrgent(){
- const arr=effectiveTasks().slice(0,5);
- urgentTasks.innerHTML=arr.length?arr.map(t=>'<div class="list-item"><div class="row between"><h4>'+esc(t.title)+'</h4><span class="pill wait">'+esc(t.category)+'</span></div><div class="small muted">'+(t.due?"กำหนด "+dateTH(t.due):"ไม่กำหนดวัน")+' • '+esc(t.source)+'</div></div>').join(""):'<div class="empty">ไม่มีงานค้าง</div>';
-}
-function renderProjects(){
- const q=(projectSearch.value||"").toLowerCase(),f=projectFilter.value;
- const arr=data.projects.filter(p=>(!q||[p.name,p.owner,p.fund].join(" ").toLowerCase().includes(q))&&(!f||p.status===f));
- projectRows.innerHTML=arr.length?arr.map(p=>'<tr><td><strong>'+esc(p.name)+'</strong></td><td>'+esc(p.owner)+'</td><td>'+esc(p.fund)+'</td><td>'+money(p.budget)+'</td><td>'+money(projectSpent(p.id))+'</td><td style="min-width:160px"><div class="row"><div class="progress" style="flex:1"><span style="width:'+Number(p.progress||0)+'%"></span></div><span>'+Number(p.progress||0)+'%</span></div></td><td><span class="pill '+statusClass(p.status)+'">'+esc(p.status)+'</span></td><td><button class="btn" onclick="editProject(\''+p.id+'\')">แก้ไข</button> <button class="btn danger" onclick="deleteProject(\''+p.id+'\')">ลบ</button></td></tr>').join(""):'<tr><td colspan="8" class="empty">ไม่พบข้อมูล</td></tr>';
-}
-function renderTransactionMetrics(){const s=sums();transactionMetrics.innerHTML=[["รายรับ",s.income],["รายจ่าย",s.expense],["คงเหลือ",s.balance],["วงเงินโครงการ",s.allocated]].map(x=>'<div class="card metric"><div class="label">'+x[0]+'</div><div class="value">'+money(x[1])+'</div></div>').join("")}
-function renderTransactions(){
- const tf=txTypeFilter.value,ff=txFundFilter.value;
- const arr=[...data.transactions].filter(t=>(!tf||t.type===tf)&&(!ff||t.fund===ff)).sort((a,b)=>b.date.localeCompare(a.date));
- transactionRows.innerHTML=arr.length?arr.map(t=>'<tr><td>'+dateTH(t.date)+'</td><td>'+esc(t.docNo||"-")+'</td><td><span class="pill '+(t.type==="income"?"done":"wait")+'">'+(t.type==="income"?"รายรับ":"รายจ่าย")+'</span></td><td>'+esc(t.title)+'</td><td>'+esc(t.fund)+'</td><td>'+esc(projectName(t.projectId))+'</td><td><strong>'+money(t.amount)+'</strong></td><td><button class="btn danger" onclick="deleteTransaction(\''+t.id+'\')">ลบ</button></td></tr>').join(""):'<tr><td colspan="8" class="empty">ยังไม่มีรายการ</td></tr>';
-}
-function renderProcurement(){
- const arr=[...data.procurement].sort((a,b)=>b.date.localeCompare(a.date));
- procurementRows.innerHTML=arr.length?arr.map(p=>'<tr><td>'+dateTH(p.date)+'</td><td><strong>'+esc(p.title)+'</strong></td><td>'+esc(projectName(p.projectId))+'</td><td>'+esc(p.vendor||"-")+'</td><td>'+money(p.amount)+'</td><td><span class="pill '+statusClass(p.status)+'">'+esc(p.status)+'</span></td><td>'+dateTH(p.inspectDue)+'</td><td><button class="btn" onclick="advanceProcurement(\''+p.id+'\')">เลื่อนสถานะ</button> <button class="btn danger" onclick="deleteProcurement(\''+p.id+'\')">ลบ</button></td></tr>').join(""):'<tr><td colspan="8" class="empty">ยังไม่มีรายการ</td></tr>';
-}
-function renderTasks(){
- const manual=data.tasks;
- const cats=["งานค้าง","ใกล้กำหนด","เสร็จแล้ว"];
- const today=new Date().toISOString().slice(0,10);const soon=new Date(Date.now()+7*864e5).toISOString().slice(0,10);
- const groups=[
-  manual.filter(t=>!t.done&&(!t.due||t.due>soon)),
-  manual.filter(t=>!t.done&&t.due&&t.due<=soon),
-  manual.filter(t=>t.done)
- ];
- taskColumns.innerHTML=groups.map((g,i)=>'<div class="card"><div class="section-title"><h3>'+cats[i]+'</h3><span class="pill">'+g.length+'</span></div><div class="list">'+(g.length?g.map(t=>'<div class="list-item"><div class="row between"><h4>'+esc(t.title)+'</h4><span class="pill '+(t.done?"done":(t.due&&t.due<today?"late":"wait"))+'">'+esc(t.category)+'</span></div><div class="small muted">'+(t.due?"กำหนด "+dateTH(t.due):"ไม่กำหนดวัน")+'</div><div class="row" style="margin-top:9px"><button class="btn" onclick="toggleTask(\''+t.id+'\')">'+(t.done?"เปิดงานอีกครั้ง":"ทำเสร็จแล้ว")+'</button><button class="btn danger" onclick="deleteTask(\''+t.id+'\')">ลบ</button></div></div>').join(""):'<div class="empty">ไม่มีรายการ</div>')+'</div></div>').join("");
-}
-function renderReports(){
- reportDate.textContent="ข้อมูล ณ "+new Date().toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"});
- const s=sums(),avg=data.projects.length?Math.round(data.projects.reduce((a,p)=>a+Number(p.progress||0),0)/data.projects.length):0;
- reportMetrics.innerHTML=[["รายรับทั้งหมด",money(s.income)],["รายจ่ายทั้งหมด",money(s.expense)],["คงเหลือ",money(s.balance)],["ความก้าวหน้าเฉลี่ย",avg+"%"]].map(x=>'<div class="metric"><div class="label">'+x[0]+'</div><div class="value">'+x[1]+'</div></div>').join("");
- reportFunds.innerHTML=FUNDS.map(f=>{const inc=data.transactions.filter(t=>t.type==="income"&&t.fund===f).reduce((a,b)=>a+Number(b.amount),0);const exp=data.transactions.filter(t=>t.type==="expense"&&t.fund===f).reduce((a,b)=>a+Number(b.amount),0);return '<div class="row between list-item"><span>'+esc(f)+'</span><span class="small">รับ '+money(inc)+' • จ่าย '+money(exp)+' • คงเหลือ '+money(inc-exp)+'</span></div>'}).join("");
- reportProjects.innerHTML=data.projects.length?data.projects.map(p=>'<div class="list-item"><div class="row between"><strong>'+esc(p.name)+'</strong><span>'+Number(p.progress||0)+'%</span></div><div class="progress" style="margin-top:8px"><span style="width:'+Number(p.progress||0)+'%"></span></div><div class="small muted" style="margin-top:6px">'+esc(p.status)+' • ใช้ '+money(projectSpent(p.id))+' จาก '+money(p.budget)+'</div></div>').join(""):'<div class="empty">ยังไม่มีโครงการ</div>';
-}
-function fillSelects(){
- document.querySelectorAll('select[name="fund"]').forEach(s=>{const v=s.value;s.innerHTML=FUNDS.map(f=>'<option>'+esc(f)+'</option>').join("");if(v)s.value=v});
- txFundFilter.innerHTML='<option value="">ทุกแหล่งเงิน</option>'+FUNDS.map(f=>'<option>'+esc(f)+'</option>').join("");
- document.querySelectorAll('select[name="projectId"]').forEach(s=>{const v=s.value;s.innerHTML='<option value="">ไม่ระบุโครงการ</option>'+data.projects.map(p=>'<option value="'+p.id+'">'+esc(p.name)+'</option>').join("");if(v)s.value=v});
-}
-function renderSettings(){schoolName.value=data.settings.schoolName||"";fiscalYear.value=data.settings.fiscalYear||2569;budgetOwner.value=data.settings.budgetOwner||"";document.querySelector(".brand p").textContent=(data.settings.schoolName||"สถานศึกษา")+" • ปีงบประมาณ "+(data.settings.fiscalYear||"")}
-function renderAll(){fillSelects();renderMetrics();renderFunds();renderProjectStatus();renderRecent();renderUrgent();renderProjects();renderTransactionMetrics();renderTransactions();renderProcurement();renderTasks();renderSettings();renderReports()}
-projectSearch.oninput=renderProjects;projectFilter.onchange=renderProjects;txTypeFilter.onchange=renderTransactions;txFundFilter.onchange=renderTransactions;
-
-function openProject(){projectForm.reset();projectForm.id.value="";projectDialogTitle.textContent="เพิ่มโครงการ";projectForm.progress.value=0;projectDialog.showModal()}
-function editProject(id){const p=data.projects.find(x=>x.id===id);if(!p)return;openProject();projectDialogTitle.textContent="แก้ไขโครงการ";Object.keys(p).forEach(k=>{if(projectForm.elements[k])projectForm.elements[k].value=p[k]})}
-saveProjectBtn.onclick=e=>{e.preventDefault();if(!projectForm.reportValidity())return;const f=new FormData(projectForm),id=f.get("id")||uid("p");const obj={id,name:f.get("name"),owner:f.get("owner"),fund:f.get("fund"),budget:Number(f.get("budget")),progress:Number(f.get("progress")),status:f.get("status"),due:f.get("due"),target:f.get("target")};const i=data.projects.findIndex(x=>x.id===id);if(i>=0)data.projects[i]=obj;else data.projects.push(obj);projectDialog.close();save()}
-function deleteProject(id){if(!confirm("ลบโครงการนี้หรือไม่? รายการรายรับ-รายจ่ายเดิมจะยังคงอยู่"))return;data.projects=data.projects.filter(x=>x.id!==id);save()}
-
-function openTransaction(){transactionForm.reset();transactionForm.date.value=new Date().toISOString().slice(0,10);fillSelects();transactionDialog.showModal()}
-saveTransactionBtn.onclick=e=>{e.preventDefault();if(!transactionForm.reportValidity())return;const f=new FormData(transactionForm);data.transactions.push({id:uid("t"),date:f.get("date"),docNo:f.get("docNo"),type:f.get("type"),title:f.get("title"),fund:f.get("fund"),projectId:f.get("projectId"),amount:Number(f.get("amount"))});transactionDialog.close();save()}
-function deleteTransaction(id){if(confirm("ลบรายการนี้หรือไม่?")){data.transactions=data.transactions.filter(x=>x.id!==id);save()}}
-
-function openProcurement(){procurementForm.reset();procurementForm.date.value=new Date().toISOString().slice(0,10);fillSelects();procurementDialog.showModal()}
-saveProcurementBtn.onclick=e=>{e.preventDefault();if(!procurementForm.reportValidity())return;const f=new FormData(procurementForm);data.procurement.push({id:uid("b"),date:f.get("date"),projectId:f.get("projectId"),title:f.get("title"),vendor:f.get("vendor"),amount:Number(f.get("amount")),status:f.get("status"),inspectDue:f.get("inspectDue")});procurementDialog.close();save()}
-function deleteProcurement(id){if(confirm("ลบรายการจัดซื้อจัดจ้างนี้หรือไม่?")){data.procurement=data.procurement.filter(x=>x.id!==id);save()}}
-function advanceProcurement(id){const p=data.procurement.find(x=>x.id===id);if(!p)return;const ss=["รออนุมัติ","ดำเนินการจัดซื้อ/จัดจ้าง","รอตรวจรับ","ตรวจรับแล้ว","เบิกจ่ายแล้ว","เสร็จสิ้น"];const i=ss.indexOf(p.status);if(i<ss.length-1)p.status=ss[i+1];save()}
-
-function openTask(){taskForm.reset();taskDialog.showModal()}
-saveTaskBtn.onclick=e=>{e.preventDefault();if(!taskForm.reportValidity())return;const f=new FormData(taskForm);data.tasks.push({id:uid("k"),title:f.get("title"),category:f.get("category"),due:f.get("due"),note:f.get("note"),done:false});taskDialog.close();save()}
-function toggleTask(id){const t=data.tasks.find(x=>x.id===id);if(t){t.done=!t.done;save()}}function deleteTask(id){if(confirm("ลบงานนี้หรือไม่?")){data.tasks=data.tasks.filter(x=>x.id!==id);save()}}
-
-saveSettings.onclick=()=>{data.settings={schoolName:schoolName.value.trim()||"สถานศึกษา",fiscalYear:Number(fiscalYear.value||2569),budgetOwner:budgetOwner.value.trim()};save();alert("บันทึกการตั้งค่าแล้ว")}
-function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="school-budget-backup-"+new Date().toISOString().slice(0,10)+".json";a.click();URL.revokeObjectURL(a.href)}
-exportBtn.onclick=exportData;exportBtn2.onclick=exportData;
-importFile.onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const obj=JSON.parse(await file.text());if(!obj.projects||!obj.transactions)throw new Error();data=obj;save();alert("นำเข้าข้อมูลสำเร็จ")}catch(err){alert("ไฟล์ข้อมูลไม่ถูกต้อง")}e.target.value=""}
-resetBtn.onclick=()=>{if(confirm("ต้องการล้างข้อมูลทั้งหมดและกลับไปใช้ข้อมูลตัวอย่างหรือไม่?")){data=structuredClone(seed);save()}}
-renderAll();
-if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(()=>{})}
-</script>
+<script src="plan-data.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
