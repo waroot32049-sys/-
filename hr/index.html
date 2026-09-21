@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#3157a4">
+  <meta name="description" content="ระบบบริหารงานบุคคลโรงเรียน สำหรับติดตามบุคลากร ภาระงาน PA การลา การพัฒนาและการนิเทศ">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>ระบบบริหารงานบุคคลโรงเรียน</title>
+  <style>
+    :root{--bg:#f5f7fb;--panel:#fff;--text:#172033;--muted:#667085;--line:#e5e7eb;--primary:#3157a4;--primary2:#244483;--soft:#eef3ff;--success:#067647;--warn:#b54708;--danger:#b42318;--shadow:0 10px 30px rgba(16,24,40,.07);--radius:18px}
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;background:var(--bg);color:var(--text)}
+    button,input,select,textarea{font:inherit} button{cursor:pointer}.app{min-height:100vh}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .topbar-inner{max-width:1440px;margin:auto;padding:13px 18px;display:flex;gap:14px;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#3157a4,#5c82d1);display:grid;place-items:center;color:#fff;font-weight:900}
+    h1{font-size:18px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}.top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .btn{border:1px solid var(--line);background:#fff;color:var(--text);padding:9px 12px;border-radius:12px}.btn:hover{background:#f8fafc}.btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}.btn.primary:hover{background:var(--primary2)}.btn.danger{color:var(--danger)}
+    .layout{max-width:1440px;margin:auto;display:grid;grid-template-columns:250px 1fr;gap:18px;padding:18px}.sidebar{background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--radius);padding:12px;height:fit-content;position:sticky;top:85px}
+    .nav button{width:100%;display:flex;align-items:center;gap:9px;border:0;background:transparent;padding:11px 12px;border-radius:12px;text-align:left;color:#344054;margin:2px 0}.nav button.active{background:var(--soft);color:var(--primary);font-weight:800}.nav small{display:block;color:var(--muted);padding:12px 10px 4px}
+    main{min-width:0}.page{display:none}.page.active{display:block}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:3px 0 16px}.hero h2{margin:0 0 5px;font-size:25px}.hero p{margin:0;color:var(--muted)}
+    .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}.metric .label{font-size:13px;color:var(--muted)}.metric .value{font-size:26px;font-weight:900;margin:7px 0 4px}.metric .sub{font-size:12px;color:var(--muted)}
+    .grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.section-title h3{font-size:16px;margin:0}
+    .progress{height:9px;background:#eef2f6;border-radius:999px;overflow:hidden}.progress>span{display:block;height:100%;background:linear-gradient(90deg,#7699e7,#3157a4)}.row{display:flex;gap:10px;align-items:center}.between{justify-content:space-between}.muted{color:var(--muted)}.small{font-size:12px}
+    .list{display:grid;gap:9px}.list-item{border:1px solid var(--line);border-radius:14px;padding:12px}.list-item h4{margin:0 0 5px;font-size:14px}.pill{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#475467;font-size:11px;font-weight:800}.pill.done{background:#ecfdf3;color:#027a48}.pill.work{background:#eff8ff;color:#175cd3}.pill.wait{background:#fffaeb;color:#b54708}.pill.late{background:#fef3f2;color:#b42318}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse}th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;font-size:13px}th{background:#f8fafc;color:#475467}tr:last-child td{border-bottom:0}
+    .field{display:grid;gap:6px}.field label{font-size:12px;color:#475467;font-weight:800}.field input,.field select,.field textarea{width:100%;border:1px solid #d0d5dd;border-radius:11px;padding:10px;background:#fff;color:var(--text)}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.span2{grid-column:1/-1}
+    dialog{border:0;border-radius:20px;padding:0;box-shadow:0 30px 80px rgba(0,0,0,.25);width:min(760px,calc(100vw - 28px))}dialog::backdrop{background:rgba(15,23,42,.45)}.modal{padding:18px}.modal h3{margin:0 0 14px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+    .notice{background:#fffaeb;border:1px solid #fedf89;border-radius:14px;padding:12px;color:#7a2e0e;font-size:13px}.person-card{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}.person-card h4{margin:0 0 4px}.person-meta{font-size:12px;color:var(--muted);margin-bottom:10px}.kpi-line{display:grid;grid-template-columns:115px 1fr 48px;gap:9px;align-items:center;margin:9px 0}.empty{padding:24px;text-align:center;color:var(--muted)}
+    .footer{max-width:1440px;margin:0 auto;padding:0 18px 24px;color:var(--muted);font-size:12px}
+    @media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.sidebar{position:static}.nav{display:flex;overflow:auto}.nav small{display:none}.nav button{min-width:max-content}}
+    @media(max-width:650px){.topbar-inner{align-items:flex-start}.brand p{display:none}.layout{padding:12px}.cards,.grid3,.form-grid{grid-template-columns:1fr}.span2{grid-column:auto}.hero{align-items:flex-start;flex-direction:column}.hero h2{font-size:22px}.kpi-line{grid-template-columns:90px 1fr 45px}.top-actions .btn{padding:8px 9px}}
+    @media print{.topbar,.sidebar,.no-print,.footer{display:none!important}.layout{display:block;padding:0}.card{box-shadow:none}.page{display:none!important}.page.active{display:block!important}}
+  </style>
+</head>
+<body>
+<div class="app">
+<header class="topbar"><div class="topbar-inner">
+  <div class="brand"><div class="logo">HR</div><div><h1>ระบบบริหารงานบุคคลโรงเรียน</h1><p id="brandSub">โรงเรียนบ้านจรูกแขวะ • ปีการศึกษา 2569</p></div></div>
+  <div class="top-actions">
+    <button class="btn" id="exportBtn">ส่งออกข้อมูล</button>
+    <label class="btn" for="importFile">นำเข้าข้อมูล</label><input id="importFile" type="file" accept=".json" hidden>
+    <button class="btn" onclick="window.print()">พิมพ์รายงาน</button>
+  </div>
+</div></header>
+
+<div class="layout">
+<aside class="sidebar no-print"><nav class="nav" id="nav">
+  <small>ภาพรวม</small>
+  <button class="active" data-page="dashboard">ภาพรวมผู้บริหาร</button>
+  <button data-page="people">ทะเบียนบุคลากร</button>
+  <button data-page="tasks">ภาระงานและความคืบหน้า</button>
+  <small>ประเมินและพัฒนา</small>
+  <button data-page="pa">PA / ผลการปฏิบัติงาน</button>
+  <button data-page="leave">การลาและไปราชการ</button>
+  <button data-page="development">พัฒนาตนเอง / PLC</button>
+  <button data-page="supervision">นิเทศและติดตาม</button>
+  <button data-page="reports">รายงาน</button>
+  <small>ระบบ</small>
+  <button data-page="settings">ตั้งค่าและสำรองข้อมูล</button>
+</nav></aside>
+
+<main>
+<section class="page active" id="dashboard">
+  <div class="hero"><div><h2>ภาพรวมงานบุคคล</h2><p>ติดตามกำลังคน PA ภาระงาน การลา การพัฒนา และการนิเทศจากข้อมูลที่บันทึกในระบบ</p></div><button class="btn primary no-print" onclick="openPerson()">+ เพิ่มบุคลากร</button></div>
+  <div class="cards" id="metrics"></div>
+  <div class="grid2">
+    <div class="card"><div class="section-title"><h3>ความพร้อมรายบุคคล</h3><span class="small muted">คำนวณจาก PA งาน พัฒนา และนิเทศ</span></div><div class="list" id="personProgress"></div></div>
+    <div class="card"><div class="section-title"><h3>สิ่งที่ต้องติดตาม</h3><span class="small muted">รายการค้างและใกล้ครบกำหนด</span></div><div class="list" id="alerts"></div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><div class="section-title"><h3>สถานะภาระงาน</h3></div><div id="taskSummary"></div></div>
+    <div class="card"><div class="section-title"><h3>การพัฒนาบุคลากร</h3></div><div id="devSummary"></div></div>
+  </div>
+</section>
+
+<section class="page" id="people">
+  <div class="hero"><div><h2>ทะเบียนบุคลากร</h2><p>ข้อมูลพื้นฐาน ตำแหน่ง วิทยฐานะ และสถานะการปฏิบัติงาน</p></div><button class="btn primary" onclick="openPerson()">+ เพิ่มบุคลากร</button></div>
+  <div class="card"><div class="toolbar"><input id="peopleSearch" class="btn" placeholder="ค้นหาชื่อ ตำแหน่ง..." style="min-width:240px;text-align:left"><select id="peopleFilter" class="btn"><option value="">ทุกสถานะ</option><option>ปฏิบัติงาน</option><option>ช่วยราชการ</option><option>ลาศึกษาต่อ</option><option>พ้นจากสถานศึกษา</option></select></div><div class="table-wrap"><table><thead><tr><th>ชื่อ-สกุล</th><th>ตำแหน่ง</th><th>วิทยฐานะ</th><th>งานหลัก</th><th>สถานะ</th><th>PA</th><th></th></tr></thead><tbody id="peopleRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="tasks">
+  <div class="hero"><div><h2>ภาระงานและความคืบหน้า</h2><p>มอบหมายงาน กำหนดเส้นตาย และติดตามเปอร์เซ็นต์ความสำเร็จ</p></div><button class="btn primary" onclick="openTask()">+ มอบหมายงาน</button></div>
+  <div class="card"><div class="toolbar"><select id="taskPersonFilter" class="btn"></select><select id="taskStatusFilter" class="btn"><option value="">ทุกสถานะ</option><option>ยังไม่เริ่ม</option><option>กำลังดำเนินการ</option><option>รอตรวจ</option><option>เสร็จแล้ว</option></select></div><div class="table-wrap"><table><thead><tr><th>งาน</th><th>ผู้รับผิดชอบ</th><th>กลุ่มงาน</th><th>กำหนดเสร็จ</th><th>ความก้าวหน้า</th><th>สถานะ</th><th></th></tr></thead><tbody id="taskRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="pa">
+  <div class="hero"><div><h2>PA / ผลการปฏิบัติงาน</h2><p>บันทึกเป้าหมาย ผลที่เกิดขึ้น คะแนน และหลักฐานอ้างอิง</p></div><button class="btn primary" onclick="openPA()">+ บันทึก PA</button></div>
+  <div class="card"><div class="toolbar"><select id="paPersonFilter" class="btn"></select></div><div class="table-wrap"><table><thead><tr><th>บุคลากร</th><th>รอบประเมิน</th><th>เป้าหมาย</th><th>ผลสำเร็จ</th><th>คะแนน</th><th>สถานะ</th><th></th></tr></thead><tbody id="paRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="leave">
+  <div class="hero"><div><h2>การลาและไปราชการ</h2><p>บันทึกการลา การอบรม และการเดินทางไปราชการ พร้อมสรุปจำนวนวัน</p></div><button class="btn primary" onclick="openLeave()">+ บันทึกรายการ</button></div>
+  <div class="cards" id="leaveMetrics"></div>
+  <div class="card" style="margin-top:14px"><div class="table-wrap"><table><thead><tr><th>บุคลากร</th><th>ประเภท</th><th>ช่วงวันที่</th><th>จำนวนวัน</th><th>สถานะ</th><th>หมายเหตุ</th><th></th></tr></thead><tbody id="leaveRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="development">
+  <div class="hero"><div><h2>พัฒนาตนเอง / PLC</h2><p>สะสมชั่วโมงอบรม สัมมนา ศึกษาดูงาน PLC และการพัฒนาวิชาชีพ</p></div><button class="btn primary" onclick="openDev()">+ เพิ่มกิจกรรม</button></div>
+  <div class="card"><div class="toolbar"><select id="devPersonFilter" class="btn"></select></div><div class="table-wrap"><table><thead><tr><th>บุคลากร</th><th>กิจกรรม</th><th>ประเภท</th><th>วันที่</th><th>ชั่วโมง</th><th>หน่วยงาน</th><th></th></tr></thead><tbody id="devRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="supervision">
+  <div class="hero"><div><h2>นิเทศและติดตาม</h2><p>บันทึกการสังเกตชั้นเรียน ผลนิเทศ ข้อเสนอแนะ และการติดตามครั้งถัดไป</p></div><button class="btn primary" onclick="openSupervision()">+ บันทึกนิเทศ</button></div>
+  <div class="card"><div class="table-wrap"><table><thead><tr><th>บุคลากร</th><th>วันที่</th><th>เรื่อง/วิชา</th><th>คะแนน</th><th>ผลการนิเทศ</th><th>ติดตามครั้งถัดไป</th><th></th></tr></thead><tbody id="supervisionRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="reports">
+  <div class="hero"><div><h2>รายงานสำหรับผู้บริหาร</h2><p>สรุปข้อมูลสำคัญของงานบุคคลในหน้าเดียว</p></div><button class="btn no-print" onclick="window.print()">พิมพ์ / บันทึก PDF</button></div>
+  <div class="card"><div class="section-title"><h3>สรุปงานบริหารบุคคล</h3><span class="small muted" id="reportDate"></span></div><div class="cards" id="reportMetrics"></div></div>
+  <div class="grid2"><div class="card"><h3>ความคืบหน้า PA รายบุคคล</h3><div id="reportPA"></div></div><div class="card"><h3>ชั่วโมงพัฒนารายบุคคล</h3><div id="reportDev"></div></div></div>
+  <div class="card" style="margin-top:14px"><h3>งานที่ยังไม่เสร็จ</h3><div id="reportTasks"></div></div>
+</section>
+
+<section class="page" id="settings">
+  <div class="hero"><div><h2>ตั้งค่าและสำรองข้อมูล</h2><p>กำหนดชื่อสถานศึกษา ปีการศึกษา และค่าเป้าหมายของระบบ</p></div></div>
+  <div class="grid2">
+    <div class="card"><h3>ข้อมูลสถานศึกษา</h3><div class="form-grid"><div class="field span2"><label>ชื่อสถานศึกษา</label><input id="schoolName"></div><div class="field"><label>ปีการศึกษา</label><input id="academicYear" type="number"></div><div class="field"><label>เป้าหมายชั่วโมงพัฒนา/ปี</label><input id="devTarget" type="number" min="1"></div></div><div class="modal-actions"><button class="btn primary" id="saveSettings">บันทึกการตั้งค่า</button></div></div>
+    <div class="card"><h3>การสำรองและความเป็นส่วนตัว</h3><p class="muted">ข้อมูลที่กรอกถูกเก็บใน Local Storage ของเบราว์เซอร์อุปกรณ์นี้ และส่งออกเป็น JSON ได้</p><div class="row" style="flex-wrap:wrap"><button class="btn" id="exportBtn2">ดาวน์โหลดไฟล์สำรอง</button><button class="btn danger" id="resetBtn">ล้างข้อมูลทั้งหมด</button></div><div class="notice" style="margin-top:14px">รีโป GitHub นี้เป็นสาธารณะ แอปจึงไม่ฝังข้อมูลเงินจริงของบุคลากรไว้ในโค้ด กรุณาหลีกเลี่ยงการใส่เลขบัตรประชาชน ข้อมูลสุขภาพ หรือข้อมูลลับที่ไม่จำเป็น หากต้องการฐานข้อมูลส่วนกลางควรเพิ่มระบบยืนยันตัวตนและสิทธิ์การเข้าถึงก่อนใช้งานจริงหลายคน</div></div>
+  </div>
+</section>
+</main>
+</div>
+<div class="footer">ระบบบริหารงานบุคคลโรงเรียน • เวอร์ชันข้อมูลภายในอุปกรณ์ • รองรับมือถือและคอมพิวเตอร์</div>
+</div>
+
+<dialog id="personDialog"><form method="dialog" class="modal" id="personForm"><h3>ข้อมูลบุคลากร</h3><input type="hidden" name="id"><div class="form-grid">
+<div class="field span2"><label>ชื่อ-สกุล</label><input name="name" required></div>
+<div class="field"><label>ตำแหน่ง</label><input name="position" placeholder="ครู / ผู้อำนวยการ / บุคลากร" required></div><div class="field"><label>วิทยฐานะ</label><input name="level" placeholder="ไม่มีวิทยฐานะ / ชำนาญการ"></div>
+<div class="field"><label>งานหลัก</label><input name="mainDuty" placeholder="วิชาการ / บุคคล / งบประมาณ / ทั่วไป"></div><div class="field"><label>สถานะ</label><select name="status"><option>ปฏิบัติงาน</option><option>ช่วยราชการ</option><option>ลาศึกษาต่อ</option><option>พ้นจากสถานศึกษา</option></select></div>
+<div class="field"><label>วันที่เริ่มปฏิบัติงาน</label><input name="startDate" type="date"></div><div class="field"><label>เป้าหมาย PA (%)</label><input name="paTarget" type="number" min="0" max="100" value="80"></div>
+<div class="field span2"><label>หมายเหตุ</label><textarea name="note" rows="2"></textarea></div></div>
+<div class="modal-actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" value="default" id="savePersonBtn">บันทึก</button></div></form></dialog>
+
+<dialog id="taskDialog"><form method="dialog" class="modal" id="taskForm"><h3>มอบหมายงาน</h3><input type="hidden" name="id"><div class="form-grid">
+<div class="field span2"><label>ชื่องาน</label><input name="title" required></div><div class="field"><label>ผู้รับผิดชอบ</label><select name="personId" required></select></div><div class="field"><label>กลุ่มงาน</label><select name="group"><option>วิชาการ</option><option>บริหารงานบุคคล</option><option>งบประมาณ</option><option>บริหารทั่วไป</option><option>โครงการ/กิจกรรม</option><option>อื่น ๆ</option></select></div>
+<div class="field"><label>กำหนดเสร็จ</label><input name="due" type="date"></div><div class="field"><label>ความก้าวหน้า (%)</label><input name="progress" type="number" min="0" max="100" value="0"></div>
+<div class="field"><label>สถานะ</label><select name="status"><option>ยังไม่เริ่ม</option><option>กำลังดำเนินการ</option><option>รอตรวจ</option><option>เสร็จแล้ว</option></select></div><div class="field"><label>หลักฐาน/ลิงก์</label><input name="evidence" placeholder="https://..."></div>
+<div class="field span2"><label>รายละเอียด</label><textarea name="note" rows="2"></textarea></div></div>
+<div class="modal-actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" value="default" id="saveTaskBtn">บันทึก</button></div></form></dialog>
+
+<dialog id="paDialog"><form method="dialog" class="modal" id="paForm"><h3>บันทึก PA / ผลการปฏิบัติงาน</h3><input type="hidden" name="id"><div class="form-grid">
+<div class="field"><label>บุคลากร</label><select name="personId" required></select></div><div class="field"><label>รอบประเมิน</label><input name="cycle" placeholder="รอบที่ 1/2569" required></div>
+<div class="field span2"><label>เป้าหมาย/ประเด็นงาน</label><input name="target" required></div><div class="field"><label>ผลสำเร็จ (%)</label><input name="progress" type="number" min="0" max="100" value="0"></div><div class="field"><label>คะแนน</label><input name="score" type="number" min="0" max="100" step="0.01"></div>
+<div class="field"><label>สถานะ</label><select name="status"><option>กำลังดำเนินการ</option><option>รอหลักฐาน</option><option>พร้อมประเมิน</option><option>ประเมินแล้ว</option></select></div><div class="field"><label>หลักฐาน/ลิงก์</label><input name="evidence" placeholder="https://..."></div>
+<div class="field span2"><label>ผลที่เกิดขึ้น/ข้อเสนอแนะ</label><textarea name="result" rows="3"></textarea></div></div>
+<div class="modal-actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" value="default" id="savePABtn">บันทึก</button></div></form></dialog>
+
+<dialog id="leaveDialog"><form method="dialog" class="modal" id="leaveForm"><h3>บันทึกการลา / ไปราชการ</h3><input type="hidden" name="id"><div class="form-grid">
+<div class="field"><label>บุคลากร</label><select name="personId" required></select></div><div class="field"><label>ประเภท</label><select name="type"><option>ลาป่วย</option><option>ลากิจ</option><option>ลาคลอด</option><option>ไปราชการ</option><option>อบรม/สัมมนา</option><option>อื่น ๆ</option></select></div>
+<div class="field"><label>วันที่เริ่ม</label><input name="start" type="date" required></div><div class="field"><label>วันที่สิ้นสุด</label><input name="end" type="date" required></div>
+<div class="field"><label>จำนวนวัน</label><input name="days" type="number" min="0" step="0.5" value="1"></div><div class="field"><label>สถานะ</label><select name="status"><option>รออนุมัติ</option><option>อนุมัติ</option><option>ไม่อนุมัติ</option></select></div>
+<div class="field span2"><label>หมายเหตุ</label><textarea name="note" rows="2"></textarea></div></div>
+<div class="modal-actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" value="default" id="saveLeaveBtn">บันทึก</button></div></form></dialog>
+
+<dialog id="devDialog"><form method="dialog" class="modal" id="devForm"><h3>เพิ่มกิจกรรมพัฒนา</h3><input type="hidden" name="id"><div class="form-grid">
+<div class="field"><label>บุคลากร</label><select name="personId" required></select></div><div class="field"><label>ประเภท</label><select name="type"><option>อบรม</option><option>สัมมนา</option><option>PLC</option><option>ศึกษาดูงาน</option><option>ศึกษาด้วยตนเอง</option><option>อื่น ๆ</option></select></div>
+<div class="field span2"><label>ชื่อกิจกรรม</label><input name="title" required></div><div class="field"><label>วันที่</label><input name="date" type="date"></div><div class="field"><label>จำนวนชั่วโมง</label><input name="hours" type="number" min="0" step="0.5" value="1"></div>
+<div class="field span2"><label>หน่วยงาน/แหล่งเรียนรู้</label><input name="provider"></div></div>
+<div class="modal-actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" value="default" id="saveDevBtn">บันทึก</button></div></form></dialog>
+
+<dialog id="supervisionDialog"><form method="dialog" class="modal" id="supervisionForm"><h3>บันทึกการนิเทศ</h3><input type="hidden" name="id"><div class="form-grid">
+<div class="field"><label>บุคลากร</label><select name="personId" required></select></div><div class="field"><label>วันที่นิเทศ</label><input name="date" type="date" required></div>
+<div class="field span2"><label>เรื่อง/วิชา/กิจกรรม</label><input name="topic" required></div><div class="field"><label>คะแนน (%)</label><input name="score" type="number" min="0" max="100"></div><div class="field"><label>ติดตามครั้งถัดไป</label><input name="followup" type="date"></div>
+<div class="field span2"><label>ผลการนิเทศ/ข้อเสนอแนะ</label><textarea name="result" rows="3"></textarea></div></div>
+<div class="modal-actions"><button class="btn" value="cancel">ยกเลิก</button><button class="btn primary" value="default" id="saveSupervisionBtn">บันทึก</button></div></form></dialog>
+
+<script>
+const KEY='schoolHRAppV1';
+const seed={
+ settings:{schoolName:'โรงเรียนบ้านจรูกแขวะ',academicYear:2569,devTarget:20},
+ people:[
+  {id:'p1',name:'ครูตัวอย่าง 1',position:'ครู',level:'',mainDuty:'วิชาการ',status:'ปฏิบัติงาน',startDate:'',paTarget:80,note:''},
+  {id:'p2',name:'ครูตัวอย่าง 2',position:'ครู',level:'',mainDuty:'บริหารงานทั่วไป',status:'ปฏิบัติงาน',startDate:'',paTarget:80,note:''}
+ ],
+ tasks:[
+  {id:'t1',title:'จัดทำรายงานผลการปฏิบัติงาน',personId:'p1',group:'บริหารงานบุคคล',due:'2026-09-30',progress:75,status:'กำลังดำเนินการ',evidence:'',note:''},
+  {id:'t2',title:'สรุปหลักฐานกิจกรรมพัฒนาผู้เรียน',personId:'p2',group:'วิชาการ',due:'2026-10-05',progress:50,status:'กำลังดำเนินการ',evidence:'',note:''}
+ ],
+ pa:[
+  {id:'a1',personId:'p1',cycle:'ปีงบประมาณ 2569',target:'พัฒนาผลลัพธ์การเรียนรู้ตามข้อตกลง',progress:80,score:0,status:'กำลังดำเนินการ',evidence:'',result:''},
+  {id:'a2',personId:'p2',cycle:'ปีงบประมาณ 2569',target:'พัฒนาการจัดการเรียนรู้และงานตามมาตรฐานตำแหน่ง',progress:70,score:0,status:'กำลังดำเนินการ',evidence:'',result:''}
+ ],
+ leaves:[],
+ development:[
+  {id:'d1',personId:'p1',type:'PLC',title:'PLC พัฒนาการจัดการเรียนรู้',date:'2026-09-10',hours:4,provider:'ภายในสถานศึกษา'}
+ ],
+ supervision:[],
+};
+let db=load();
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));return x&&x.settings?x:structuredClone(seed)}catch(e){return structuredClone(seed)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function uid(prefix){return prefix+Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
+function esc(v){return String(v??'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
+function personName(id){const p=db.people.find(function(x){return x.id===id});return p?p.name:'-'}
+function pct(n){n=Number(n)||0;return Math.max(0,Math.min(100,n))}
+function avg(arr){return arr.length?arr.reduce(function(a,b){return a+(Number(b)||0)},0)/arr.length:0}
+function fmtDate(s){if(!s)return '-';const d=new Date(s+'T00:00:00');return isNaN(d)?s:d.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'})}
+function daysUntil(s){if(!s)return 9999;const today=new Date();today.setHours(0,0,0,0);const d=new Date(s+'T00:00:00');return Math.ceil((d-today)/86400000)}
+function pill(status){let c='';if(['เสร็จแล้ว','ประเมินแล้ว','อนุมัติ','พร้อมประเมิน'].includes(status))c='done';else if(['กำลังดำเนินการ','ปฏิบัติงาน'].includes(status))c='work';else if(['รอตรวจ','รอหลักฐาน','รออนุมัติ'].includes(status))c='wait';return '<span class="pill '+c+'">'+esc(status)+'</span>'}
+function progressBar(v){v=pct(v);return '<div class="progress"><span style="width:'+v+'%"></span></div>'}
+function setPage(id){document.querySelectorAll('.page').forEach(function(x){x.classList.toggle('active',x.id===id)});document.querySelectorAll('#nav button').forEach(function(x){x.classList.toggle('active',x.dataset.page===id)});window.scrollTo({top:0,behavior:'smooth'});if(id==='reports')renderReports()}
+document.querySelectorAll('#nav button').forEach(function(b){b.onclick=function(){setPage(b.dataset.page)}});
+
+function personPA(id){const a=db.pa.filter(function(x){return x.personId===id});return Math.round(avg(a.map(function(x){return x.progress})))}
+function personTask(id){const a=db.tasks.filter(function(x){return x.personId===id});return a.length?Math.round(avg(a.map(function(x){return x.progress}))):0}
+function personDev(id){const h=db.development.filter(function(x){return x.personId===id}).reduce(function(a,b){return a+(Number(b.hours)||0)},0);return Math.round(Math.min(100,(h/(Number(db.settings.devTarget)||20))*100))}
+function personSup(id){const a=db.supervision.filter(function(x){return x.personId===id});return a.length?Math.round(avg(a.map(function(x){return x.score}))):0}
+function readiness(id){const parts=[personPA(id),personTask(id),personDev(id)];if(db.supervision.some(function(x){return x.personId===id}))parts.push(personSup(id));return Math.round(avg(parts))}
+
+function renderDashboard(){
+ const active=db.people.filter(function(x){return x.status==='ปฏิบัติงาน'}).length;
+ const open=db.tasks.filter(function(x){return x.status!=='เสร็จแล้ว'}).length;
+ const paAvg=Math.round(avg(db.pa.map(function(x){return x.progress})));
+ const devHours=db.development.reduce(function(a,b){return a+(Number(b.hours)||0)},0);
+ document.getElementById('metrics').innerHTML=
+  metric('บุคลากรปฏิบัติงาน',active+' คน','จากทั้งหมด '+db.people.length+' คน')+
+  metric('งานที่ยังไม่เสร็จ',open+' งาน',db.tasks.length+' งานทั้งหมด')+
+  metric('PA เฉลี่ย',paAvg+'%','ความก้าวหน้าจากรายการ PA')+
+  metric('ชั่วโมงพัฒนารวม',devHours+' ชม.','อบรม / PLC / ศึกษาดูงาน');
+ const pp=document.getElementById('personProgress');
+ pp.innerHTML=db.people.length?db.people.map(function(p){const r=readiness(p.id);return '<div class="list-item person-card"><div><h4>'+esc(p.name)+'</h4><div class="person-meta">'+esc(p.position)+(p.level?' • '+esc(p.level):'')+' • '+esc(p.mainDuty||'-')+'</div><div class="kpi-line"><span>ความพร้อมรวม</span>'+progressBar(r)+'<b>'+r+'%</b></div></div><button class="btn no-print" onclick="editPerson(\''+p.id+'\')">แก้ไข</button></div>'}).join(''):'<div class="empty">ยังไม่มีข้อมูลบุคลากร</div>';
+ const alerts=[];
+ db.tasks.filter(function(t){return t.status!=='เสร็จแล้ว'}).forEach(function(t){const d=daysUntil(t.due);if(d<=14)alerts.push({title:t.title,sub:personName(t.personId)+' • '+(d<0?'เกินกำหนด '+Math.abs(d)+' วัน':'เหลือ '+d+' วัน'),late:d<0})});
+ db.supervision.forEach(function(s){const d=daysUntil(s.followup);if(s.followup&&d<=14)alerts.push({title:'ติดตามนิเทศ: '+personName(s.personId),sub:fmtDate(s.followup),late:d<0})});
+ document.getElementById('alerts').innerHTML=alerts.length?alerts.slice(0,8).map(function(a){return '<div class="list-item"><div class="row between"><div><h4>'+esc(a.title)+'</h4><div class="small muted">'+esc(a.sub)+'</div></div><span class="pill '+(a.late?'late':'wait')+'">'+(a.late?'เกินกำหนด':'ติดตาม')+'</span></div></div>'}).join(''):'<div class="empty">ยังไม่มีรายการเร่งด่วน</div>';
+ const statuses=['ยังไม่เริ่ม','กำลังดำเนินการ','รอตรวจ','เสร็จแล้ว'];
+ document.getElementById('taskSummary').innerHTML=statuses.map(function(s){const n=db.tasks.filter(function(t){return t.status===s}).length;const p=db.tasks.length?Math.round(n/db.tasks.length*100):0;return '<div class="kpi-line"><span>'+s+'</span>'+progressBar(p)+'<b>'+n+'</b></div>'}).join('');
+ document.getElementById('devSummary').innerHTML=db.people.length?db.people.slice(0,6).map(function(p){const h=db.development.filter(function(d){return d.personId===p.id}).reduce(function(a,b){return a+(Number(b.hours)||0)},0);const per=Math.min(100,Math.round(h/(Number(db.settings.devTarget)||20)*100));return '<div class="kpi-line"><span>'+esc(p.name)+'</span>'+progressBar(per)+'<b>'+h+'h</b></div>'}).join(''):'<div class="empty">ยังไม่มีข้อมูล</div>';
+}
+function metric(label,value,sub){return '<div class="card metric"><div class="label">'+label+'</div><div class="value">'+value+'</div><div class="sub">'+sub+'</div></div>'}
+
+function renderPeople(){
+ const q=(document.getElementById('peopleSearch').value||'').toLowerCase(), f=document.getElementById('peopleFilter').value;
+ const rows=db.people.filter(function(p){return (!q||(p.name+' '+p.position+' '+p.level+' '+p.mainDuty).toLowerCase().includes(q))&&(!f||p.status===f)}).map(function(p){
+  return '<tr><td><b>'+esc(p.name)+'</b></td><td>'+esc(p.position)+'</td><td>'+esc(p.level||'-')+'</td><td>'+esc(p.mainDuty||'-')+'</td><td>'+pill(p.status)+'</td><td>'+personPA(p.id)+'%</td><td><button class="btn" onclick="editPerson(\''+p.id+'\')">แก้ไข</button> <button class="btn danger" onclick="removePerson(\''+p.id+'\')">ลบ</button></td></tr>';
+ }).join('');
+ document.getElementById('peopleRows').innerHTML=rows||'<tr><td colspan="7" class="empty">ไม่พบข้อมูล</td></tr>';
+}
+function renderTasks(){
+ fillPersonSelects();
+ const pf=document.getElementById('taskPersonFilter').value, sf=document.getElementById('taskStatusFilter').value;
+ const rows=db.tasks.filter(function(t){return (!pf||t.personId===pf)&&(!sf||t.status===sf)}).map(function(t){return '<tr><td><b>'+esc(t.title)+'</b></td><td>'+esc(personName(t.personId))+'</td><td>'+esc(t.group)+'</td><td>'+fmtDate(t.due)+'</td><td><div style="min-width:130px">'+progressBar(t.progress)+'</div><span class="small">'+pct(t.progress)+'%</span></td><td>'+pill(t.status)+'</td><td><button class="btn" onclick="editTask(\''+t.id+'\')">แก้ไข</button> <button class="btn danger" onclick="removeItem(\'tasks\',\''+t.id+'\')">ลบ</button></td></tr>'}).join('');
+ document.getElementById('taskRows').innerHTML=rows||'<tr><td colspan="7" class="empty">ไม่พบข้อมูล</td></tr>';
+}
+function renderPA(){
+ fillPersonSelects();const pf=document.getElementById('paPersonFilter').value;
+ const rows=db.pa.filter(function(a){return !pf||a.personId===pf}).map(function(a){return '<tr><td>'+esc(personName(a.personId))+'</td><td>'+esc(a.cycle)+'</td><td title="'+esc(a.target)+'">'+esc(a.target.slice(0,45))+(a.target.length>45?'...':'')+'</td><td>'+pct(a.progress)+'%</td><td>'+(Number(a.score)?Number(a.score).toFixed(2):'-')+'</td><td>'+pill(a.status)+'</td><td><button class="btn" onclick="editPA(\''+a.id+'\')">แก้ไข</button> <button class="btn danger" onclick="removeItem(\'pa\',\''+a.id+'\')">ลบ</button></td></tr>'}).join('');
+ document.getElementById('paRows').innerHTML=rows||'<tr><td colspan="7" class="empty">ไม่พบข้อมูล</td></tr>';
+}
+function renderLeave(){
+ const total=db.leaves.reduce(function(a,b){return a+(Number(b.days)||0)},0), sick=db.leaves.filter(function(x){return x.type==='ลาป่วย'}).reduce(function(a,b){return a+(Number(b.days)||0)},0), official=db.leaves.filter(function(x){return x.type==='ไปราชการ'}).reduce(function(a,b){return a+(Number(b.days)||0)},0);
+ document.getElementById('leaveMetrics').innerHTML=metric('วันลารวม',total+' วัน','ทุกรายการที่บันทึก')+metric('ลาป่วย',sick+' วัน','รวมทั้งปีการศึกษา')+metric('ไปราชการ',official+' วัน','รวมทั้งปีการศึกษา')+metric('รายการทั้งหมด',db.leaves.length+' รายการ','การลาและไปราชการ');
+ document.getElementById('leaveRows').innerHTML=db.leaves.length?db.leaves.map(function(x){return '<tr><td>'+esc(personName(x.personId))+'</td><td>'+esc(x.type)+'</td><td>'+fmtDate(x.start)+' - '+fmtDate(x.end)+'</td><td>'+x.days+'</td><td>'+pill(x.status)+'</td><td>'+esc(x.note||'-')+'</td><td><button class="btn" onclick="editLeave(\''+x.id+'\')">แก้ไข</button> <button class="btn danger" onclick="removeItem(\'leaves\',\''+x.id+'\')">ลบ</button></td></tr>'}).join(''):'<tr><td colspan="7" class="empty">ยังไม่มีรายการ</td></tr>';
+}
+function renderDev(){
+ fillPersonSelects();const pf=document.getElementById('devPersonFilter').value;
+ document.getElementById('devRows').innerHTML=db.development.filter(function(x){return !pf||x.personId===pf}).map(function(x){return '<tr><td>'+esc(personName(x.personId))+'</td><td>'+esc(x.title)+'</td><td>'+esc(x.type)+'</td><td>'+fmtDate(x.date)+'</td><td>'+x.hours+'</td><td>'+esc(x.provider||'-')+'</td><td><button class="btn" onclick="editDev(\''+x.id+'\')">แก้ไข</button> <button class="btn danger" onclick="removeItem(\'development\',\''+x.id+'\')">ลบ</button></td></tr>'}).join('')||'<tr><td colspan="7" class="empty">ยังไม่มีรายการ</td></tr>';
+}
+function renderSupervision(){
+ document.getElementById('supervisionRows').innerHTML=db.supervision.length?db.supervision.map(function(x){return '<tr><td>'+esc(personName(x.personId))+'</td><td>'+fmtDate(x.date)+'</td><td>'+esc(x.topic)+'</td><td>'+(x.score||0)+'%</td><td>'+esc(x.result||'-')+'</td><td>'+fmtDate(x.followup)+'</td><td><button class="btn" onclick="editSupervision(\''+x.id+'\')">แก้ไข</button> <button class="btn danger" onclick="removeItem(\'supervision\',\''+x.id+'\')">ลบ</button></td></tr>'}).join(''):'<tr><td colspan="7" class="empty">ยังไม่มีรายการ</td></tr>';
+}
+function renderReports(){
+ document.getElementById('reportDate').textContent=new Date().toLocaleDateString('th-TH',{dateStyle:'long'});
+ const active=db.people.filter(function(x){return x.status==='ปฏิบัติงาน'}).length, completed=db.tasks.filter(function(x){return x.status==='เสร็จแล้ว'}).length, paAvg=Math.round(avg(db.pa.map(function(x){return x.progress}))), supAvg=Math.round(avg(db.supervision.map(function(x){return x.score})));
+ document.getElementById('reportMetrics').innerHTML=metric('บุคลากร',active+' คน','กำลังปฏิบัติงาน')+metric('งานเสร็จ',completed+'/'+db.tasks.length,'ภาระงานที่บันทึก')+metric('PA เฉลี่ย',paAvg+'%','ความก้าวหน้า')+metric('นิเทศเฉลี่ย',supAvg+'%','จากรายการที่บันทึก');
+ document.getElementById('reportPA').innerHTML=db.people.map(function(p){const v=personPA(p.id);return '<div class="kpi-line"><span>'+esc(p.name)+'</span>'+progressBar(v)+'<b>'+v+'%</b></div>'}).join('')||'<div class="empty">ไม่มีข้อมูล</div>';
+ document.getElementById('reportDev').innerHTML=db.people.map(function(p){const h=db.development.filter(function(x){return x.personId===p.id}).reduce(function(a,b){return a+(Number(b.hours)||0)},0);const v=Math.min(100,Math.round(h/(Number(db.settings.devTarget)||20)*100));return '<div class="kpi-line"><span>'+esc(p.name)+'</span>'+progressBar(v)+'<b>'+h+'h</b></div>'}).join('')||'<div class="empty">ไม่มีข้อมูล</div>';
+ const pending=db.tasks.filter(function(x){return x.status!=='เสร็จแล้ว'});document.getElementById('reportTasks').innerHTML=pending.length?'<div class="table-wrap"><table><thead><tr><th>งาน</th><th>ผู้รับผิดชอบ</th><th>กำหนดเสร็จ</th><th>ความก้าวหน้า</th></tr></thead><tbody>'+pending.map(function(t){return '<tr><td>'+esc(t.title)+'</td><td>'+esc(personName(t.personId))+'</td><td>'+fmtDate(t.due)+'</td><td>'+pct(t.progress)+'%</td></tr>'}).join('')+'</tbody></table></div>':'<div class="empty">ไม่มีงานค้าง</div>';
+}
+function renderSettings(){document.getElementById('schoolName').value=db.settings.schoolName||'';document.getElementById('academicYear').value=db.settings.academicYear||2569;document.getElementById('devTarget').value=db.settings.devTarget||20;document.getElementById('brandSub').textContent=(db.settings.schoolName||'สถานศึกษา')+' • ปีการศึกษา '+(db.settings.academicYear||'')}
+function fillPersonSelects(){
+ const opts='<option value="">ทั้งหมด</option>'+db.people.map(function(p){return '<option value="'+p.id+'">'+esc(p.name)+'</option>'}).join('');
+ ['taskPersonFilter','paPersonFilter','devPersonFilter'].forEach(function(id){const el=document.getElementById(id);const old=el.value;el.innerHTML=opts;el.value=old});
+ document.querySelectorAll('select[name="personId"]').forEach(function(el){const old=el.value;el.innerHTML=db.people.map(function(p){return '<option value="'+p.id+'">'+esc(p.name)+'</option>'}).join('');if(old)el.value=old});
+}
+function renderAll(){renderSettings();fillPersonSelects();renderDashboard();renderPeople();renderTasks();renderPA();renderLeave();renderDev();renderSupervision();if(document.getElementById('reports').classList.contains('active'))renderReports()}
+['peopleSearch','peopleFilter'].forEach(function(id){document.getElementById(id).addEventListener('input',renderPeople)});
+['taskPersonFilter','taskStatusFilter'].forEach(function(id){document.getElementById(id).addEventListener('change',renderTasks)});
+document.getElementById('paPersonFilter').addEventListener('change',renderPA);document.getElementById('devPersonFilter').addEventListener('change',renderDev);
+
+function openPerson(id){const f=document.getElementById('personForm');f.reset();f.elements.id.value='';f.elements.paTarget.value=80;if(id){const x=db.people.find(function(p){return p.id===id});Object.keys(x).forEach(function(k){if(f.elements[k])f.elements[k].value=x[k]??''})}document.getElementById('personDialog').showModal()}
+function editPerson(id){openPerson(id)}
+document.getElementById('savePersonBtn').onclick=function(e){e.preventDefault();const f=document.getElementById('personForm');if(!f.reportValidity())return;const v=Object.fromEntries(new FormData(f));v.paTarget=Number(v.paTarget)||80;if(v.id){Object.assign(db.people.find(function(x){return x.id===v.id}),v)}else{v.id=uid('p');db.people.push(v)}document.getElementById('personDialog').close();save()}
+function removePerson(id){if(!confirm('ลบบุคลากรรายนี้และข้อมูลที่เชื่อมโยงทั้งหมด?'))return;db.people=db.people.filter(function(x){return x.id!==id});['tasks','pa','leaves','development','supervision'].forEach(function(k){db[k]=db[k].filter(function(x){return x.personId!==id})});save()}
+
+function openTask(id){if(!db.people.length){alert('กรุณาเพิ่มบุคลากรก่อน');return}fillPersonSelects();const f=document.getElementById('taskForm');f.reset();f.elements.id.value='';f.elements.progress.value=0;if(id){const x=db.tasks.find(function(t){return t.id===id});Object.keys(x).forEach(function(k){if(f.elements[k])f.elements[k].value=x[k]??''})}document.getElementById('taskDialog').showModal()}
+function editTask(id){openTask(id)}
+document.getElementById('saveTaskBtn').onclick=function(e){e.preventDefault();saveForm('taskForm','tasks','t',function(v){v.progress=Number(v.progress)||0;if(v.status==='เสร็จแล้ว')v.progress=100},'taskDialog')}
+
+function openPA(id){if(!db.people.length){alert('กรุณาเพิ่มบุคลากรก่อน');return}fillPersonSelects();const f=document.getElementById('paForm');f.reset();f.elements.id.value='';f.elements.progress.value=0;if(id){const x=db.pa.find(function(t){return t.id===id});Object.keys(x).forEach(function(k){if(f.elements[k])f.elements[k].value=x[k]??''})}document.getElementById('paDialog').showModal()}
+function editPA(id){openPA(id)}
+document.getElementById('savePABtn').onclick=function(e){e.preventDefault();saveForm('paForm','pa','a',function(v){v.progress=Number(v.progress)||0;v.score=Number(v.score)||0},'paDialog')}
+
+function openLeave(id){if(!db.people.length){alert('กรุณาเพิ่มบุคลากรก่อน');return}fillPersonSelects();const f=document.getElementById('leaveForm');f.reset();f.elements.id.value='';f.elements.days.value=1;if(id){const x=db.leaves.find(function(t){return t.id===id});Object.keys(x).forEach(function(k){if(f.elements[k])f.elements[k].value=x[k]??''})}document.getElementById('leaveDialog').showModal()}
+function editLeave(id){openLeave(id)}
+document.getElementById('saveLeaveBtn').onclick=function(e){e.preventDefault();saveForm('leaveForm','leaves','l',function(v){v.days=Number(v.days)||0},'leaveDialog')}
+
+function openDev(id){if(!db.people.length){alert('กรุณาเพิ่มบุคลากรก่อน');return}fillPersonSelects();const f=document.getElementById('devForm');f.reset();f.elements.id.value='';f.elements.hours.value=1;if(id){const x=db.development.find(function(t){return t.id===id});Object.keys(x).forEach(function(k){if(f.elements[k])f.elements[k].value=x[k]??''})}document.getElementById('devDialog').showModal()}
+function editDev(id){openDev(id)}
+document.getElementById('saveDevBtn').onclick=function(e){e.preventDefault();saveForm('devForm','development','d',function(v){v.hours=Number(v.hours)||0},'devDialog')}
+
+function openSupervision(id){if(!db.people.length){alert('กรุณาเพิ่มบุคลากรก่อน');return}fillPersonSelects();const f=document.getElementById('supervisionForm');f.reset();f.elements.id.value='';if(id){const x=db.supervision.find(function(t){return t.id===id});Object.keys(x).forEach(function(k){if(f.elements[k])f.elements[k].value=x[k]??''})}document.getElementById('supervisionDialog').showModal()}
+function editSupervision(id){openSupervision(id)}
+document.getElementById('saveSupervisionBtn').onclick=function(e){e.preventDefault();saveForm('supervisionForm','supervision','s',function(v){v.score=Number(v.score)||0},'supervisionDialog')}
+
+function saveForm(formId,key,prefix,normalize,dialogId){const f=document.getElementById(formId);if(!f.reportValidity())return;const v=Object.fromEntries(new FormData(f));normalize(v);if(v.id){Object.assign(db[key].find(function(x){return x.id===v.id}),v)}else{v.id=uid(prefix);db[key].push(v)}document.getElementById(dialogId).close();save()}
+function removeItem(key,id){if(!confirm('ยืนยันการลบรายการนี้?'))return;db[key]=db[key].filter(function(x){return x.id!==id});save()}
+
+document.getElementById('saveSettings').onclick=function(){db.settings.schoolName=document.getElementById('schoolName').value.trim()||'สถานศึกษา';db.settings.academicYear=Number(document.getElementById('academicYear').value)||2569;db.settings.devTarget=Number(document.getElementById('devTarget').value)||20;save();alert('บันทึกการตั้งค่าแล้ว')}
+function exportData(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='school-hr-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href)}
+document.getElementById('exportBtn').onclick=exportData;document.getElementById('exportBtn2').onclick=exportData;
+document.getElementById('importFile').onchange=function(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=function(){try{const x=JSON.parse(r.result);if(!x.settings||!Array.isArray(x.people))throw new Error('รูปแบบไม่ถูกต้อง');db=x;save();alert('นำเข้าข้อมูลสำเร็จ')}catch(err){alert('นำเข้าไม่สำเร็จ: '+err.message)}};r.readAsText(file);e.target.value=''}
+document.getElementById('resetBtn').onclick=function(){if(confirm('ล้างข้อมูลทั้งหมดและกลับไปใช้ข้อมูลตัวอย่าง?')){db=structuredClone(seed);save()}}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})})}
+renderAll();
+</script>
+</body>
+</html>
