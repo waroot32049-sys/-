@@ -1,3 +1,57 @@
+
+/* Interface adapted to the supplied CHRUKKAWAE supervision app while retaining PLC content */
+:root{
+  --bg:#f5f7fb!important;--card:#fff!important;--txt:#162033!important;--mut:#687386!important;
+  --line:#dfe5ee!important;--g:#2457d6!important;--g2:#163c9a!important;--danger:#b42318!important;
+}
+body{background:var(--bg)!important;color:var(--txt)!important}
+.shell{grid-template-columns:250px 1fr!important}
+.side{background:#0f2559!important;padding:18px 14px!important;width:auto}
+.brand{position:relative;padding:8px 10px 18px 76px!important;min-height:66px;font-size:18px!important;line-height:1.25}
+.brand:before{content:"P";position:absolute;left:8px;top:5px;width:54px;height:54px;border-radius:16px;background:#2457d6;display:grid;place-items:center;color:#fff;font-weight:900;font-size:22px;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.brand:after{content:"PLC DEVELOPMENT";display:block;font-size:10px;letter-spacing:.08em;font-weight:600;opacity:.72;margin-top:5px}
+.brand small{font-size:11px!important;opacity:.78!important}
+.navhead{font-size:10px!important;letter-spacing:.08em;opacity:.55!important;margin:15px 10px 5px!important;text-transform:uppercase}
+.nav{color:#dce7ff!important;padding:11px 12px!important;border-radius:10px!important;margin:2px 0}
+.nav:hover,.nav.on{background:rgba(255,255,255,.13)!important;color:#fff!important}
+.nav span{min-width:58px!important;background:#ffffff12!important;border:1px solid #ffffff14!important}
+.top{height:66px!important;background:#fff!important;border-bottom:1px solid var(--line)!important;padding:0 22px!important;box-shadow:none!important}
+.top h1{font-size:18px!important;color:#162033!important}
+.top h1 small{font-size:12px!important;color:#687386!important;margin-top:2px}
+.wrap{padding:22px!important;max-width:1400px!important}
+.card{border:1px solid var(--line)!important;border-radius:16px!important;box-shadow:0 10px 30px rgba(18,38,63,.08)!important;padding:18px!important;background:#fff!important}
+.card h2{font-size:18px!important;color:#162033}
+.metric .muted{font-size:13px}.metric strong{font-size:30px!important;color:#162033!important}
+.bar{background:#e8edf5!important}.bar i{background:#2457d6!important}
+.btn{background:#2457d6!important;color:#fff!important;border-radius:10px!important;padding:10px 14px!important}
+.btn.alt{background:#edf2ff!important;color:#163c9a!important;border:0!important}
+.btn.red{background:#feeceb!important;color:#b42318!important}
+.field input,.field textarea,.field select,input,textarea,select{border:1px solid var(--line)!important;border-radius:10px!important;padding:10px 12px!important;color:#162033!important}
+.tbl{border-color:var(--line)!important;border-radius:12px!important}
+th{background:#f6f8fb!important;color:#162033!important}
+.soft{background:#f8faff!important;border:1px solid var(--line)!important}
+.note{background:#fff!important;border:1px solid var(--line)!important;color:#687386!important;box-shadow:none!important}
+.badge{background:#eef2ff!important;color:#234aaf!important}
+.badge.done{background:#e8f7f0!important;color:#116346!important}
+.badge.wait{background:#fff4df!important;color:#8a5500!important}
+.login{background:linear-gradient(145deg,#eef4ff,#f9fbff)!important;padding:24px}
+.loginbox{width:min(460px,100%)!important;border:1px solid var(--line)!important;border-radius:22px!important;box-shadow:0 10px 30px rgba(18,38,63,.12)!important;padding:28px!important}
+.loginbox:before{content:"P";width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:#2457d6;color:#fff;font-weight:900;font-size:22px;margin-bottom:16px}
+.loginbox h1{font-size:24px!important;line-height:1.35}
+.radar-panel-template{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,.8fr);gap:16px;align-items:start}
+.radar-box-template{border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px;min-width:0}
+.radar-side-template{display:flex;flex-direction:column;gap:12px}
+.radar-metrics-template{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.radar-metric-template{border:1px solid var(--line);border-radius:12px;padding:10px;background:#f8faff}
+.radar-metric-template .v{font-size:22px;font-weight:900;margin-top:2px}
+.radar-metric-template .k{font-size:12px;color:var(--mut)}
+.model-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.model-step{padding:12px 9px;border:1px solid var(--line);border-radius:12px;background:#f8faff;text-align:center;font-size:13px;min-height:88px;display:flex;flex-direction:column;justify-content:center}
+.model-step strong{display:block;font-size:20px;color:#2457d6;margin-bottom:4px}
+.activity-list{display:flex;flex-direction:column;gap:9px}.activity-item{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line);padding:10px 12px;border-radius:10px;background:#fff}
+@media(max-width:1050px){.radar-panel-template{grid-template-columns:1fr}.model-flow{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.shell{grid-template-columns:1fr!important}.side{width:250px!important;left:-270px!important}.side.open{left:0!important}.top{padding:0 14px!important}.wrap{padding:14px!important}.model-flow{grid-template-columns:1fr}}
+
 .radar-wrap{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}
 .radar-svg{width:100%;height:auto;min-height:480px;display:block}
 .radar-grid{fill:none;stroke:#dce5e3;stroke-width:1}
