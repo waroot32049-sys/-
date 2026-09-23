@@ -18,8 +18,14 @@ button,input,textarea,select{font:inherit}.hidden{display:none!important}.btn{bo
 .attach{border:1px dashed #b7cbc7;background:#f8fbfa;border-radius:11px;padding:10px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:12px}.attach .grow{flex:1}.login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(145deg,#0f4c44,#1b7466)}.loginbox{width:min(460px,92vw);background:#fff;border-radius:20px;padding:25px;box-shadow:0 30px 80px #0004}.loginbox h1{font-size:22px;margin:0 0 4px}.loginbox .field{margin-top:12px}
 dialog{border:0;border-radius:16px;width:min(820px,94vw);padding:0;box-shadow:0 30px 90px #0005}dialog::backdrop{background:#0006}.dh{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}.dh h3{margin:0;flex:1}.db{padding:16px}.drop{display:block;text-align:center;padding:20px;border:2px dashed #b8ceca;border-radius:12px;cursor:pointer}.files{display:grid;gap:8px;margin-top:12px}.file{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:9px}.file>div{flex:1;min-width:0}.file b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.toast{position:fixed;right:20px;bottom:20px;background:#153e38;color:#fff;padding:9px 13px;border-radius:9px;opacity:0;transform:translateY(10px);transition:.2s;z-index:99}.toast.on{opacity:1;transform:none}.menu{display:none}.timeline{display:grid;gap:8px}.step{display:grid;grid-template-columns:62px 1fr auto;gap:10px;align-items:start;border:1px solid var(--line);border-radius:11px;padding:10px}.step b{color:var(--g)}
 .source{display:grid;grid-template-columns:120px 1fr auto;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:10px 0}.source:last-child{border:0}.signlog{max-height:260px;overflow:auto}
+
+.hchart{display:grid;gap:11px;margin-top:12px}.hrow{display:grid;grid-template-columns:minmax(150px,230px) 1fr 54px;gap:10px;align-items:center}.htrack{height:18px;background:#e4eeec;border-radius:99px;overflow:hidden;position:relative}.hfill{height:100%;background:linear-gradient(90deg,var(--g2),#35a08f);border-radius:99px}.hval{text-align:right;font-weight:800;color:var(--g)}
+.status-stack{height:24px;border-radius:99px;overflow:hidden;display:flex;background:#e6eeec;margin:12px 0}.status-stack i{height:100%;display:block}.sdone{background:#48a46b}.sdoing{background:#d6a43e}.swait{background:#b8c5c2}.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut)}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
+.report-tools{display:flex;gap:8px;flex-wrap:wrap}.book-preview{background:#e8efed;padding:18px;border-radius:14px}.paper{background:#fff;max-width:850px;margin:0 auto 14px;padding:42px 48px;min-height:620px;box-shadow:0 8px 28px #00000014}.paper h2{text-align:center;font-size:20px;margin:0 0 18px}.paper h3{font-size:16px;margin:17px 0 7px}.paper p{text-align:justify;text-indent:2.5em;margin:7px 0}.paper .noindent{text-indent:0}.report-table{width:100%;border-collapse:collapse;min-width:0}.report-table th,.report-table td{border:1px solid #9eaaa7;padding:6px 7px;font-size:13px}.cover{text-align:center;display:flex;min-height:700px;flex-direction:column;justify-content:center}.cover h1{font-size:25px;margin:0 0 12px}.cover h2{font-size:19px;margin:0 0 30px}.cover p{text-align:center;text-indent:0}.chapter{page-break-before:always}.pagebreak{page-break-before:always}
+@media(max-width:700px){.hrow{grid-template-columns:1fr 48px}.hrow>span:first-child{grid-column:1/-1}.paper{padding:24px 20px}.book-preview{padding:8px}}
+
 @media(max-width:920px){.shell{display:block}.side{position:fixed;left:-290px;width:270px;z-index:30;transition:.2s}.side.open{left:0}.menu{display:inline-block}.wrap{padding:13px}.g4,.g3,.g2{grid-template-columns:1fr}.top{padding:11px 13px}.who{display:none}.step{grid-template-columns:55px 1fr}.step>div:last-child{grid-column:2}.source{grid-template-columns:1fr}.source>*{grid-column:1}}
-@media print{.side,.top .actions,.menu,.attach,.btn{display:none!important}.shell{display:block}.top{position:static;border:0}.wrap{padding:0}.card{box-shadow:none;break-inside:avoid}body{background:#fff}}
+@media print{.side,.top .actions,.menu,.attach,.btn,.report-tools{display:none!important}.shell{display:block}.top{position:static;border:0}.wrap{padding:0}.card{box-shadow:none;break-inside:avoid}body{background:#fff}.book-preview{background:#fff;padding:0}.paper{box-shadow:none;margin:0;padding:18mm 20mm;max-width:none;min-height:0}.chapter{page-break-before:always}}
 </style>
 </head>
 <body>
@@ -73,6 +79,7 @@ const modules=[
   ['r21','วิเคราะห์','วิเคราะห์งานนักเรียน รอบที่ 2','วงรอบที่ 2'],
   ['r22','ออกแบบ','ออกแบบบทเรียนร่วมกัน รอบที่ 2','วงรอบที่ 2'],
   ['r23','เปิดชั้น','เปิดชั้นเรียน/สังเกตการสอน รอบที่ 2','วงรอบที่ 2'],
+  ['report','REPORT','รายงานสรุป 5 บท','รายงาน'],
   ['evidence','FILES','หลักฐานและไฟล์แนบ','หลักฐาน'],
   ['sources','SRC','ข้อมูลจากไฟล์ต้นฉบับ','หลักฐาน']
 ];
@@ -145,16 +152,161 @@ function formComplete(id){
 function roleLabel(role){return role==='admin'?'ผู้ดูแลระบบ':'สมาชิก PLC'}
 function attachBar(scope){return '<div class="attach"><b>หลักฐานแนบ</b><span class="grow muted" data-filecount="'+scope+'">กำลังตรวจสอบ...</span><button class="btn alt sm" data-attach="'+scope+'">แนบภาพ / PDF</button></div>'}
 function signBar(scope){const signed=state.attendance.filter(x=>x.scope===scope&&x.type==='activity');return '<div class="soft" style="margin-top:12px"><div class="row"><b>ลงชื่อเข้าร่วมกิจกรรม</b><span class="muted">'+signed.length+' รายการ</span><button class="btn sm" data-sign="'+scope+'">ลงชื่อด้วยบัญชีที่กำลังใช้</button></div><div class="muted signlog">'+signed.slice(-8).reverse().map(x=>esc(x.name)+' • '+fmtTime(x.at)).join('<br>')+'</div></div>'}
+
+function statusValue(v){return v==='เสร็จแล้ว'?100:v==='กำลังดำเนินการ'?50:0}
+function ratio(obj,keys){
+  if(!obj)return 0;
+  const ok=keys.filter(k=>{
+    const v=obj[k];
+    if(Array.isArray(v))return v.some(Boolean);
+    return String(v??'').trim().length>0;
+  }).length;
+  return Math.round(ok/keys.length*100);
+}
+function avg(nums){return nums.length?Math.round(nums.reduce((a,b)=>a+b,0)/nums.length):0}
+function areaStats(){
+  const namedTeam=state.team.filter(x=>String(x.name||'').trim()).length;
+  const planTeam=avg([
+    String(state.owner.model||'').trim()?100:0,
+    Math.min(100,Math.round(namedTeam/4*100)),
+    avg(state.schedule.slice(0,3).map(x=>statusValue(x.status)))
+  ]);
+  const analysis=avg([
+    ratio(state.forms.r11,['scope','evidence','cause','causeSum','summary']),
+    ratio(state.forms.r21,['scope','evidence','cause','causeSum','summary']),
+    statusValue((state.schedule[1]||{}).status)
+  ]);
+  const design=avg([
+    ratio(state.forms.r22,['discussion','shared','summary','result','use']),
+    avg(state.schedule.slice(2,5).map(x=>statusValue(x.status)))
+  ]);
+  const observe=avg([
+    ratio(state.forms.r13,['student','good','improve','comment']),
+    ratio(state.forms.r23,['student','good','improve','comment']),
+    statusValue((state.schedule[5]||{}).status)
+  ]);
+  const reflect=avg([
+    ratio(state.forms.r14,['result','reflections','goodNext','improveNext']),
+    statusValue((state.schedule[6]||{}).status),
+    statusValue((state.schedule[7]||{}).status)
+  ]);
+  return [
+    {name:'การวางแผนและทีม PLT',value:planTeam},
+    {name:'การวิเคราะห์ปัญหาและผู้เรียน',value:analysis},
+    {name:'การออกแบบการเรียนรู้ร่วมกัน',value:design},
+    {name:'การเปิดชั้นเรียนและสังเกตการสอน',value:observe},
+    {name:'การสะท้อนผลและปรับปรุง',value:reflect}
+  ];
+}
+function areaChartHtml(areas){
+  return '<div class="hchart">'+areas.map(a=>'<div class="hrow"><span>'+esc(a.name)+'</span><div class="htrack"><div class="hfill" style="width:'+a.value+'%"></div></div><span class="hval">'+a.value+'%</span></div>').join('')+'</div>';
+}
+function statusStackHtml(){
+  const d=state.schedule.filter(x=>x.status==='เสร็จแล้ว').length;
+  const g=state.schedule.filter(x=>x.status==='กำลังดำเนินการ').length;
+  const w=Math.max(0,state.schedule.length-d-g),n=state.schedule.length||1;
+  return '<div class="status-stack"><i class="sdone" style="width:'+(d/n*100)+'%"></i><i class="sdoing" style="width:'+(g/n*100)+'%"></i><i class="swait" style="width:'+(w/n*100)+'%"></i></div><div class="legend"><span><i class="dot sdone"></i>เสร็จแล้ว '+d+'</span><span><i class="dot sdoing"></i>กำลังดำเนินการ '+g+'</span><span><i class="dot swait"></i>ยังไม่เริ่ม '+w+'</span></div>';
+}
+function reportMeta(){
+  if(!state.reportMeta)state.reportMeta={
+    title:'รายงานผลการดำเนินงานพัฒนาครูและบุคลากรทางการศึกษาด้วยกิจกรรมชุมชนแห่งการเรียนรู้ทางวิชาชีพ (PLC)',
+    rationale:'',
+    discussion:'',
+    suggestions:''
+  };
+  return state.reportMeta;
+}
+function nonempty(v,fallback='ยังไม่มีข้อมูลบันทึกในระบบ'){const t=String(v??'').trim();return t?t:fallback}
+function topAreaText(areas){
+  const sorted=[...areas].sort((a,b)=>b.value-a.value);
+  if(!sorted.length)return'ยังไม่มีข้อมูล';
+  return 'ด้านที่มีความคืบหน้าสูงสุด ณ วันที่พิมพ์รายงาน คือ '+sorted[0].name+' ('+sorted[0].value+'%) และด้านที่ควรติดตามเพิ่มเติม คือ '+sorted[sorted.length-1].name+' ('+sorted[sorted.length-1].value+'%)';
+}
+function scheduleTableHtml(){
+  return '<table class="report-table"><thead><tr><th>กิจกรรม</th><th>วัน/เวลาเป้าหมาย</th><th>วงรอบ</th><th>ชั่วโมง</th><th>สถานะ</th></tr></thead><tbody>'+state.schedule.map(x=>'<tr><td>'+esc(x.activity)+'</td><td>'+esc(x.date||'-')+'</td><td>'+esc(x.round||'-')+'</td><td>'+esc(x.hours||'-')+'</td><td>'+esc(x.status)+'</td></tr>').join('')+'</tbody></table>';
+}
+function teamTableHtml(){
+  const rows=[{role:'Model Teacher',name:state.owner.model,level:state.owner.level,email:state.owner.email},...state.team];
+  return '<table class="report-table"><thead><tr><th>บทบาท</th><th>ชื่อ-นามสกุล</th><th>วิทยฐานะ/ตำแหน่ง</th><th>อีเมล</th></tr></thead><tbody>'+rows.map(x=>'<tr><td>'+esc(x.role)+'</td><td>'+esc(x.name||'-')+'</td><td>'+esc(x.level||'-')+'</td><td>'+esc(x.email||'-')+'</td></tr>').join('')+'</tbody></table>';
+}
+function resultBlocks(){
+  const blocks=[
+    ['การวิเคราะห์งานนักเรียน รอบที่ 1',state.forms.r11?.summary],
+    ['การเปิดชั้นเรียนและสังเกตการสอน รอบที่ 1','สิ่งที่เกิดขึ้นกับผู้เรียน: '+nonempty(state.forms.r13?.student)+' | สิ่งที่ปฏิบัติได้ดี: '+nonempty(state.forms.r13?.good)+' | สิ่งที่ควรปรับปรุง: '+nonempty(state.forms.r13?.improve)],
+    ['การประชุมสะท้อนคิด รอบที่ 1','แนวทางปฏิบัติที่ดีครั้งต่อไป: '+nonempty(state.forms.r14?.goodNext)+' | สิ่งที่ควรปรับปรุง: '+nonempty(state.forms.r14?.improveNext)],
+    ['การวิเคราะห์งานนักเรียน รอบที่ 2',state.forms.r21?.summary],
+    ['การออกแบบบทเรียนร่วมกัน รอบที่ 2','สรุปกิจกรรม: '+nonempty(state.forms.r22?.summary)+' | ผลที่ได้: '+nonempty(state.forms.r22?.result)+' | การนำไปใช้: '+nonempty(state.forms.r22?.use)],
+    ['การเปิดชั้นเรียนและสังเกตการสอน รอบที่ 2','สิ่งที่เกิดขึ้นกับผู้เรียน: '+nonempty(state.forms.r23?.student)+' | สิ่งที่ปฏิบัติได้ดี: '+nonempty(state.forms.r23?.good)+' | สิ่งที่ควรปรับปรุง: '+nonempty(state.forms.r23?.improve)]
+  ];
+  return blocks.map((b,i)=>'<h3>'+(i+1)+'. '+b[0]+'</h3><p>'+esc(nonempty(b[1]))+'</p>').join('');
+}
+function referencesHtml(){
+  return '<p class="noindent">1. แผนปฏิบัติการดำเนินงานชุมชนแห่งการเรียนรู้ทางวิชาชีพ (PLC Action Plan) โรงเรียนบ้านจรูกแขวะ ภาคเรียนที่ 2 ปีการศึกษา 2569</p>'+
+  '<p class="noindent">2. แบบบันทึกการวิเคราะห์งานนักเรียน รอบที่ 1 และรอบที่ 2</p>'+
+  '<p class="noindent">3. แบบบันทึกการเปิดชั้นเรียนและผลการสังเกตการสอน รอบที่ 1 และรอบที่ 2</p>'+
+  '<p class="noindent">4. แบบรายงานการประชุมสะท้อนคิดหลังการเปิดชั้นเรียน</p>'+
+  '<p class="noindent">5. แบบบันทึกร่องรอยการทำงานร่วมกับทีมและผลการออกแบบบทเรียน</p>';
+}
+function makeBookHtml(evidenceFiles=[]){
+  const meta=reportMeta(),areas=areaStats(),p=progress(),hours=state.schedule.reduce((a,x)=>a+(parseFloat(x.hours)||0),0);
+  const filledForms=['r11','r13','r14','r21','r22','r23'].filter(formComplete).length;
+  const rationale=meta.rationale||'โรงเรียนบ้านจรูกแขวะกำหนดแผนการดำเนินงานชุมชนแห่งการเรียนรู้ทางวิชาชีพ (PLC) สำหรับภาคเรียนที่ 2 ปีการศึกษา 2569 เพื่อใช้เป็นกระบวนการทำงานร่วมกันของครูและบุคลากรทางการศึกษา ตั้งแต่การสร้างทีม การเลือกและวิเคราะห์ปัญหาการเรียนรู้ การร่วมออกแบบการจัดการเรียนรู้ การเปิดชั้นเรียน การสังเกตการสอน การสะท้อนผล และการปรับปรุงการจัดการเรียนรู้ โดยรายงานฉบับนี้สรุปผลจากข้อมูลที่บันทึกในระบบและหลักฐานที่แนบเท่านั้น';
+  const discussion=meta.discussion||topAreaText(areas)+' ผลดังกล่าวเป็นสถานะความก้าวหน้าจากข้อมูลที่บันทึกในระบบ มิใช่คะแนนประเมินคุณภาพทางวิชาการหรือผลสัมฤทธิ์ของผู้เรียน';
+  const suggestions=meta.suggestions||'ควรดำเนินกิจกรรมที่ยังไม่แล้วเสร็จให้ครบตามแผน บันทึกผลการประชุมและผลการสังเกตชั้นเรียนให้ครบถ้วน และแนบหลักฐานที่ตรวจสอบย้อนกลับได้ในแต่ละกิจกรรม';
+  const areaRows=areas.map((a,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(a.name)+'</td><td>'+a.value+'%</td><td>'+(a.value===100?'ครบถ้วน':a.value>0?'อยู่ระหว่างดำเนินการ':'ยังไม่มีข้อมูล/ยังไม่เริ่ม')+'</td></tr>').join('');
+  const ev=evidenceFiles.length?evidenceFiles.map((f,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(labelScope(f.scope))+'</td><td>'+esc(f.name)+'</td></tr>').join(''):'<tr><td colspan="3">ยังไม่มีไฟล์หลักฐานที่แนบในระบบ</td></tr>';
+  return '<div class="paper cover"><h1>'+esc(meta.title)+'</h1><h2>'+esc(state.school.name)+'</h2><p>ภาคเรียนที่ '+esc(state.school.term)+' ปีการศึกษา '+esc(state.school.year)+'</p><p>'+esc(state.school.agency)+'</p><p>จังหวัด'+esc(state.school.province)+'</p></div>'+
+  '<div class="paper pagebreak"><h2>บทคัดย่อ/สรุปผู้บริหาร</h2><p>'+esc(rationale)+'</p><p>ณ วันที่จัดทำรายงาน มีความคืบหน้าแผน '+p.pct+'% กิจกรรมเสร็จแล้ว '+p.done+' จาก '+state.schedule.length+' กิจกรรม แบบบันทึกที่เริ่มกรอก '+filledForms+' จาก 6 แบบ และบันทึกชั่วโมง PLC รวม '+hours+' ชั่วโมง</p><p>'+esc(topAreaText(areas))+'</p></div>'+
+  '<div class="paper pagebreak"><h2>สารบัญ</h2><p class="noindent">บทที่ 1 บทนำ</p><p class="noindent">บทที่ 2 เอกสารและกรอบการดำเนินงานที่เกี่ยวข้อง</p><p class="noindent">บทที่ 3 วิธีดำเนินการ</p><p class="noindent">บทที่ 4 ผลการดำเนินงาน</p><p class="noindent">บทที่ 5 สรุป อภิปรายผล และข้อเสนอแนะ</p><p class="noindent">เอกสารอ้างอิง</p><p class="noindent">ภาคผนวก</p></div>'+
+  '<div class="paper chapter"><h2>บทที่ 1<br>บทนำ</h2><h3>1.1 ความเป็นมาและความสำคัญ</h3><p>'+esc(rationale)+'</p><h3>1.2 วัตถุประสงค์</h3><p class="noindent">1) เพื่อดำเนินงานพัฒนาครูและบุคลากรทางการศึกษาด้วยกิจกรรม PLC ตามแผนของสถานศึกษา</p><p class="noindent">2) เพื่อใช้การทำงานร่วมกันในการวิเคราะห์ปัญหาการเรียนรู้ ออกแบบบทเรียน เปิดชั้นเรียน สังเกตการสอน และสะท้อนผล</p><p class="noindent">3) เพื่อกำกับติดตามความก้าวหน้าและจัดเก็บหลักฐานการดำเนินงานอย่างเป็นระบบ</p><h3>1.3 กลุ่มเป้าหมายและขอบเขต</h3><p>กลุ่มเป้าหมายประกอบด้วย Model Teacher, Buddy Teacher, Mentor, Expert และ Administrator ตามทีม PLT ของสถานศึกษา ดำเนินงานในภาคเรียนที่ '+esc(state.school.term)+' ปีการศึกษา '+esc(state.school.year)+' รายวิชา '+esc(state.school.subject||'-')+' ชั้น '+esc(state.school.grade||'-')+'</p><h3>1.4 นิยามเชิงปฏิบัติการ</h3><p>PLC ในรายงานฉบับนี้หมายถึงกระบวนการทำงานร่วมกันตาม PLC Action Plan และแบบบันทึกกิจกรรมที่โรงเรียนใช้เป็นหลักฐานการดำเนินงาน</p></div>'+
+  '<div class="paper chapter"><h2>บทที่ 2<br>เอกสารและกรอบการดำเนินงานที่เกี่ยวข้อง</h2><h3>2.1 PLC Action Plan ของสถานศึกษา</h3><p>แผนกำหนดกิจกรรมตั้งแต่การสร้างทีม PLT การเลือกปัญหาการเรียนรู้ การประชุมเสนอปัญหาและแนวทางแก้ปัญหา การวิพากษ์และออกแบบการสอน การเขียนแผน การเปิดชั้นเรียนและสังเกตการสอน การสะท้อนผล และการปรับปรุงออกแบบการสอนใหม่</p><h3>2.2 บทบาทของสมาชิกทีม</h3>'+teamTableHtml()+'<h3>2.3 กรอบการเก็บข้อมูล</h3><p>ใช้แบบบันทึกการวิเคราะห์งานนักเรียน แบบบันทึกการออกแบบบทเรียนร่วมกัน แบบเปิดชั้นเรียนและสังเกตการสอน แบบประชุมสะท้อนคิด รวมทั้งภาพกิจกรรมและไฟล์ PDF ที่แนบเป็นหลักฐาน</p><div class="note">บทนี้สรุปจากเอกสารภายในที่ได้รับ ไม่ได้เพิ่มทฤษฎีหรือเอกสารภายนอกที่ไม่มีแหล่งอ้างอิงในชุดข้อมูล</div></div>'+
+  '<div class="paper chapter"><h2>บทที่ 3<br>วิธีดำเนินการ</h2><h3>3.1 ผู้เกี่ยวข้อง</h3>'+teamTableHtml()+'<h3>3.2 ขั้นตอนและแผนการดำเนินงาน</h3>'+scheduleTableHtml()+'<h3>3.3 เครื่องมือและหลักฐาน</h3><p>ใช้แบบบันทึกกิจกรรมตามวงรอบ การลงชื่อเข้าร่วมกิจกรรม บันทึกผลการสังเกตและสะท้อนคิด แผนการจัดการเรียนรู้ ตลอดจนภาพและไฟล์ PDF ที่บันทึกในระบบ</p><h3>3.4 การติดตามผล</h3><p>ติดตามจากสถานะกิจกรรม ความครบถ้วนของแบบบันทึก ชั่วโมง PLC และหลักฐานประกอบ โดยแดชบอร์ดรายงานความก้าวหน้าเป็นร้อยละตามข้อมูลที่บันทึก</p></div>'+
+  '<div class="paper chapter"><h2>บทที่ 4<br>ผลการดำเนินงาน</h2><h3>4.1 สถานะภาพรวม</h3><p>ความคืบหน้าแผน '+p.pct+'% กิจกรรมเสร็จแล้ว '+p.done+' จาก '+state.schedule.length+' กิจกรรม และบันทึกชั่วโมง PLC รวม '+hours+' ชั่วโมง</p><h3>4.2 สถานะรายด้าน</h3><table class="report-table"><thead><tr><th>ที่</th><th>ด้าน</th><th>ความก้าวหน้า</th><th>สถานะ</th></tr></thead><tbody>'+areaRows+'</tbody></table><h3>4.3 ผลจากวงรอบและบันทึกกิจกรรม</h3>'+resultBlocks()+'</div>'+
+  '<div class="paper chapter"><h2>บทที่ 5<br>สรุป อภิปรายผล และข้อเสนอแนะ</h2><h3>5.1 สรุปผล</h3><p>'+esc(topAreaText(areas))+' ความคืบหน้ารวมของกิจกรรมตามแผนเท่ากับ '+p.pct+'%</p><h3>5.2 อภิปรายผล</h3><p>'+esc(discussion)+'</p><h3>5.3 ข้อเสนอแนะ</h3><p>'+esc(suggestions)+'</p><h3>5.4 ข้อจำกัดของรายงาน</h3><p>รายงานนี้สร้างจากข้อมูลที่ผู้ใช้บันทึกในแอปและไฟล์หลักฐานที่แนบ ณ วันที่พิมพ์ หากช่องใดยังไม่บันทึก ระบบจะไม่อนุมานผลการดำเนินงานแทนข้อมูลจริง</p></div>'+
+  '<div class="paper chapter"><h2>เอกสารอ้างอิง</h2>'+referencesHtml()+'</div>'+
+  '<div class="paper chapter"><h2>ภาคผนวก</h2><h3>ภาคผนวก ก สถานะกิจกรรม</h3>'+scheduleTableHtml()+'<h3>ภาคผนวก ข บัญชีไฟล์หลักฐานที่แนบในระบบ</h3><table class="report-table"><thead><tr><th>ที่</th><th>กิจกรรม</th><th>ชื่อไฟล์</th></tr></thead><tbody>'+ev+'</tbody></table></div>';
+}
+function bookStyles(){return '<style>@page{size:A4;margin:15mm}body{font-family:"TH Sarabun New","Sarabun","Tahoma",sans-serif;color:#111;line-height:1.55;font-size:16px}.paper{page-break-after:always}.cover{height:250mm;display:flex;flex-direction:column;justify-content:center;text-align:center}.cover h1{font-size:25px}.cover h2{font-size:21px}.paper h2{text-align:center;font-size:21px}.paper h3{font-size:17px;margin:14px 0 5px}.paper p{text-align:justify;text-indent:2.5em;margin:5px 0}.paper .noindent{text-indent:0}.report-table{width:100%;border-collapse:collapse;margin:8px 0}.report-table th,.report-table td{border:1px solid #777;padding:5px 6px;font-size:13px;vertical-align:top}.note{border:1px solid #bbb;padding:8px;margin-top:10px}.chapter{page-break-before:always}</style>'}
+async function printBook(){
+  const fs=await allFiles();
+  const w=window.open('','_blank');
+  if(!w){toast('เบราว์เซอร์บล็อกหน้าต่างพิมพ์');return}
+  w.document.write('<!doctype html><html lang="th"><head><meta charset="utf-8"><title>รายงาน PLC 5 บท</title>'+bookStyles()+'</head><body>'+makeBookHtml(fs)+'</body></html>');
+  w.document.close();w.focus();setTimeout(()=>w.print(),500);
+}
+function statusReportHtml(){
+  const areas=areaStats(),p=progress(),hours=state.schedule.reduce((a,x)=>a+(parseFloat(x.hours)||0),0);
+  return '<div class="paper"><h2>รายงานสถานะการดำเนินงาน PLC รายด้าน</h2><p class="noindent"><b>สถานศึกษา:</b> '+esc(state.school.name)+'</p><p class="noindent"><b>ภาคเรียน/ปีการศึกษา:</b> '+esc(state.school.term)+'/'+esc(state.school.year)+'</p><p class="noindent"><b>ความคืบหน้าตามแผน:</b> '+p.pct+'% &nbsp; <b>ชั่วโมง PLC:</b> '+hours+' ชั่วโมง</p>'+areaChartHtml(areas)+'<h3>รายละเอียดสถานะกิจกรรม</h3>'+scheduleTableHtml()+'<p class="noindent"><b>หมายเหตุ:</b> ร้อยละรายด้านคำนวณจากความครบถ้วนของแบบบันทึกและสถานะกิจกรรมที่บันทึกในระบบ มิใช่คะแนนประเมินคุณภาพ</p></div>';
+}
+function printStatusReport(){
+  const w=window.open('','_blank');
+  if(!w){toast('เบราว์เซอร์บล็อกหน้าต่างพิมพ์');return}
+  w.document.write('<!doctype html><html lang="th"><head><meta charset="utf-8"><title>รายงานสถานะ PLC รายด้าน</title>'+bookStyles()+'<style>.hchart{display:grid;gap:10px}.hrow{display:grid;grid-template-columns:220px 1fr 55px;gap:9px;align-items:center}.htrack{height:18px;background:#e5ecea;border-radius:99px;overflow:hidden}.hfill{height:100%;background:#287f70}.hval{font-weight:bold;text-align:right}</style></head><body>'+statusReportHtml()+'</body></html>');
+  w.document.close();w.focus();setTimeout(()=>w.print(),400);
+}
+function reportPage(){
+  const meta=reportMeta();
+  document.querySelector('#content').innerHTML='<div class="card"><div class="head"><div><h2>รายงานสรุปผลการดำเนินงานรูปแบบ 5 บท</h2><div class="muted">สร้างจากข้อมูลจริงที่บันทึกในแอป ณ วันที่พิมพ์</div></div><div class="report-tools"><button class="btn alt" id="printStatus">พิมพ์สถานะรายด้าน</button><button class="btn" id="printBook">พิมพ์เล่ม 5 บท / PDF</button></div></div><div class="grid g2"><div class="field"><label>ชื่อรายงาน</label><input id="reportTitle" value="'+esc(meta.title)+'"></div><div></div>'+textarea('reportRationale','ความเป็นมา/บริบทเพิ่มเติม (ถ้าไม่กรอก ระบบจะใช้ข้อความจากแผน)',meta.rationale)+textarea('reportDiscussion','อภิปรายผลเพิ่มเติม',meta.discussion)+textarea('reportSuggestions','ข้อเสนอแนะเพิ่มเติม',meta.suggestions)+'</div><button class="btn" id="saveReportMeta" style="margin-top:10px">บันทึกข้อความรายงาน</button></div><div class="book-preview">'+makeBookHtml([])+'</div>';
+  document.querySelector('#saveReportMeta').onclick=()=>{meta.title=val('#reportTitle');meta.rationale=val('#reportRationale');meta.discussion=val('#reportDiscussion');meta.suggestions=val('#reportSuggestions');state.reportMeta=meta;save();reportPage()};
+  document.querySelector('#printStatus').onclick=printStatusReport;
+  document.querySelector('#printBook').onclick=printBook;
+}
+
 function dashboard(){
   const p=progress(),forms=['r11','r13','r14','r21','r22','r23'],fc=forms.filter(formComplete).length;
   const hours=state.schedule.reduce((a,x)=>a+(parseFloat(x.hours)||0),0);
-  const next=state.schedule.find(x=>x.status!=='เสร็จแล้ว');
+  const next=state.schedule.find(x=>x.status!=='เสร็จแล้ว'),areas=areaStats(),overall=avg(areas.map(x=>x.value));
   document.querySelector('#content').innerHTML=
-  '<div class="note">แดชบอร์ดคำนวณจากสถานะกิจกรรม 8.1–8.8 และแบบบันทึกที่มีไฟล์ต้นฉบับในชุดที่ได้รับ</div>'+
-  '<div class="grid g4"><div class="card metric"><span class="muted">ความคืบหน้าแผน</span><br><strong>'+p.pct+'%</strong><div class="bar"><i style="width:'+p.pct+'%"></i></div></div><div class="card metric"><span class="muted">กิจกรรมเสร็จแล้ว</span><br><strong>'+p.done+'/8</strong></div><div class="card metric"><span class="muted">แบบบันทึกที่เริ่มกรอก</span><br><strong>'+fc+'/6</strong></div><div class="card metric"><span class="muted">ชั่วโมง PLC ที่บันทึก</span><br><strong>'+hours+'</strong> ชม.</div></div>'+
-  '<div class="grid g2"><div class="card"><div class="head"><div><h2>ความคืบหน้า 8.1–8.8</h2><div class="muted">ตาม PLC Action Plan ภาคเรียนที่ 2/2569</div></div></div><div class="timeline">'+state.schedule.map(x=>'<div class="step"><b>'+x.code+'</b><div><b>'+esc(x.activity)+'</b><div class="muted">'+(x.date?esc(x.date):'ยังไม่กำหนดวัน')+(x.round?' • '+esc(x.round):'')+(x.hours?' • '+esc(x.hours)+' ชม.':'')+'</div></div><div><span class="badge '+(x.status==='เสร็จแล้ว'?'done':x.status==='กำลังดำเนินการ'?'wait':'')+'">'+esc(x.status)+'</span></div></div>').join('')+'</div></div>'+
-  '<div class="card"><h2>วงรอบและเอกสาร</h2><div class="source"><b>วงรอบ 1</b><div>วิเคราะห์งานนักเรียน • เปิดชั้นเรียน • สะท้อนคิด</div><span class="badge '+(['r11','r13','r14'].every(formComplete)?'done':'wait')+'">'+['r11','r13','r14'].filter(formComplete).length+'/3</span></div><div class="source"><b>วงรอบ 2</b><div>วิเคราะห์งานนักเรียน • ออกแบบบทเรียน • เปิดชั้นเรียน</div><span class="badge '+(['r21','r22','r23'].every(formComplete)?'done':'wait')+'">'+['r21','r22','r23'].filter(formComplete).length+'/3</span></div><div class="source"><b>วงรอบ 3</b><div>ยังไม่มีแบบฟอร์มวงรอบที่ 3 ในไฟล์ที่ได้รับ</div><span class="badge na">รอต้นฉบับ</span></div><div class="soft" style="margin-top:12px"><b>กิจกรรมถัดไป</b><br>'+(next?esc(next.code+' '+next.activity)+(next.date?'<br><span class="muted">'+esc(next.date)+'</span>':''):'ดำเนินการครบ 8 กิจกรรมแล้ว')+'</div></div></div>'+
+  '<div class="note">กราฟและสถานะคำนวณจากข้อมูลที่บันทึกจริงในแบบกิจกรรมและสถานะ 8.1–8.8 ไม่ใช่คะแนนประเมินคุณภาพ</div>'+
+  '<div class="grid g4"><div class="card metric"><span class="muted">ความคืบหน้าแผน</span><br><strong>'+p.pct+'%</strong><div class="bar"><i style="width:'+p.pct+'%"></i></div></div><div class="card metric"><span class="muted">ความก้าวหน้าเฉลี่ยรายด้าน</span><br><strong>'+overall+'%</strong></div><div class="card metric"><span class="muted">กิจกรรมเสร็จแล้ว</span><br><strong>'+p.done+'/8</strong></div><div class="card metric"><span class="muted">ชั่วโมง PLC ที่บันทึก</span><br><strong>'+hours+'</strong> ชม.</div></div>'+
+  '<div class="grid g2"><div class="card"><div class="head"><div><h2>กราฟความก้าวหน้ารายด้าน</h2><div class="muted">5 ด้านตามกระบวนการดำเนินงาน PLC ในระบบ</div></div></div>'+areaChartHtml(areas)+'</div>'+
+  '<div class="card"><h2>กราฟสถานะกิจกรรมตามแผน</h2><div class="muted">สัดส่วนสถานะของกิจกรรม 8.1–8.8</div>'+statusStackHtml()+'<div class="soft" style="margin-top:14px"><b>กิจกรรมถัดไป</b><br>'+(next?esc(next.code+' '+next.activity)+(next.date?'<br><span class="muted">'+esc(next.date)+'</span>':''):'ดำเนินการครบทุกกิจกรรมแล้ว')+'</div></div></div>'+
+  '<div class="card"><div class="head"><div><h2>สรุปสถานะและรายงานพร้อมส่ง</h2><div class="muted">พิมพ์รายงานสถานะรายด้าน หรือจัดทำเล่มรายงาน 5 บทจากข้อมูลปัจจุบัน</div></div><div class="report-tools"><button class="btn alt" id="dashPrintStatus">พิมพ์สถานะรายด้าน</button><button class="btn" id="dashOpenReport">เปิดรายงาน 5 บท</button><button class="btn" id="dashPrintBook">พิมพ์เล่ม 5 บท / PDF</button></div></div><div class="grid g3"><div class="soft"><b>แบบบันทึกที่เริ่มกรอก</b><br>'+fc+'/6 แบบ</div><div class="soft"><b>ความก้าวหน้าเฉลี่ยรายด้าน</b><br>'+overall+'%</div><div class="soft"><b>อัปเดตข้อมูลล่าสุด</b><br>'+fmtTime(state.updatedAt)+'</div></div></div>'+
+  '<div class="card"><h2>รายละเอียดกิจกรรม 8.1–8.8</h2><div class="timeline">'+state.schedule.map(x=>'<div class="step"><b>'+x.code+'</b><div><b>'+esc(x.activity)+'</b><div class="muted">'+(x.date?esc(x.date):'ยังไม่กำหนดวัน')+(x.round?' • '+esc(x.round):'')+(x.hours?' • '+esc(x.hours)+' ชม.':'')+'</div></div><div><span class="badge '+(x.status==='เสร็จแล้ว'?'done':x.status==='กำลังดำเนินการ'?'wait':'')+'">'+esc(x.status)+'</span></div></div>').join('')+'</div></div>'+
   '<div class="card"><h2>การเข้าใช้งานล่าสุด</h2><div class="muted">'+state.attendance.filter(x=>x.type==='login').slice(-10).reverse().map(x=>esc(x.name)+' • '+fmtTime(x.at)).join('<br>')+'</div></div>';
+  document.querySelector('#dashPrintStatus').onclick=printStatusReport;
+  document.querySelector('#dashOpenReport').onclick=()=>{current='report';render()};
+  document.querySelector('#dashPrintBook').onclick=printBook;
 }
 function planPage(){
   const sc=state.school;
@@ -215,7 +367,7 @@ function labelScope(s){return ({plan:'PLC Action Plan',r11:'วิเครา�
 function sourcesPage(){
   document.querySelector('#content').innerHTML='<div class="card"><h2>ข้อมูลโครงสร้างที่นำมาจากไฟล์ต้นฉบับ</h2><div class="muted">แอปสร้างเฉพาะแบบที่มีข้อมูลรองรับในชุดไฟล์ที่ได้รับ</div>'+sourceFiles.map(x=>'<div class="source"><b>'+x[0]+'</b><div>'+esc(x[1])+'</div><span class="badge '+(x[2]==='มีต้นฉบับ'?'done':'na')+'">'+x[2]+'</span></div>').join('')+'</div><div class="card"><h2>ข้อสังเกตจากต้นฉบับ</h2><div class="soft">ไฟล์เปิดชั้นเรียนรอบที่ 1 ระบุชื่อโรงเรียนในส่วนหัวว่า “โรงเรียนบ้านโจรก” ขณะที่ส่วนลงนามและไฟล์อื่นระบุ “โรงเรียนบ้านจรูกแขวะ” จึงใช้ชื่อจาก PLC Action Plan เป็นข้อมูลหลักในแอป</div><div class="soft" style="margin-top:9px">แบบบางขั้นตอนและแบบของวงรอบที่ 3 ไม่ได้อยู่ในไฟล์ที่ได้รับ จึงไม่สร้างช่องรายละเอียดเฉพาะที่อาจเป็นการเดา แต่ยังสามารถติดตามสถานะ 8.1–8.8 และแนบหลักฐานได้</div></div>'
 }
-function render(){nav();setTitle();if(current==='dashboard')dashboard();else if(current==='plan')planPage();else if(current==='team')teamPage();else if(current==='r11')r11Page();else if(current==='r13')r13Page();else if(current==='r14')r14Page();else if(current==='r21')r21Page();else if(current==='r22')r22Page();else if(current==='r23')r23Page();else if(current==='evidence')evidencePage();else sourcesPage()}
+function render(){nav();setTitle();if(current==='dashboard')dashboard();else if(current==='plan')planPage();else if(current==='team')teamPage();else if(current==='r11')r11Page();else if(current==='r13')r13Page();else if(current==='r14')r14Page();else if(current==='r21')r21Page();else if(current==='r22')r22Page();else if(current==='r23')r23Page();else if(current==='report')reportPage();else if(current==='evidence')evidencePage();else sourcesPage()}
 function logAttendance(type,scope){state.attendance.push({type,scope,name:session.name,email:session.email,at:new Date().toISOString()});if(state.attendance.length>300)state.attendance=state.attendance.slice(-300);save(type==='activity'?'ลงชื่อเข้าร่วมแล้ว':'เข้าสู่ระบบแล้ว')}
 function odb(){return new Promise((ok,no)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{const st=r.result.createObjectStore(STORE,{keyPath:'id'});st.createIndex('scope','scope',{unique:false})};r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
 function putFile(f){return odb().then(db=>new Promise((ok,no)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(f);tx.oncomplete=ok;tx.onerror=()=>no(tx.error)}))}
