@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#155b50">
+<title>PLC Action Plan | โรงเรียนบ้านจรูกแขวะ</title>
+<style>
+:root{--g:#155b50;--g2:#1d7b6c;--bg:#f3f7f6;--card:#fff;--line:#d8e5e2;--txt:#18312d;--mut:#6c7d79;--warn:#8a6418;--danger:#a54242;--blue:#2d6488}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans Thai","Leelawadee UI",Tahoma,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+button,input,textarea,select{font:inherit}.hidden{display:none!important}.btn{border:0;border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer;background:var(--g);color:#fff}.btn.alt{background:#fff;color:var(--g);border:1px solid var(--line)}.btn.red{background:var(--danger)}.btn.sm{padding:5px 8px;font-size:12px}
+.shell{min-height:100vh;display:grid;grid-template-columns:270px 1fr}.side{background:#0f4c44;color:#fff;padding:18px 14px;position:sticky;top:0;height:100vh;overflow:auto}.brand{padding:8px 10px 18px;font-weight:800;font-size:18px}.brand small{display:block;font-weight:400;font-size:12px;opacity:.72;margin-top:3px}.navhead{font-size:11px;opacity:.55;margin:14px 10px 4px}.nav{display:block;width:100%;border:0;background:transparent;color:#fff;padding:10px;border-radius:10px;text-align:left;cursor:pointer}.nav:hover,.nav.on{background:#ffffff20}.nav span{display:inline-block;min-width:56px;font-size:11px;background:#ffffff18;padding:2px 5px;border-radius:6px;text-align:center;margin-right:7px}
+.main{min-width:0}.top{position:sticky;top:0;z-index:10;background:#ffffffef;border-bottom:1px solid var(--line);padding:13px 20px;display:flex;align-items:center;gap:10px}.top h1{margin:0;font-size:19px;flex:1}.top h1 small{display:block;font-size:12px;color:var(--mut);font-weight:400}.who{font-size:12px;color:var(--mut);text-align:right}.wrap{max-width:1500px;margin:auto;padding:20px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;margin-bottom:15px;box-shadow:0 7px 24px #18312d0b}.card h2{margin:0 0 3px;font-size:17px}.muted{color:var(--mut);font-size:13px}.head{display:flex;gap:10px;align-items:center;margin-bottom:13px}.head>div{flex:1}.grid{display:grid;gap:13px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.metric strong{font-size:29px;color:var(--g)}.metric .bar{margin-top:9px}.bar{height:9px;background:#e2ecea;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--g2)}
+.field{display:grid;gap:5px}.field label{font-size:13px;font-weight:700}.field input,.field textarea,.field select,input,textarea,select{width:100%;padding:8px 9px;border:1px solid #c9d9d5;border-radius:9px;background:#fff}textarea{min-height:76px;resize:vertical}
+.tbl{overflow:auto;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:collapse;min-width:800px}th,td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}th{background:#eef5f3;color:#31534e;font-size:12px}.soft{background:#edf6f4;border:1px solid #d4e6e2;border-radius:12px;padding:11px}.note{background:#fff8e8;border:1px solid #ecd79f;border-radius:12px;padding:11px 13px;color:#6b521d;margin-bottom:14px}.danger{background:#fff0f0;border-color:#efc5c5;color:#7b3333}.sub{font-weight:800;margin:17px 0 8px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.checks{display:flex;gap:12px;flex-wrap:wrap}.checks label{font-weight:400}.checks input{width:auto;accent-color:var(--g)}
+.badge{display:inline-block;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;background:#e8f3f1;color:var(--g)}.badge.done{background:#dff2e7;color:#235e3d}.badge.wait{background:#fff2ce;color:#765611}.badge.na{background:#eceff1;color:#667177}
+.attach{border:1px dashed #b7cbc7;background:#f8fbfa;border-radius:11px;padding:10px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:12px}.attach .grow{flex:1}.login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(145deg,#0f4c44,#1b7466)}.loginbox{width:min(460px,92vw);background:#fff;border-radius:20px;padding:25px;box-shadow:0 30px 80px #0004}.loginbox h1{font-size:22px;margin:0 0 4px}.loginbox .field{margin-top:12px}
+dialog{border:0;border-radius:16px;width:min(820px,94vw);padding:0;box-shadow:0 30px 90px #0005}dialog::backdrop{background:#0006}.dh{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}.dh h3{margin:0;flex:1}.db{padding:16px}.drop{display:block;text-align:center;padding:20px;border:2px dashed #b8ceca;border-radius:12px;cursor:pointer}.files{display:grid;gap:8px;margin-top:12px}.file{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:9px}.file>div{flex:1;min-width:0}.file b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.toast{position:fixed;right:20px;bottom:20px;background:#153e38;color:#fff;padding:9px 13px;border-radius:9px;opacity:0;transform:translateY(10px);transition:.2s;z-index:99}.toast.on{opacity:1;transform:none}.menu{display:none}.timeline{display:grid;gap:8px}.step{display:grid;grid-template-columns:62px 1fr auto;gap:10px;align-items:start;border:1px solid var(--line);border-radius:11px;padding:10px}.step b{color:var(--g)}
+.source{display:grid;grid-template-columns:120px 1fr auto;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:10px 0}.source:last-child{border:0}.signlog{max-height:260px;overflow:auto}
+@media(max-width:920px){.shell{display:block}.side{position:fixed;left:-290px;width:270px;z-index:30;transition:.2s}.side.open{left:0}.menu{display:inline-block}.wrap{padding:13px}.g4,.g3,.g2{grid-template-columns:1fr}.top{padding:11px 13px}.who{display:none}.step{grid-template-columns:55px 1fr}.step>div:last-child{grid-column:2}.source{grid-template-columns:1fr}.source>*{grid-column:1}}
+@media print{.side,.top .actions,.menu,.attach,.btn{display:none!important}.shell{display:block}.top{position:static;border:0}.wrap{padding:0}.card{box-shadow:none;break-inside:avoid}body{background:#fff}}
+</style>
+</head>
+<body>
+<div id="auth" class="login"></div>
+<div id="app" class="shell hidden">
+  <aside class="side" id="side">
+    <div class="brand">PLC Action Plan<small>โรงเรียนบ้านจรูกแขวะ • ภาคเรียนที่ 2 ปีการศึกษา 2569</small></div>
+    <div id="nav"></div>
+    <div style="margin-top:18px">
+      <button class="btn alt" id="backup" style="width:100%">สำรองข้อมูล</button>
+      <button class="btn alt" id="restore" style="width:100%;margin-top:7px">นำเข้าข้อมูล</button>
+      <input id="restoreFile" type="file" accept="application/json" hidden>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="top">
+      <button class="btn alt menu" id="menu">☰</button>
+      <h1 id="pageTitle">แดชบอร์ด<small>แผนการดำเนินการพัฒนาครูและบุคลากรทางการศึกษาด้วยกิจกรรม PLC</small></h1>
+      <div class="who" id="who"></div>
+      <div class="actions row"><button class="btn alt" id="print">พิมพ์ / บันทึก PDF</button><button class="btn red" id="logout">ออกจากระบบ</button></div>
+    </header>
+    <div class="wrap" id="content"></div>
+  </main>
+</div>
+
+<dialog id="fileDlg"><div class="dh"><h3>แนบภาพและไฟล์ PDF</h3><button class="btn alt sm" id="fileClose">ปิด</button></div><div class="db"><label class="drop">เลือก JPG, PNG, WebP หรือ PDF<input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" multiple hidden></label><div class="files" id="fileList"></div></div></dialog>
+<dialog id="previewDlg"><div class="dh"><h3 id="previewTitle">ตัวอย่างไฟล์</h3><button class="btn alt sm" id="previewClose">ปิด</button></div><div id="previewBody" style="min-height:65vh;background:#eef3f2;display:grid;place-items:center"></div></dialog>
+<div class="toast" id="toast"></div>
+
+<script>
+const APPKEY='plc_charukkhawe_2569_v1', ACCKEY='plc_charukkhawe_accounts_v1', SESSION='plc_charukkhawe_session_v1';
+const DB='plc_charukkhawe_files_v1', STORE='files';
+const roles=['Model Teacher','Buddy Teacher','Mentor','Expert','Administrator'];
+const stages=[
+  ['8.1','สร้างทีม PLT','6 พ.ย. 2569'],
+  ['8.2','เลือกปัญหาการเรียนรู้ของนักเรียน','13 พ.ย. 2569'],
+  ['8.3','ประชุมเสนอปัญหาและแนวทางแก้ปัญหา (การออกแบบการสอน)','20 พ.ย. 2569'],
+  ['8.4','สรุป บันทึกผลการวิพากษ์การออกแบบการสอน',''],
+  ['8.5','เขียนแผนการจัดการเรียนรู้ - เตรียมการสอน',''],
+  ['8.6','ดำเนินการปฏิบัติการสอน - สังเกตการณ์สอน - บันทึกคลิปวิดีทัศน์การสอน',''],
+  ['8.7','ประชุมสะท้อนผลการสังเกตชั้นเรียน',''],
+  ['8.8','สรุปบันทึกการสังเกตชั้นเรียน - สรุปผล - ปรับปรุง - ออกแบบการสอนใหม่','']
+];
+const modules=[
+  ['dashboard','HOME','แดชบอร์ด','ภาพรวม'],
+  ['plan','PLAN','แผน PLC Action Plan','แผนและทีม'],
+  ['team','TEAM','ทีม PLT และบัญชีผู้ใช้','แผนและทีม'],
+  ['r11','1.1','วงรอบ 1.1 วิเคราะห์งานนักเรียน','วงรอบที่ 1'],
+  ['r13','1.3','วงรอบ 1.3 เปิดชั้นเรียน/สังเกตการสอน','วงรอบที่ 1'],
+  ['r14','1.4','วงรอบ 1.4 ประชุมสะท้อนคิด','วงรอบที่ 1'],
+  ['r21','2.1','วงรอบ 2.1 วิเคราะห์งานนักเรียน','วงรอบที่ 2'],
+  ['r22','2.2','วงรอบ 2.2 ออกแบบบทเรียนร่วมกัน','วงรอบที่ 2'],
+  ['r23','2.3','วงรอบ 2.3 เปิดชั้นเรียน/สังเกตการสอน','วงรอบที่ 2'],
+  ['evidence','FILES','หลักฐานและไฟล์แนบ','หลักฐาน'],
+  ['sources','SRC','ข้อมูลจากไฟล์ต้นฉบับ','หลักฐาน']
+];
+const sourceFiles=[
+  ['PLAN','ชุมชนแห่งการเรียนรู้ทางวิชาชีพ โรงเรียนบ้านจรูกแขวะ','มีต้นฉบับ'],
+  ['1.1','วงรอบที่ 1.1 การวิเคราะห์งานนักเรียน','มีต้นฉบับ'],
+  ['1.2','ไม่มีไฟล์ต้นฉบับแนบในชุดนี้','ไม่มีต้นฉบับ'],
+  ['1.3','การเปิดชั้นเรียนและผลการสังเกตการสอน วงรอบที่ 1','มีต้นฉบับ'],
+  ['1.4','รายงานการประชุมสะท้อนคิด หลังเปิดห้องเรียน รอบที่ 1','มีต้นฉบับ'],
+  ['2.1','การวิเคราะห์งานนักเรียนหลังเปิดชั้นเรียน','มีต้นฉบับ'],
+  ['2.2','ร่องรอยการทำงานร่วมกับทีมและผลการออกแบบบทเรียน','มีต้นฉบับ'],
+  ['2.3','การเปิดชั้นเรียนและผลการสังเกตการสอน วงรอบที่ 2','มีต้นฉบับ'],
+  ['2.4','ไม่มีไฟล์ต้นฉบับแนบในชุดนี้','ไม่มีต้นฉบับ'],
+  ['3.x','ไม่มีแบบฟอร์มวงรอบที่ 3 แนบในชุดนี้','ไม่มีต้นฉบับ']
+];
+function defaults(){
+  return {
+    school:{name:'โรงเรียนบ้านจรูกแขวะ',agency:'สำนักงานเขตพื้นที่การศึกษาประถมศึกษาสุรินทร์ เขต 3',province:'สุรินทร์',term:'2',year:'2569',subject:'',grade:'',male:'',female:'',total:''},
+    owner:{model:'',level:'',email:''},
+    team:[
+      {role:'Buddy Teacher',name:'',major:'',level:'',email:''},
+      {role:'Buddy Teacher',name:'',major:'',level:'',email:''},
+      {role:'Buddy Teacher',name:'',major:'',level:'',email:''},
+      {role:'Administrator',name:'สิบเอกวรุธ ภิชาเศวตว์',major:'บริหารการศึกษา',level:'รองผู้อำนวยการชำนาญการ',email:'waroot32049@gmail.com'},
+      {role:'Mentor',name:'',major:'',level:'ครูชำนาญการพิเศษ',email:''},
+      {role:'Expert',name:'',major:'',level:'ศึกษานิเทศก์ชำนาญการ',email:''}
+    ],
+    schedule:stages.map(x=>({code:x[0],activity:x[1],date:x[2],round:'',hours:'',status:'ยังไม่เริ่ม',note:''})),
+    forms:{},attendance:[],updatedAt:null
+  };
+}
+let state=loadState(), current='dashboard', session=null, attachScope=null;
+function loadState(){try{return JSON.parse(localStorage.getItem(APPKEY))||defaults()}catch(e){return defaults()}}
+function save(msg='บันทึกข้อมูลแล้ว'){state.updatedAt=new Date().toISOString();localStorage.setItem(APPKEY,JSON.stringify(state));toast(msg)}
+function toast(t){const e=document.querySelector('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1800)}
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function fmtTime(v){if(!v)return'-';try{return new Date(v).toLocaleString('th-TH')}catch(e){return v}}
+function form(id,def={}){if(!state.forms[id])state.forms[id]=def;return state.forms[id]}
+async function hash(s){const b=new TextEncoder().encode(s);const d=await crypto.subtle.digest('SHA-256',b);return Array.from(new Uint8Array(d)).map(x=>x.toString(16).padStart(2,'0')).join('')}
+function accounts(){try{return JSON.parse(localStorage.getItem(ACCKEY))||[]}catch(e){return[]}}
+function setAccounts(a){localStorage.setItem(ACCKEY,JSON.stringify(a))}
+function authScreen(){
+  const a=accounts();
+  document.querySelector('#app').classList.add('hidden');
+  document.querySelector('#auth').classList.remove('hidden');
+  if(!a.length){
+    document.querySelector('#auth').innerHTML='<div class="loginbox"><h1>ตั้งค่าบัญชีผู้ดูแลครั้งแรก</h1><div class="muted">ข้อมูลบัญชีเก็บในเบราว์เซอร์เครื่องนี้</div><div class="field"><label>ชื่อผู้ดูแล</label><input id="setupName" value="สิบเอกวรุธ ภิชาเศวตว์"></div><div class="field"><label>อีเมล</label><input id="setupEmail" value="waroot32049@gmail.com"></div><div class="field"><label>ตั้งรหัสผ่าน</label><input id="setupPass" type="password" autocomplete="new-password"></div><div class="field"><label>ยืนยันรหัสผ่าน</label><input id="setupPass2" type="password" autocomplete="new-password"></div><button class="btn" id="setupBtn" style="width:100%;margin-top:15px">สร้างบัญชีและเข้าใช้</button></div>';
+    document.querySelector('#setupBtn').onclick=async()=>{const n=val('#setupName'),e=val('#setupEmail').trim().toLowerCase(),p=val('#setupPass'),p2=val('#setupPass2');if(!n||!e||p.length<4||p!==p2){toast('กรอกข้อมูลให้ครบ และรหัสผ่านอย่างน้อย 4 ตัวอักษร');return}const acc={id:'u_'+Date.now(),name:n,email:e,role:'admin',pass:await hash(p)};setAccounts([acc]);loginAs(acc)};
+  }else{
+    document.querySelector('#auth').innerHTML='<div class="loginbox"><h1>ลงชื่อเข้าใช้ระบบ PLC</h1><div class="muted">โรงเรียนบ้านจรูกแขวะ</div><div class="field"><label>อีเมล</label><input id="loginEmail" autocomplete="username"></div><div class="field"><label>รหัสผ่าน</label><input id="loginPass" type="password" autocomplete="current-password"></div><button class="btn" id="loginBtn" style="width:100%;margin-top:15px">เข้าสู่ระบบ</button><div class="muted" style="margin-top:12px">หากเป็นการใช้งานครั้งแรก ผู้ดูแลต้องเพิ่มบัญชีสมาชิกในเมนู “ทีม PLT และบัญชีผู้ใช้”</div></div>';
+    document.querySelector('#loginBtn').onclick=async()=>{const e=val('#loginEmail').trim().toLowerCase(),p=await hash(val('#loginPass'));const acc=accounts().find(x=>x.email.toLowerCase()===e&&x.pass===p);if(!acc){toast('อีเมลหรือรหัสผ่านไม่ถูกต้อง');return}loginAs(acc)};
+    document.querySelector('#loginPass').onkeydown=e=>{if(e.key==='Enter')document.querySelector('#loginBtn').click()};
+  }
+}
+function loginAs(acc){session={id:acc.id,name:acc.name,email:acc.email,role:acc.role};sessionStorage.setItem(SESSION,JSON.stringify(session));showApp();logAttendance('login','เข้าสู่ระบบ')}
+function showApp(){document.querySelector('#auth').classList.add('hidden');document.querySelector('#app').classList.remove('hidden');document.querySelector('#who').innerHTML='<b>'+esc(session.name)+'</b><br>'+esc(session.role==='admin'?'ผู้ดูแลระบบ':'สมาชิก PLC');render()}
+function logout(){sessionStorage.removeItem(SESSION);session=null;authScreen()}
+function val(q){const e=document.querySelector(q);return e?e.value:''}
+function nav(){let g='',h='';modules.forEach(m=>{if(g!==m[3]){g=m[3];h+='<div class="navhead">'+g+'</div>'}h+='<button class="nav '+(m[0]===current?'on':'')+'" data-nav="'+m[0]+'"><span>'+m[1]+'</span>'+m[2]+'</button>'});document.querySelector('#nav').innerHTML=h;document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{current=b.dataset.nav;document.querySelector('#side').classList.remove('open');render()})}
+function setTitle(){const m=modules.find(x=>x[0]===current);document.querySelector('#pageTitle').childNodes[0].nodeValue=m?m[2]:'PLC'}
+function progress(){
+  const done=state.schedule.filter(x=>x.status==='เสร็จแล้ว').length;
+  const active=state.schedule.filter(x=>x.status==='กำลังดำเนินการ').length;
+  return {done,active,pct:Math.round(done/state.schedule.length*100)};
+}
+function formComplete(id){
+  const x=state.forms[id];if(!x)return false;
+  return Object.values(x).some(v=>Array.isArray(v)?v.some(Boolean):String(v??'').trim().length>0);
+}
+function roleLabel(role){return role==='admin'?'ผู้ดูแลระบบ':'สมาชิก PLC'}
+function attachBar(scope){return '<div class="attach"><b>หลักฐานแนบ</b><span class="grow muted" data-filecount="'+scope+'">กำลังตรวจสอบ...</span><button class="btn alt sm" data-attach="'+scope+'">แนบภาพ / PDF</button></div>'}
+function signBar(scope){const signed=state.attendance.filter(x=>x.scope===scope&&x.type==='activity');return '<div class="soft" style="margin-top:12px"><div class="row"><b>ลงชื่อเข้าร่วมกิจกรรม</b><span class="muted">'+signed.length+' รายการ</span><button class="btn sm" data-sign="'+scope+'">ลงชื่อด้วยบัญชีที่กำลังใช้</button></div><div class="muted signlog">'+signed.slice(-8).reverse().map(x=>esc(x.name)+' • '+fmtTime(x.at)).join('<br>')+'</div></div>'}
+function dashboard(){
+  const p=progress(),forms=['r11','r13','r14','r21','r22','r23'],fc=forms.filter(formComplete).length;
+  const hours=state.schedule.reduce((a,x)=>a+(parseFloat(x.hours)||0),0);
+  const next=state.schedule.find(x=>x.status!=='เสร็จแล้ว');
+  document.querySelector('#content').innerHTML=
+  '<div class="note">แดชบอร์ดคำนวณจากสถานะกิจกรรม 8.1–8.8 และแบบบันทึกที่มีไฟล์ต้นฉบับในชุดที่ได้รับ</div>'+
+  '<div class="grid g4"><div class="card metric"><span class="muted">ความคืบหน้าแผน</span><br><strong>'+p.pct+'%</strong><div class="bar"><i style="width:'+p.pct+'%"></i></div></div><div class="card metric"><span class="muted">กิจกรรมเสร็จแล้ว</span><br><strong>'+p.done+'/8</strong></div><div class="card metric"><span class="muted">แบบบันทึกที่เริ่มกรอก</span><br><strong>'+fc+'/6</strong></div><div class="card metric"><span class="muted">ชั่วโมง PLC ที่บันทึก</span><br><strong>'+hours+'</strong> ชม.</div></div>'+
+  '<div class="grid g2"><div class="card"><div class="head"><div><h2>ความคืบหน้า 8.1–8.8</h2><div class="muted">ตาม PLC Action Plan ภาคเรียนที่ 2/2569</div></div></div><div class="timeline">'+state.schedule.map(x=>'<div class="step"><b>'+x.code+'</b><div><b>'+esc(x.activity)+'</b><div class="muted">'+(x.date?esc(x.date):'ยังไม่กำหนดวัน')+(x.round?' • '+esc(x.round):'')+(x.hours?' • '+esc(x.hours)+' ชม.':'')+'</div></div><div><span class="badge '+(x.status==='เสร็จแล้ว'?'done':x.status==='กำลังดำเนินการ'?'wait':'')+'">'+esc(x.status)+'</span></div></div>').join('')+'</div></div>'+
+  '<div class="card"><h2>วงรอบและเอกสาร</h2><div class="source"><b>วงรอบ 1</b><div>1.1 วิเคราะห์งานนักเรียน • 1.3 เปิดชั้นเรียน • 1.4 สะท้อนคิด</div><span class="badge '+(['r11','r13','r14'].every(formComplete)?'done':'wait')+'">'+['r11','r13','r14'].filter(formComplete).length+'/3</span></div><div class="source"><b>วงรอบ 2</b><div>2.1 วิเคราะห์งานนักเรียน • 2.2 ออกแบบบทเรียน • 2.3 เปิดชั้นเรียน</div><span class="badge '+(['r21','r22','r23'].every(formComplete)?'done':'wait')+'">'+['r21','r22','r23'].filter(formComplete).length+'/3</span></div><div class="source"><b>วงรอบ 3</b><div>ยังไม่มีแบบฟอร์มวงรอบที่ 3 ในไฟล์ที่ได้รับ</div><span class="badge na">รอต้นฉบับ</span></div><div class="soft" style="margin-top:12px"><b>กิจกรรมถัดไป</b><br>'+(next?esc(next.code+' '+next.activity)+(next.date?'<br><span class="muted">'+esc(next.date)+'</span>':''):'ดำเนินการครบ 8 กิจกรรมแล้ว')+'</div></div></div>'+
+  '<div class="card"><h2>การเข้าใช้งานล่าสุด</h2><div class="muted">'+state.attendance.filter(x=>x.type==='login').slice(-10).reverse().map(x=>esc(x.name)+' • '+fmtTime(x.at)).join('<br>')+'</div></div>';
+}
+function planPage(){
+  const sc=state.school;
+  document.querySelector('#content').innerHTML='<div class="card"><div class="head"><div><h2>PLC Action Plan</h2><div class="muted">ภาคเรียนที่ 2 ปีการศึกษา 2569</div></div><button class="btn" id="savePlan">บันทึก</button></div><div class="grid g3"><div class="field"><label>โรงเรียน</label><input id="schName" value="'+esc(sc.name)+'"></div><div class="field"><label>สังกัด</label><input id="agency" value="'+esc(sc.agency)+'"></div><div class="field"><label>จังหวัด</label><input id="province" value="'+esc(sc.province)+'"></div><div class="field"><label>Model Teacher</label><input id="model" value="'+esc(state.owner.model)+'"></div><div class="field"><label>วิทยฐานะ</label><input id="modelLevel" value="'+esc(state.owner.level)+'"></div><div class="field"><label>อีเมล</label><input id="modelEmail" value="'+esc(state.owner.email)+'"></div><div class="field"><label>รายวิชา</label><input id="subject" value="'+esc(sc.subject)+'"></div><div class="field"><label>ชั้น</label><input id="grade" value="'+esc(sc.grade)+'"></div><div class="field"><label>จำนวนนักเรียน รวม</label><input id="total" type="number" value="'+esc(sc.total)+'"></div><div class="field"><label>ชาย</label><input id="male" type="number" value="'+esc(sc.male)+'"></div><div class="field"><label>หญิง</label><input id="female" type="number" value="'+esc(sc.female)+'"></div></div><div class="sub">แผนการดำเนินกิจกรรมและเวลาเป้าหมาย</div><div class="tbl"><table><thead><tr><th>ลำดับ</th><th>กิจกรรม</th><th>วัน เดือน ปี</th><th>วงรอบ</th><th>ชั่วโมง</th><th>สถานะ</th><th>หมายเหตุ</th></tr></thead><tbody>'+state.schedule.map((x,i)=>'<tr data-si="'+i+'"><td><b>'+x.code+'</b></td><td>'+esc(x.activity)+'</td><td><input data-f="date" value="'+esc(x.date)+'"></td><td><select data-f="round"><option></option><option '+(x.round==='รอบที่ 1'?'selected':'')+'>รอบที่ 1</option><option '+(x.round==='รอบที่ 2'?'selected':'')+'>รอบที่ 2</option><option '+(x.round==='รอบที่ 3'?'selected':'')+'>รอบที่ 3</option></select></td><td><input data-f="hours" type="number" min="0" step="0.5" value="'+esc(x.hours)+'"></td><td><select data-f="status"><option '+(x.status==='ยังไม่เริ่ม'?'selected':'')+'>ยังไม่เริ่ม</option><option '+(x.status==='กำลังดำเนินการ'?'selected':'')+'>กำลังดำเนินการ</option><option '+(x.status==='เสร็จแล้ว'?'selected':'')+'>เสร็จแล้ว</option></select></td><td><input data-f="note" value="'+esc(x.note)+'"></td></tr>').join('')+'</tbody></table></div>'+attachBar('plan')+'</div>';
+  document.querySelector('#savePlan').onclick=()=>{state.school={...sc,name:val('#schName'),agency:val('#agency'),province:val('#province'),subject:val('#subject'),grade:val('#grade'),total:val('#total'),male:val('#male'),female:val('#female')};state.owner={model:val('#model'),level:val('#modelLevel'),email:val('#modelEmail')};document.querySelectorAll('[data-si]').forEach(tr=>{const i=+tr.dataset.si;tr.querySelectorAll('[data-f]').forEach(el=>state.schedule[i][el.dataset.f]=el.value)});save();planPage()};
+  countFiles('plan');
+}
+function teamPage(){
+  const isAdmin=session.role==='admin',acc=accounts();
+  document.querySelector('#content').innerHTML='<div class="card"><div class="head"><div><h2>สมาชิกทีม PLT</h2><div class="muted">Buddy Teacher • School Administrator • Mentor • Expert</div></div><button class="btn" id="saveTeam">บันทึกทีม</button></div><div class="tbl"><table><thead><tr><th>บทบาท</th><th>ชื่อ-นามสกุล</th><th>วิชาเอก</th><th>วิทยฐานะ/ตำแหน่ง</th><th>อีเมล</th></tr></thead><tbody>'+state.team.map((x,i)=>'<tr data-ti="'+i+'"><td><select data-f="role">'+roles.map(r=>'<option '+(x.role===r?'selected':'')+'>'+r+'</option>').join('')+'</select></td><td><input data-f="name" value="'+esc(x.name)+'"></td><td><input data-f="major" value="'+esc(x.major)+'"></td><td><input data-f="level" value="'+esc(x.level)+'"></td><td><input data-f="email" value="'+esc(x.email)+'"></td></tr>').join('')+'</tbody></table></div></div>'+
+  '<div class="card"><div class="head"><div><h2>บัญชีผู้ใช้</h2><div class="muted">ใช้สำหรับลงชื่อเข้าใช้ระบบและลงชื่อเข้าร่วมกิจกรรม</div></div>'+(isAdmin?'<button class="btn" id="addAccount">เพิ่มบัญชี</button>':'')+'</div><div class="tbl"><table><thead><tr><th>ชื่อ</th><th>อีเมล</th><th>สิทธิ์</th><th></th></tr></thead><tbody>'+acc.map(a=>'<tr><td>'+esc(a.name)+'</td><td>'+esc(a.email)+'</td><td>'+roleLabel(a.role)+'</td><td>'+(isAdmin&&a.id!==session.id?'<button class="btn red sm" data-delacc="'+a.id+'">ลบ</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'+(isAdmin?'<div id="newAccount"></div>':'')+'</div>';
+  document.querySelector('#saveTeam').onclick=()=>{document.querySelectorAll('[data-ti]').forEach(tr=>{const i=+tr.dataset.ti;tr.querySelectorAll('[data-f]').forEach(el=>state.team[i][el.dataset.f]=el.value)});save();teamPage()};
+  if(isAdmin){document.querySelector('#addAccount').onclick=()=>{document.querySelector('#newAccount').innerHTML='<div class="soft" style="margin-top:12px"><div class="grid g2"><div class="field"><label>ชื่อ</label><input id="an"></div><div class="field"><label>อีเมล</label><input id="ae"></div><div class="field"><label>รหัสผ่านเริ่มต้น</label><input id="ap" type="password"></div><div class="field"><label>สิทธิ์</label><select id="ar"><option value="member">สมาชิก PLC</option><option value="admin">ผู้ดูแลระบบ</option></select></div></div><button class="btn" id="createAcc" style="margin-top:10px">สร้างบัญชี</button></div>';document.querySelector('#createAcc').onclick=async()=>{const n=val('#an'),e=val('#ae').trim().toLowerCase(),p=val('#ap'),r=val('#ar');if(!n||!e||p.length<4){toast('กรอกข้อมูลให้ครบ รหัสผ่านอย่างน้อย 4 ตัวอักษร');return}let aa=accounts();if(aa.some(x=>x.email.toLowerCase()===e)){toast('อีเมลนี้มีบัญชีแล้ว');return}aa.push({id:'u_'+Date.now(),name:n,email:e,role:r,pass:await hash(p)});setAccounts(aa);toast('สร้างบัญชีแล้ว');teamPage()}};document.querySelectorAll('[data-delacc]').forEach(b=>b.onclick=()=>{if(confirm('ลบบัญชีนี้?')){setAccounts(accounts().filter(x=>x.id!==b.dataset.delacc));teamPage()}})}
+}
+function textarea(id,label,v=''){return '<div class="field"><label>'+label+'</label><textarea id="'+id+'">'+esc(v)+'</textarea></div>'}
+function basicHead(title,desc,scope){return '<div class="head"><div><h2>'+title+'</h2><div class="muted">'+desc+'</div></div><button class="btn" id="saveForm">บันทึก</button></div>'}
+function commonMeta(r){return '<div class="grid g3"><div class="field"><label>ชื่อเครือข่าย/ชื่อทีม</label><input id="network" value="'+esc(r.network||'')+'"></div><div class="field"><label>ครั้งที่</label><input id="times" value="'+esc(r.times||'')+'"></div><div class="field"><label>วัน เดือน ปี</label><input id="date" value="'+esc(r.date||'')+'"></div><div class="field"><label>เวลา</label><input id="time" value="'+esc(r.time||'')+'"></div><div class="field"><label>จำนวนชั่วโมง PLC</label><input id="hours" type="number" step="0.5" value="'+esc(r.hours||'')+'"></div></div>'}
+function discussionFields(r){return '<div class="grid g2">'+textarea('scope','ขอบข่ายปัญหาที่พบ',r.scope)+textarea('evidence','หลักฐานประจักษ์พยานของปัญหา',r.evidence)+textarea('cause','วิเคราะห์สาเหตุของปัญหา',r.cause)+textarea('causeSum','สรุปสาเหตุ',r.causeSum)+'</div><div class="grid g2" style="margin-top:12px">'+textarea('discuss','การอภิปรายการดำเนินการ / บทบาทสมาชิก',r.discuss)+textarea('summary','สรุปสิ่งที่ได้รับจากการอภิปราย',r.summary)+textarea('principle','ความรู้และหลักการนำมาใช้ในกิจกรรม',r.principle)+textarea('next','การประชุมครั้งต่อไป / หัวข้อ',r.next)+'</div>'}
+function r11Page(){
+  const r=form('r11',{network:'',times:'1',date:'',time:'',hours:'',issue:'',scope:'',evidence:'',cause:'',causeSum:'',discuss:'',summary:'',principle:'',next:'',director:''});
+  document.querySelector('#content').innerHTML='<div class="card">'+basicHead('วงรอบที่ 1.1 การวิเคราะห์งานนักเรียน','กิจกรรม: วิเคราะห์ผลการจัดการเรียนรู้และผลสัมฤทธิ์ในการสอบระดับชาติ','r11')+commonMeta(r)+textarea('issue','ประเด็น',r.issue)+discussionFields(r)+textarea('director','ความคิดเห็น/ข้อเสนอแนะของผู้อำนวยการ',r.director)+signBar('r11')+attachBar('r11')+'</div>';
+  bindSimple('r11',['network','times','date','time','hours','issue','scope','evidence','cause','causeSum','discuss','summary','principle','next','director']);countFiles('r11')
+}
+function r13Page(){
+  const r=form('r13',{model:'',plan:'',subject:'',grade:'',unit:'',topic:'',date:'',room:'',standard:'',objective:'',competency:'',attribute:'',evidence:'',concept:'',content:'',integration:'',process:'',student:'',good:'',improve:'',members:'',comment:''});
+  document.querySelector('#content').innerHTML='<div class="note danger">หมายเหตุจากต้นฉบับ: แบบวงรอบ 1.3 บรรทัดหัวเอกสารระบุ “โรงเรียนบ้านโจรก” แต่ส่วนลงนามระบุ “โรงเรียนบ้านจรูกแขวะ” แอปใช้ชื่อโรงเรียนจาก PLC Action Plan คือ “โรงเรียนบ้านจรูกแขวะ”</div><div class="card">'+basicHead('วงรอบที่ 1.3 การเปิดชั้นเรียนและผลการสังเกตการสอน','แนบแผนการจัดการเรียนรู้ที่สมบูรณ์ แผน B','r13')+'<div class="grid g3"><div class="field"><label>Model Teacher</label><input id="model" value="'+esc(r.model)+'"></div><div class="field"><label>แผนการจัดการเรียนรู้ที่</label><input id="plan" value="'+esc(r.plan)+'"></div><div class="field"><label>กลุ่มสาระ/รายวิชา</label><input id="subject" value="'+esc(r.subject)+'"></div><div class="field"><label>ชั้น</label><input id="grade" value="'+esc(r.grade)+'"></div><div class="field"><label>หน่วยการเรียนรู้</label><input id="unit" value="'+esc(r.unit)+'"></div><div class="field"><label>เรื่อง</label><input id="topic" value="'+esc(r.topic)+'"></div><div class="field"><label>วันสอน</label><input id="date" value="'+esc(r.date)+'"></div><div class="field"><label>ห้อง</label><input id="room" value="'+esc(r.room)+'"></div></div><div class="sub">องค์ประกอบแผนการจัดการเรียนรู้</div><div class="grid g2">'+textarea('standard','มาตรฐานการเรียนรู้/ตัวชี้วัด',r.standard)+textarea('objective','จุดประสงค์การเรียนรู้',r.objective)+textarea('competency','สมรรถนะสำคัญของผู้เรียน',r.competency)+textarea('attribute','คุณลักษณะอันพึงประสงค์',r.attribute)+textarea('evidence','หลักฐานการเรียนรู้',r.evidence)+textarea('concept','สาระสำคัญ/ความคิดรวบยอด',r.concept)+textarea('content','สาระการเรียนรู้',r.content)+textarea('integration','การบูรณาการ',r.integration)+textarea('process','กระบวนการจัดการเรียนรู้ 60 นาที',r.process)+'</div><div class="sub">สรุปผลการสังเกตชั้นเรียน</div><div class="grid g3">'+textarea('student','สิ่งเกิดขึ้นกับผู้เรียน',r.student)+textarea('good','สิ่งที่ Model Teacher ปฏิบัติได้ดี',r.good)+textarea('improve','สิ่งที่ควรปรับปรุงในการสอนครั้งต่อไป',r.improve)+'</div>'+textarea('members','ผู้ร่วมสังเกตการสอน / บทบาทในทีม',r.members)+textarea('comment','ความคิดเห็น/ข้อเสนอแนะ',r.comment)+signBar('r13')+attachBar('r13')+'</div>';
+  bindSimple('r13',['model','plan','subject','grade','unit','topic','date','room','standard','objective','competency','attribute','evidence','concept','content','integration','process','student','good','improve','members','comment']);countFiles('r13')
+}
+function r14Page(){
+  const r=form('r14',{team:'',date:'',time:'',hours:'1',members:'5',result:'',reflections:'',goodNext:'',improveNext:'',comment:''});
+  document.querySelector('#content').innerHTML='<div class="card">'+basicHead('วงรอบที่ 1.4 รายงานการประชุมสะท้อนคิด','หลังจากการสังเกตการสอนของการเปิดห้องเรียน รอบที่ 1','r14')+'<div class="grid g3"><div class="field"><label>ชื่อทีม</label><input id="team" value="'+esc(r.team)+'"></div><div class="field"><label>วัน เดือน ปี</label><input id="date" value="'+esc(r.date)+'"></div><div class="field"><label>เวลาประชุม</label><input id="time" value="'+esc(r.time)+'"></div><div class="field"><label>ชั่วโมง PLC</label><input id="hours" type="number" step="0.5" value="'+esc(r.hours)+'"></div><div class="field"><label>จำนวนสมาชิกที่เข้าร่วม</label><input id="members" type="number" value="'+esc(r.members)+'"></div></div>'+textarea('result','ผลการดำเนินกิจกรรมในครั้งนี้',r.result)+textarea('reflections','สรุปการสะท้อนของสมาชิก: สิ่งที่ช่วยพัฒนานักเรียน / สิ่งที่ควรปรับปรุง',r.reflections)+'<div class="grid g2">'+textarea('goodNext','สิ่งที่นำไปเป็นแนวทางปฏิบัติที่ดีในครั้งต่อไป',r.goodNext)+textarea('improveNext','สิ่งที่ควรปรับปรุงในการจัดกิจกรรมครั้งต่อไป',r.improveNext)+'</div>'+textarea('comment','ความคิดเห็น/ข้อเสนอแนะ',r.comment)+signBar('r14')+attachBar('r14')+'</div>';
+  bindSimple('r14',['team','date','time','hours','members','result','reflections','goodNext','improveNext','comment']);countFiles('r14')
+}
+function r21Page(){
+  const r=form('r21',{network:'',times:'1',date:'',time:'',hours:'1',issue:'นักเรียนขาดทักษะการคิดขั้นสูง',scope:'',evidence:'',cause:'',causeSum:'',discuss:'',summary:'',principle:'',next:'เขียนแผนการจัดการเรียนรู้ - เตรียมการสอน',director:''});
+  document.querySelector('#content').innerHTML='<div class="card">'+basicHead('วงรอบที่ 2.1 การวิเคราะห์งานนักเรียน','กิจกรรม: วิเคราะห์ชิ้นงานนักเรียนหลังจากเปิดชั้นเรียน','r21')+commonMeta(r)+textarea('issue','ประเด็น',r.issue)+discussionFields(r)+textarea('director','ความคิดเห็น/ข้อเสนอแนะของผู้อำนวยการ',r.director)+signBar('r21')+attachBar('r21')+'</div>';
+  bindSimple('r21',['network','times','date','time','hours','issue','scope','evidence','cause','causeSum','discuss','summary','principle','next','director']);countFiles('r21')
+}
+const lessonParts=['มาตรฐานการเรียนรู้/ตัวชี้วัด','จุดประสงค์การเรียนรู้','สมรรถนะสำคัญของผู้เรียน','คุณลักษณะอันพึงประสงค์','หลักฐานการเรียนรู้','สาระสำคัญ/ความคิดรวบยอด','สาระการเรียนรู้','การบูรณาการ','กระบวนการจัดการเรียนรู้','สื่อการจัดการเรียนรู้','แหล่งเรียนรู้','การวัดและประเมินผล','แนวทางนำหลักปรัชญาของเศรษฐกิจพอเพียงมาใช้','บันทึกหลังการใช้แผนจัดการเรียนรู้','ความเห็นของผู้บริหารสถานศึกษาหรือผู้ที่ได้รับมอบหมาย','ภาคผนวก'];
+function r22Page(){
+  const r=form('r22',{group:'',topic:'',grade:'',date:'',time:'',hours:'1',members:'',discussion:'',shared:'',summary:'',principle:'',activity:'',result:'',use:'',cert:'',comment:'',parts:Array(16).fill(false)});
+  document.querySelector('#content').innerHTML='<div class="card">'+basicHead('วงรอบที่ 2.2 ร่องรอยการทำงานร่วมกับทีมและผลการออกแบบบทเรียน','กิจกรรม: การออกแบบแผนการจัดการเรียนรู้ ครั้งที่ 2 (1 ชั่วโมง)','r22')+'<div class="grid g3"><div class="field"><label>ชื่อกลุ่ม</label><input id="group" value="'+esc(r.group)+'"></div><div class="field"><label>เรื่อง</label><input id="topic" value="'+esc(r.topic)+'"></div><div class="field"><label>ชั้น</label><input id="grade" value="'+esc(r.grade)+'"></div><div class="field"><label>วันเดือนปี</label><input id="date" value="'+esc(r.date)+'"></div><div class="field"><label>เวลา</label><input id="time" value="'+esc(r.time)+'"></div><div class="field"><label>ชั่วโมง PLC</label><input id="hours" type="number" step="0.5" value="'+esc(r.hours)+'"></div></div>'+textarea('members','บทบาทในกิจกรรม / รายชื่อสมาชิก',r.members)+'<div class="sub">องค์ประกอบของแผนที่ทีมร่วมกันวิพากษ์และเพิ่มเติม</div><div class="checks">'+lessonParts.map((x,i)=>'<label><input class="part" type="checkbox" data-i="'+i+'" '+((r.parts||[])[i]?'checked':'')+'> '+(i+1)+'. '+x+'</label>').join('')+'</div><div class="note" style="margin-top:12px">กติกาจากต้นฉบับ: ประชุมด้วยสติสนทนา รับฟังความคิดเห็นของผู้อื่นอย่างมีเหตุผลและมีวิจารณญาณ อภิปรายอย่างสร้างสรรค์</div><div class="grid g2">'+textarea('discussion','บันทึกการสนทนา / ประเด็นสนทนา',r.discussion)+textarea('shared','แนวคิดร่วม / แนวปฏิบัติร่วม',r.shared)+textarea('summary','สรุปผลการทำกิจกรรม PLC',r.summary)+textarea('principle','ความรู้/หลักการที่นำมาใช้',r.principle)+textarea('activity','กิจกรรมที่ทำ',r.activity)+textarea('result','ผลที่ได้จากกิจกรรม',r.result)+textarea('use','การนำไปใช้',r.use)+'</div><div class="field"><label>การรับรองของผู้บริหารสถานศึกษา</label><select id="cert"><option></option><option '+(r.cert==='รับรองผลการดำเนินการ จำนวน 1 ชั่วโมง'?'selected':'')+'>รับรองผลการดำเนินการ จำนวน 1 ชั่วโมง</option><option '+(r.cert==='ไม่รับรอง'?'selected':'')+'>ไม่รับรอง</option></select></div>'+textarea('comment','ความคิดเห็น',r.comment)+signBar('r22')+attachBar('r22')+'</div>';
+  document.querySelector('#saveForm').onclick=()=>{['group','topic','grade','date','time','hours','members','discussion','shared','summary','principle','activity','result','use','cert','comment'].forEach(k=>r[k]=val('#'+k));r.parts=Array.from(document.querySelectorAll('.part')).map(x=>x.checked);state.forms.r22=r;save();r22Page()};countFiles('r22')
+}
+function r23Page(){
+  const r=form('r23',{model:'',plan:'',student:'',good:'',improve:'',members:'',date:'',place:'',comment:''});
+  document.querySelector('#content').innerHTML='<div class="card">'+basicHead('วงรอบที่ 2.3 การเปิดชั้นเรียนและผลการสังเกตการสอน','บันทึกชุมชนการเรียนรู้วิชาชีพ (PLC)','r23')+'<div class="grid g3"><div class="field"><label>Model Teacher</label><input id="model" value="'+esc(r.model)+'"></div><div class="field"><label>แผนการจัดการเรียนรู้ที่</label><input id="plan" value="'+esc(r.plan)+'"></div><div class="field"><label>วัน เดือน ปี</label><input id="date" value="'+esc(r.date)+'"></div><div class="field"><label>สถานที่/ห้อง</label><input id="place" value="'+esc(r.place)+'"></div></div><div class="grid g3">'+textarea('student','สิ่งเกิดขึ้นกับผู้เรียน',r.student)+textarea('good','สิ่งที่ Model Teacher ปฏิบัติได้ดี',r.good)+textarea('improve','สิ่งที่ Model Teacher ควรปรับปรุงในการสอนครั้งต่อไป',r.improve)+'</div>'+textarea('members','ผู้ร่วมสังเกตการสอน / บทบาทในทีม',r.members)+textarea('comment','ความคิดเห็น/ข้อเสนอแนะ',r.comment)+'<div class="soft"><b>หลักฐานตามต้นฉบับ</b><br>ภาพการประชุมก่อนเปิดชั้นเรียน • คลิปวิดีโอการสอนวงรอบที่ 2 • ภาพหลังจัดกิจกรรมเปิดชั้นเรียน</div>'+signBar('r23')+attachBar('r23')+'</div>';
+  bindSimple('r23',['model','plan','date','place','student','good','improve','members','comment']);countFiles('r23')
+}
+function bindSimple(id,keys){document.querySelector('#saveForm').onclick=()=>{const r=state.forms[id];keys.forEach(k=>r[k]=val('#'+k));save();render()}}
+function evidencePage(){
+  const scopes=['plan','r11','r13','r14','r21','r22','r23'];
+  Promise.all(scopes.map(s=>listFiles(s))).then(rows=>{
+    document.querySelector('#content').innerHTML='<div class="card"><div class="head"><div><h2>หลักฐานและไฟล์แนบ</h2><div class="muted">ภาพกิจกรรม แผนการสอน คลิปที่จัดเก็บภายนอก และ PDF</div></div></div>'+scopes.map((s,i)=>'<div class="source"><b>'+s.toUpperCase()+'</b><div>'+labelScope(s)+'</div><div><span class="badge">'+rows[i].length+' ไฟล์</span> <button class="btn alt sm" data-attach="'+s+'">เปิด/แนบไฟล์</button></div></div>').join('')+'<div class="note" style="margin-top:12px">ไฟล์แนบถูกเก็บใน IndexedDB ของเบราว์เซอร์เครื่องนี้ ไม่ได้อัปโหลดขึ้น GitHub อัตโนมัติ</div></div>';
+  })
+}
+function labelScope(s){return ({plan:'PLC Action Plan',r11:'วงรอบ 1.1',r13:'วงรอบ 1.3',r14:'วงรอบ 1.4',r21:'วงรอบ 2.1',r22:'วงรอบ 2.2',r23:'วงรอบ 2.3'})[s]||s}
+function sourcesPage(){
+  document.querySelector('#content').innerHTML='<div class="card"><h2>ข้อมูลโครงสร้างที่นำมาจากไฟล์ต้นฉบับ</h2><div class="muted">แอปสร้างเฉพาะแบบที่มีข้อมูลรองรับในชุดไฟล์ที่ได้รับ</div>'+sourceFiles.map(x=>'<div class="source"><b>'+x[0]+'</b><div>'+esc(x[1])+'</div><span class="badge '+(x[2]==='มีต้นฉบับ'?'done':'na')+'">'+x[2]+'</span></div>').join('')+'</div><div class="card"><h2>ข้อสังเกตจากต้นฉบับ</h2><div class="soft">ไฟล์วงรอบ 1.3 ระบุชื่อโรงเรียนในส่วนหัวว่า “โรงเรียนบ้านโจรก” ขณะที่ส่วนลงนามและไฟล์อื่นระบุ “โรงเรียนบ้านจรูกแขวะ” จึงใช้ชื่อจาก PLC Action Plan เป็นข้อมูลหลักในแอป</div><div class="soft" style="margin-top:9px">แบบวงรอบ 1.2, 2.4 และแบบของวงรอบที่ 3 ไม่ได้อยู่ในไฟล์ที่ได้รับ จึงไม่สร้างช่องรายละเอียดเฉพาะที่อาจเป็นการเดา แต่ยังสามารถติดตามสถานะ 8.1–8.8 และแนบหลักฐานได้</div></div>'
+}
+function render(){nav();setTitle();if(current==='dashboard')dashboard();else if(current==='plan')planPage();else if(current==='team')teamPage();else if(current==='r11')r11Page();else if(current==='r13')r13Page();else if(current==='r14')r14Page();else if(current==='r21')r21Page();else if(current==='r22')r22Page();else if(current==='r23')r23Page();else if(current==='evidence')evidencePage();else sourcesPage()}
+function logAttendance(type,scope){state.attendance.push({type,scope,name:session.name,email:session.email,at:new Date().toISOString()});if(state.attendance.length>300)state.attendance=state.attendance.slice(-300);save(type==='activity'?'ลงชื่อเข้าร่วมแล้ว':'เข้าสู่ระบบแล้ว')}
+function odb(){return new Promise((ok,no)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{const st=r.result.createObjectStore(STORE,{keyPath:'id'});st.createIndex('scope','scope',{unique:false})};r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
+function putFile(f){return odb().then(db=>new Promise((ok,no)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(f);tx.oncomplete=ok;tx.onerror=()=>no(tx.error)}))}
+function listFiles(scope){return odb().then(db=>new Promise((ok,no)=>{const r=db.transaction(STORE,'readonly').objectStore(STORE).index('scope').getAll(scope);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)}))}
+function allFiles(){return odb().then(db=>new Promise((ok,no)=>{const r=db.transaction(STORE,'readonly').objectStore(STORE).getAll();r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)}))}
+function delFile(id){return odb().then(db=>new Promise((ok,no)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(id);tx.oncomplete=ok;tx.onerror=()=>no(tx.error)}))}
+function clearFiles(){return odb().then(db=>new Promise((ok,no)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).clear();tx.oncomplete=ok;tx.onerror=()=>no(tx.error)}))}
+function countFiles(scope){const e=document.querySelector('[data-filecount="'+scope+'"]');if(e)listFiles(scope).then(fs=>e.textContent=fs.length+' ไฟล์')}
+function openFiles(scope){attachScope=scope;refreshFiles();document.querySelector('#fileDlg').showModal()}
+function refreshFiles(){listFiles(attachScope).then(fs=>{document.querySelector('#fileList').innerHTML=fs.length?fs.map(f=>'<div class="file"><div><b>'+esc(f.name)+'</b><span class="muted">'+Math.round(f.size/1024)+' KB</span></div><button class="btn alt sm" data-openfile="'+f.id+'">เปิด</button><button class="btn red sm" data-delfile="'+f.id+'">ลบ</button></div>').join(''):'<div class="muted">ยังไม่มีไฟล์แนบ</div>';document.querySelectorAll('[data-openfile]').forEach(b=>b.onclick=()=>previewFile(b.dataset.openfile));document.querySelectorAll('[data-delfile]').forEach(b=>b.onclick=()=>delFile(b.dataset.delfile).then(()=>{refreshFiles();countFiles(attachScope);toast('ลบไฟล์แล้ว')}))})}
+function previewFile(id){allFiles().then(fs=>{const f=fs.find(x=>x.id===id);if(!f)return;const u=URL.createObjectURL(f.blob);document.querySelector('#previewTitle').textContent=f.name;document.querySelector('#previewBody').innerHTML=f.type==='application/pdf'?'<iframe src="'+u+'" style="width:100%;height:75vh;border:0;background:#fff"></iframe>':'<img src="'+u+'" style="max-width:100%;max-height:75vh">';document.querySelector('#previewDlg').dataset.u=u;document.querySelector('#previewDlg').showModal()})}
+function b64(blob){return new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(r.error);r.readAsDataURL(blob)})}
+function unb64(x){const a=x.split(','),mime=(a[0].match(/data:(.*?);/)||[])[1]||'application/octet-stream',bin=atob(a[1]),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return new Blob([u],{type:mime})}
+async function backup(){const fs=await allFiles(),out=[];for(const f0 of fs){const f={...f0};f.blob=await b64(f0.blob);out.push(f)}const blob=new Blob([JSON.stringify({state,accounts:accounts(),files:out,createdAt:new Date().toISOString()})],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='PLC_Charukkhawe_2569_backup.json';a.click();toast('ดาวน์โหลดไฟล์สำรองแล้ว')}
+async function restore(file){try{const z=JSON.parse(await file.text());if(!z.state)throw new Error();state=z.state;localStorage.setItem(APPKEY,JSON.stringify(state));if(Array.isArray(z.accounts)&&z.accounts.length)setAccounts(z.accounts);await clearFiles();for(const f of z.files||[]){f.blob=unb64(f.blob);await putFile(f)}toast('นำเข้าข้อมูลสำเร็จ');render()}catch(e){toast('นำเข้าข้อมูลไม่สำเร็จ')}}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-attach]');if(a)openFiles(a.dataset.attach);const s=e.target.closest('[data-sign]');if(s){logAttendance('activity',s.dataset.sign);render()}});
+document.querySelector('#fileInput').onchange=async function(){for(let i=0;i<this.files.length;i++){const f=this.files[i];if(!['image/jpeg','image/png','image/webp','application/pdf'].includes(f.type))continue;await putFile({id:'f_'+Date.now()+'_'+i,scope:attachScope,name:f.name,type:f.type,size:f.size,blob:f})}this.value='';refreshFiles();countFiles(attachScope);toast('แนบไฟล์แล้ว')};
+document.querySelector('#fileClose').onclick=()=>document.querySelector('#fileDlg').close();
+document.querySelector('#previewClose').onclick=()=>{const d=document.querySelector('#previewDlg');if(d.dataset.u)URL.revokeObjectURL(d.dataset.u);document.querySelector('#previewBody').innerHTML='';d.close()};
+document.querySelector('#menu').onclick=()=>document.querySelector('#side').classList.toggle('open');
+document.querySelector('#print').onclick=()=>window.print();
+document.querySelector('#logout').onclick=logout;
+document.querySelector('#backup').onclick=backup;
+document.querySelector('#restore').onclick=()=>document.querySelector('#restoreFile').click();
+document.querySelector('#restoreFile').onchange=function(){if(this.files[0])restore(this.files[0]);this.value=''};
+try{session=JSON.parse(sessionStorage.getItem(SESSION))}catch(e){}
+if(session&&accounts().some(a=>a.id===session.id))showApp();else authScreen();
+</script>
+</body>
+</html>
