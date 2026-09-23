@@ -272,8 +272,7 @@ async function printBook(){
   const fs=await allFiles();
   const w=window.open('','_blank');
   if(!w){toast('เบราว์เซอร์บล็อกหน้าต่างพิมพ์');return}
-  w.document.write('<!doctype html><html lang="th"><head><meta charset="utf-8"><title>รายงาน PLC 5 บท</title>'+bookStyles()+'</head><body>'+makeBookHtml(fs)+'<script src="enhancement.js"></script>
-</body></html>');
+  w.document.write('<!doctype html><html lang="th"><head><meta charset="utf-8"><title>รายงาน PLC 5 บท</title>'+bookStyles()+'</head><body>'+makeBookHtml(fs)+'</body></html>');
   w.document.close();w.focus();setTimeout(()=>w.print(),500);
 }
 function statusReportHtml(){
@@ -398,5 +397,6 @@ document.querySelector('#restoreFile').onchange=function(){if(this.files[0])rest
 try{session=JSON.parse(sessionStorage.getItem(SESSION))}catch(e){}
 if(session&&accounts().some(a=>a.id===session.id))showApp();else authScreen();
 </script>
+<script src="enhancement.js"></script>
 </body>
 </html>
