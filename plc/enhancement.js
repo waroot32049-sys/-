@@ -63,6 +63,35 @@
     const empty=valid<3?'<text x="'+cx+'" y="'+(cy+6)+'" text-anchor="middle" class="radar-label">กรอกคะแนนอย่างน้อย 3 ตัวชี้วัดเพื่อแสดงกราฟ</text>':'';
     return '<svg class="radar-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="กราฟเรดาร์ผลการสังเกตชั้นเรียน 8 ตัวชี้วัด">'+grid+axes+poly+pts+labels+empty+'</svg>';
   }
+
+  function areaRadarSvg(areas){
+    const W=900,H=620,cx=450,cy=300,R=220,levels=[0,20,40,60,80,100];
+    const items=(areas||[]).map(x=>({name:String(x.name||''),value:Math.max(0,Math.min(100,parseFloat(x.value)||0))}));
+    const n=items.length||1;
+    let grid='',axes='',labels='',poly='',pts='';
+    levels.forEach(lv=>{
+      const rr=R*(lv/100),arr=[];
+      for(let j=0;j<n;j++) arr.push(polar(cx,cy,rr,j*(360/n)).join(','));
+      if(n>=3) grid+='<polygon class="radar-grid" points="'+arr.join(' ')+'"/>';
+      if(lv>0) grid+='<text class="radar-value" x="'+(cx+7)+'" y="'+(cy-rr+4)+'">'+lv+'</text>';
+    });
+    const points=[];
+    items.forEach((it,j)=>{
+      const angle=j*(360/n),end=polar(cx,cy,R,angle);
+      axes+='<line class="radar-axis" x1="'+cx+'" y1="'+cy+'" x2="'+end[0]+'" y2="'+end[1]+'"/>';
+      const lp=polar(cx,cy,R+62,angle);
+      let anchor='middle'; if(lp[0]<cx-40)anchor='end'; else if(lp[0]>cx+40)anchor='start';
+      const words=it.name.split(' '),cut=Math.ceil(words.length/2),l1=words.slice(0,cut).join(' '),l2=words.slice(cut).join(' ');
+      labels+='<text class="radar-label" text-anchor="'+anchor+'" x="'+lp[0]+'" y="'+(lp[1]-9)+'"><tspan x="'+lp[0]+'" dy="0">'+esc(l1)+'</tspan>'+(l2?'<tspan x="'+lp[0]+'" dy="16">'+esc(l2)+'</tspan>':'')+'<tspan x="'+lp[0]+'" dy="17" class="radar-value">'+it.value+'%</tspan></text>';
+      const p=polar(cx,cy,R*(it.value/100),angle);
+      points.push(p.join(','));
+      pts+='<circle class="radar-point" cx="'+p[0]+'" cy="'+p[1]+'" r="5"/>';
+    });
+    if(items.length>=3) poly='<polygon class="radar-area" points="'+points.join(' ')+'"/>';
+    return '<div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="กราฟเรดาร์ความก้าวหน้ารายด้าน">'+grid+axes+poly+pts+labels+'</svg></div>'+
+      '<div class="grid g3" style="margin-top:10px">'+items.map(it=>'<div class="soft"><b>'+esc(it.name)+'</b><br><strong style="font-size:22px;color:var(--g)">'+it.value+'%</strong></div>').join('')+'</div>';
+  }
+
   function radarEditor(){
     const r=radarData();
     return '<div class="score-grid">'+radarLabels.map((x,i)=>
@@ -227,7 +256,7 @@
       '<div class="card metric"><span class="muted">กิจกรรมเสร็จแล้ว</span><br><strong>'+p.done+'/8</strong></div>'+
       '<div class="card metric"><span class="muted">ชั่วโมง PLC ที่บันทึก</span><br><strong>'+hours+'</strong> ชม.</div></div>'+
       '<div class="dash-chart-grid"><div class="card"><div class="head"><div><h2>กราฟวิเคราะห์ผลการสังเกตชั้นเรียน 8 ตัวชี้วัด</h2><div class="muted">รูปแบบเรดาร์ตามภาพแนบ • คะแนน 0–100</div></div></div><div class="radar-wrap">'+radarSvg(radarData().scores)+'</div>'+radarEditor()+'</div>'+
-      '<div><div class="card"><h2>สถานะรายด้าน</h2><div class="muted">วิเคราะห์จากความครบถ้วนของบันทึกและสถานะกิจกรรม</div>'+areaChartHtml(areas)+'</div>'+
+      '<div><div class="card"><h2>กราฟความก้าวหน้ารายด้าน</h2><div class="muted">กราฟเรดาร์รูปแบบเดียวกับภาพแนบ • คำนวณจากความครบถ้วนของบันทึกและสถานะกิจกรรม</div>'+areaRadarSvg(areas)+'</div>'+
       '<div class="card"><h2>สถานะกิจกรรมตามแผน</h2>'+statusStackHtml()+'<div class="soft" style="margin-top:12px"><b>กิจกรรมถัดไป</b><br>'+(next?esc(next.code+' '+next.activity)+(next.date?'<br><span class="muted">'+esc(next.date)+'</span>':''):'ดำเนินการครบทุกกิจกรรมแล้ว')+'</div></div></div></div>'+
       '<div class="card"><div class="head"><div><h2>สรุปบันทึกการสังเกตชั้นเรียน</h2><div class="muted">สรุปผล • ปรับปรุง • ออกแบบการสอนใหม่ • พร้อมแจ้งผลครู</div></div><div class="quick-actions"><button class="btn" id="printTeacherEnh">พิมพ์รายงานแจ้งผลครู</button><button class="btn alt" id="openFiveChapterEnh">เปิดรายงาน 5 บท</button><button class="btn alt" id="printFiveChapterEnh">พิมพ์เล่ม 5 บท / PDF</button></div></div><div class="report-mini">'+teacherFeedbackHtml(true)+'</div></div>'+
       '<div class="card"><h2>รายละเอียดกิจกรรมตามแผน</h2><div class="timeline">'+state.schedule.map(x=>'<div class="step"><b>'+x.code+'</b><div><b>'+esc(x.activity)+'</b><div class="muted">'+(x.date?esc(x.date):'ยังไม่กำหนดวัน')+(x.round?' • '+esc(x.round):'')+(x.hours?' • '+esc(x.hours)+' ชม.':'')+'</div></div><div><span class="badge '+(x.status==='เสร็จแล้ว'?'done':x.status==='กำลังดำเนินการ'?'wait':'')+'">'+esc(x.status)+'</span></div></div>').join('')+'</div></div>'+
