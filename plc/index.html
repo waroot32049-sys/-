@@ -27,6 +27,7 @@ dialog{border:0;border-radius:16px;width:min(820px,94vw);padding:0;box-shadow:0 
 @media(max-width:920px){.shell{display:block}.side{position:fixed;left:-290px;width:270px;z-index:30;transition:.2s}.side.open{left:0}.menu{display:inline-block}.wrap{padding:13px}.g4,.g3,.g2{grid-template-columns:1fr}.top{padding:11px 13px}.who{display:none}.step{grid-template-columns:55px 1fr}.step>div:last-child{grid-column:2}.source{grid-template-columns:1fr}.source>*{grid-column:1}}
 @media print{.side,.top .actions,.menu,.attach,.btn,.report-tools{display:none!important}.shell{display:block}.top{position:static;border:0}.wrap{padding:0}.card{box-shadow:none;break-inside:avoid}body{background:#fff}.book-preview{background:#fff;padding:0}.paper{box-shadow:none;margin:0;padding:18mm 20mm;max-width:none;min-height:0}.chapter{page-break-before:always}}
 </style>
+<link rel="stylesheet" href="enhancement.css">
 </head>
 <body>
 <div id="auth" class="login"></div>
@@ -271,7 +272,8 @@ async function printBook(){
   const fs=await allFiles();
   const w=window.open('','_blank');
   if(!w){toast('เบราว์เซอร์บล็อกหน้าต่างพิมพ์');return}
-  w.document.write('<!doctype html><html lang="th"><head><meta charset="utf-8"><title>รายงาน PLC 5 บท</title>'+bookStyles()+'</head><body>'+makeBookHtml(fs)+'</body></html>');
+  w.document.write('<!doctype html><html lang="th"><head><meta charset="utf-8"><title>รายงาน PLC 5 บท</title>'+bookStyles()+'</head><body>'+makeBookHtml(fs)+'<script src="enhancement.js"></script>
+</body></html>');
   w.document.close();w.focus();setTimeout(()=>w.print(),500);
 }
 function statusReportHtml(){
