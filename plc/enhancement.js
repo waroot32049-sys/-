@@ -65,7 +65,7 @@
   }
 
   function areaRadarSvg(areas){
-    const W=900,H=620,cx=450,cy=300,R=220,levels=[0,20,40,60,80,100];
+    const W=920,H=650,cx=460,cy=315,R=225,levels=[0,20,40,60,80,100];
     const items=(areas||[]).map(x=>({name:String(x.name||''),value:Math.max(0,Math.min(100,parseFloat(x.value)||0))}));
     const n=items.length||1;
     let grid='',axes='',labels='',poly='',pts='';
@@ -79,17 +79,16 @@
     items.forEach((it,j)=>{
       const angle=j*(360/n),end=polar(cx,cy,R,angle);
       axes+='<line class="radar-axis" x1="'+cx+'" y1="'+cy+'" x2="'+end[0]+'" y2="'+end[1]+'"/>';
-      const lp=polar(cx,cy,R+62,angle);
-      let anchor='middle'; if(lp[0]<cx-40)anchor='end'; else if(lp[0]>cx+40)anchor='start';
+      const lp=polar(cx,cy,R+78,angle);
+      let anchor='middle'; if(lp[0]<cx-45)anchor='end'; else if(lp[0]>cx+45)anchor='start';
       const words=it.name.split(' '),cut=Math.ceil(words.length/2),l1=words.slice(0,cut).join(' '),l2=words.slice(cut).join(' ');
-      labels+='<text class="radar-label" text-anchor="'+anchor+'" x="'+lp[0]+'" y="'+(lp[1]-9)+'"><tspan x="'+lp[0]+'" dy="0">'+esc(l1)+'</tspan>'+(l2?'<tspan x="'+lp[0]+'" dy="16">'+esc(l2)+'</tspan>':'')+'<tspan x="'+lp[0]+'" dy="17" class="radar-value">'+it.value+'%</tspan></text>';
+      labels+='<text class="radar-label" text-anchor="'+anchor+'" x="'+lp[0]+'" y="'+(lp[1]-8)+'"><tspan x="'+lp[0]+'" dy="0">'+esc(l1)+'</tspan>'+(l2?'<tspan x="'+lp[0]+'" dy="16">'+esc(l2)+'</tspan>':'')+'<tspan x="'+lp[0]+'" dy="17" class="radar-value">'+it.value+'%</tspan></text>';
       const p=polar(cx,cy,R*(it.value/100),angle);
       points.push(p.join(','));
       pts+='<circle class="radar-point" cx="'+p[0]+'" cy="'+p[1]+'" r="5"/>';
     });
     if(items.length>=3) poly='<polygon class="radar-area" points="'+points.join(' ')+'"/>';
-    return '<div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="กราฟเรดาร์ความก้าวหน้ารายด้าน">'+grid+axes+poly+pts+labels+'</svg></div>'+
-      '<div class="grid g3" style="margin-top:10px">'+items.map(it=>'<div class="soft"><b>'+esc(it.name)+'</b><br><strong style="font-size:22px;color:var(--g)">'+it.value+'%</strong></div>').join('')+'</div>';
+    return '<svg class="radar-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="กราฟเรดาร์ความก้าวหน้ารายด้าน">'+grid+axes+poly+pts+labels+'</svg>';
   }
 
   function radarEditor(){
@@ -249,18 +248,54 @@
     const hours=state.schedule.reduce((a,x)=>a+(parseFloat(x.hours)||0),0);
     const forms=['r11','r13','r14','r21','r22','r23'],fc=forms.filter(formComplete).length;
     const next=state.schedule.find(x=>x.status!=='เสร็จแล้ว');
+    const teamCount=(state.team||[]).filter(x=>String(x.name||'').trim()).length+(String(state.owner.model||'').trim()?1:0);
+    const sorted=[...areas].sort((a,b)=>b.value-a.value),high=sorted[0]||{name:'-',value:0},low=sorted[sorted.length-1]||{name:'-',value:0};
+
     document.querySelector('#content').innerHTML=
-      '<div class="note">กราฟบนแดชบอร์ดแสดงจากข้อมูลที่บันทึกจริงในระบบ คะแนนกราฟ 8 ตัวชี้วัดต้องกรอกตามผลประเมินจริง ระบบไม่สร้างคะแนนแทนผู้ประเมิน</div>'+
-      '<div class="grid g4"><div class="card metric"><span class="muted">ความคืบหน้าแผน</span><br><strong>'+p.pct+'%</strong><div class="bar"><i style="width:'+p.pct+'%"></i></div></div>'+
-      '<div class="card metric"><span class="muted">ความก้าวหน้าเฉลี่ยรายด้าน</span><br><strong>'+overall+'%</strong></div>'+
-      '<div class="card metric"><span class="muted">กิจกรรมเสร็จแล้ว</span><br><strong>'+p.done+'/8</strong></div>'+
-      '<div class="card metric"><span class="muted">ชั่วโมง PLC ที่บันทึก</span><br><strong>'+hours+'</strong> ชม.</div></div>'+
-      '<div class="dash-chart-grid"><div class="card"><div class="head"><div><h2>กราฟวิเคราะห์ผลการสังเกตชั้นเรียน 8 ตัวชี้วัด</h2><div class="muted">รูปแบบเรดาร์ตามภาพแนบ • คะแนน 0–100</div></div></div><div class="radar-wrap">'+radarSvg(radarData().scores)+'</div>'+radarEditor()+'</div>'+
-      '<div><div class="card"><h2>กราฟความก้าวหน้ารายด้าน</h2><div class="muted">กราฟเรดาร์รูปแบบเดียวกับภาพแนบ • คำนวณจากความครบถ้วนของบันทึกและสถานะกิจกรรม</div>'+areaRadarSvg(areas)+'</div>'+
-      '<div class="card"><h2>สถานะกิจกรรมตามแผน</h2>'+statusStackHtml()+'<div class="soft" style="margin-top:12px"><b>กิจกรรมถัดไป</b><br>'+(next?esc(next.code+' '+next.activity)+(next.date?'<br><span class="muted">'+esc(next.date)+'</span>':''):'ดำเนินการครบทุกกิจกรรมแล้ว')+'</div></div></div></div>'+
-      '<div class="card"><div class="head"><div><h2>สรุปบันทึกการสังเกตชั้นเรียน</h2><div class="muted">สรุปผล • ปรับปรุง • ออกแบบการสอนใหม่ • พร้อมแจ้งผลครู</div></div><div class="quick-actions"><button class="btn" id="printTeacherEnh">พิมพ์รายงานแจ้งผลครู</button><button class="btn alt" id="openFiveChapterEnh">เปิดรายงาน 5 บท</button><button class="btn alt" id="printFiveChapterEnh">พิมพ์เล่ม 5 บท / PDF</button></div></div><div class="report-mini">'+teacherFeedbackHtml(true)+'</div></div>'+
-      '<div class="card"><h2>รายละเอียดกิจกรรมตามแผน</h2><div class="timeline">'+state.schedule.map(x=>'<div class="step"><b>'+x.code+'</b><div><b>'+esc(x.activity)+'</b><div class="muted">'+(x.date?esc(x.date):'ยังไม่กำหนดวัน')+(x.round?' • '+esc(x.round):'')+(x.hours?' • '+esc(x.hours)+' ชม.':'')+'</div></div><div><span class="badge '+(x.status==='เสร็จแล้ว'?'done':x.status==='กำลังดำเนินการ'?'wait':'')+'">'+esc(x.status)+'</span></div></div>').join('')+'</div></div>'+
-      '<div class="card"><div class="grid g3"><div class="soft"><b>แบบบันทึกที่เริ่มกรอก</b><br>'+fc+'/6 แบบ</div><div class="soft"><b>ผลวิเคราะห์กราฟ</b><br>'+esc(radarSummary())+'</div><div class="soft"><b>อัปเดตล่าสุด</b><br>'+fmtTime(state.updatedAt)+'</div></div></div>';
+      '<div class="head" style="margin-bottom:18px"><div><h2 style="font-size:22px">ภาพรวมการดำเนินงาน PLC</h2><div class="muted">ติดตามแผน กระบวนการ PLC ความก้าวหน้ารายด้าน หลักฐาน และรายงานผล</div></div></div>'+
+      '<div class="dash-stats">'+
+        '<div class="card metric"><span class="muted">ความคืบหน้าแผน</span><br><strong>'+p.pct+'%</strong><div class="bar"><i style="width:'+p.pct+'%"></i></div></div>'+
+        '<div class="card metric"><span class="muted">กิจกรรมเสร็จแล้ว</span><br><strong>'+p.done+'/8</strong></div>'+
+        '<div class="card metric"><span class="muted">แบบบันทึกที่เริ่มกรอก</span><br><strong>'+fc+'/6</strong></div>'+
+        '<div class="card metric"><span class="muted">ชั่วโมง PLC</span><br><strong>'+hours+'</strong> ชม.</div>'+
+        '<div class="card metric"><span class="muted">สมาชิกทีม PLT</span><br><strong>'+teamCount+'</strong> คน</div>'+
+      '</div>'+
+
+      '<div class="card dashboard-section"><h2>กระบวนการ PLC Action Plan</h2><div class="muted">แสดงลำดับการดำเนินงานตามแผนที่บันทึกไว้ในระบบ</div>'+
+        '<div class="model-flow">'+state.schedule.map((x,i)=>'<div class="model-step"><strong>'+(i+1)+'</strong>'+esc(x.activity)+'<div class="small" style="margin-top:5px">'+esc(x.status)+'</div></div>').join('')+'</div>'+
+      '</div>'+
+
+      '<div class="card dashboard-section"><div class="head"><div><h2>กราฟความก้าวหน้ารายด้าน</h2><div class="muted">รูปแบบเดียวกับแอปตัวอย่าง คำนวณจากข้อมูลที่บันทึกจริงในระบบ</div></div></div>'+
+        '<div class="radar-panel-template">'+
+          '<div class="radar-box-template"><div class="radar-legend"><span class="radar-swatch"></span><span>ความก้าวหน้ารายด้าน</span><span>สเกล 0–100</span></div>'+areaRadarSvg(areas)+'</div>'+
+          '<div class="radar-side-template">'+
+            '<div class="radar-metrics-template">'+
+              '<div class="radar-metric-template"><div class="k">ค่าเฉลี่ยรายด้าน</div><div class="v">'+overall+'%</div></div>'+
+              '<div class="radar-metric-template"><div class="k">สูงสุด</div><div class="v">'+high.value+'%</div></div>'+
+              '<div class="radar-metric-template"><div class="k">ควรติดตาม</div><div class="v">'+low.value+'%</div></div>'+
+            '</div>'+
+            '<div><h2 style="font-size:16px;margin-bottom:8px">สถานะรายด้าน</h2><div class="area-list">'+areas.map(a=>'<div class="area-row"><div class="area-row-top"><span>'+esc(a.name)+'</span><strong>'+a.value+'%</strong></div><div class="bar"><i style="width:'+a.value+'%"></i></div></div>').join('')+'</div></div>'+
+            '<div class="note">ร้อยละนี้เป็นค่าความก้าวหน้าจากความครบถ้วนของแบบบันทึกและสถานะกิจกรรม ไม่ใช่คะแนนประเมินคุณภาพ</div>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+
+      '<div class="card dashboard-section"><div class="head"><div><h2>กราฟวิเคราะห์ผลการสังเกตชั้นเรียน 8 ตัวชี้วัด</h2><div class="muted">กรอกคะแนน 0–100 ตามผลประเมินจริง ระบบจะแสดงกราฟเรดาร์อัตโนมัติ</div></div></div>'+
+        '<div class="radar-panel-template">'+
+          '<div class="radar-box-template"><div class="radar-legend"><span class="radar-swatch"></span><span>ผลการสังเกตชั้นเรียน</span><span>สเกล 0–100</span></div>'+radarSvg(radarData().scores)+'</div>'+
+          '<div class="radar-side-template"><div class="radar-metrics-template">'+
+            '<div class="radar-metric-template"><div class="k">ผลวิเคราะห์</div><div class="v" style="font-size:14px">'+esc(radarSummary())+'</div></div>'+
+            '<div class="radar-metric-template"><div class="k">แบบบันทึก</div><div class="v">'+fc+'/6</div></div>'+
+            '<div class="radar-metric-template"><div class="k">อัปเดตล่าสุด</div><div class="v" style="font-size:13px">'+fmtTime(state.updatedAt)+'</div></div>'+
+          '</div>'+radarEditor()+'</div>'+
+        '</div>'+
+      '</div>'+
+
+      '<div class="grid g2 dashboard-section">'+
+        '<div class="card"><div class="head"><div><h2>สรุปบันทึกการสังเกตชั้นเรียน</h2><div class="muted">สรุปผล • ปรับปรุง • ออกแบบการสอนใหม่ • พร้อมแจ้งผลครู</div></div></div><div class="report-mini">'+teacherFeedbackHtml(true)+'</div><div class="quick-actions" style="margin-top:12px"><button class="btn" id="printTeacherEnh">พิมพ์รายงานแจ้งผลครู</button><button class="btn alt" id="openFiveChapterEnh">เปิดรายงาน 5 บท</button><button class="btn alt" id="printFiveChapterEnh">พิมพ์เล่ม 5 บท / PDF</button></div></div>'+
+        '<div class="card"><h2>สถานะกิจกรรมล่าสุด</h2><div class="activity-list" style="margin-top:12px">'+state.schedule.map(x=>'<div class="activity-item"><div><b>'+esc(x.activity)+'</b><div class="small">'+esc(x.date||'ยังไม่กำหนดวัน')+(x.hours?' • '+esc(x.hours)+' ชม.':'')+'</div></div><span class="badge '+(x.status==='เสร็จแล้ว'?'done':x.status==='กำลังดำเนินการ'?'wait':'')+'">'+esc(x.status)+'</span></div>').join('')+'</div><div class="soft" style="margin-top:12px"><b>กิจกรรมถัดไป</b><br>'+(next?esc(next.activity)+(next.date?'<br><span class="small">'+esc(next.date)+'</span>':''):'ดำเนินการครบทุกกิจกรรมแล้ว')+'</div></div>'+
+      '</div>';
+
     const sv=document.querySelector('#saveRadarEnh');
     if(sv)sv.onclick=()=>{
       const r=radarData();
