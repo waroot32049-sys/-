@@ -73,3 +73,8 @@ th{background:#f6f8fb!important;color:#162033!important}
 .report-mini .feedback-box{margin:0}
 @media(max-width:950px){.dash-chart-grid,.score-grid{grid-template-columns:1fr}.radar-svg{min-height:360px}.radar-label{font-size:10px}}
 @media print{.score-grid,#saveRadarEnh,.quick-actions{display:none!important}.radar-wrap{border:0}.feedback-box{break-inside:avoid}}
+.dash-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.dashboard-section{margin-top:14px}
+.area-list{display:flex;flex-direction:column;gap:9px}.area-row{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}.area-row-top{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:7px}.area-row strong{color:#2457d6}
+@media(max-width:1100px){.dash-stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.dash-stats{grid-template-columns:1fr}}
