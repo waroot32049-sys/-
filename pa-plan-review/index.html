@@ -106,11 +106,8 @@ const modules=[
 ['dashboard','HOME','แดชบอร์ด','ภาพรวม'],
 ['profile','USER','ข้อมูลผู้ขอ','ผู้ขอและคุณสมบัติ'],
 ['eligibility','QUAL','ตรวจคุณสมบัติ','ผู้ขอและคุณสมบัติ'],
-['plan','PLAN','ตรวจแผน 8 ตัวชี้วัด','การประเมิน'],
 ['auto','AUTO','วิเคราะห์ไฟล์อัตโนมัติ','การประเมิน'],
-['outcome','OUT','ผลลัพธ์ผู้เรียน','การประเมิน'],
 ['evidence','FILES','หลักฐาน DPA','หลักฐาน'],
-['video','VIDEO','ตรวจรูปแบบวิดีโอ','หลักฐาน'],
 ['result','READY','ประมวลผลความพร้อม','สรุป'],
 ['report','PDF','รายงาน/พิมพ์','สรุป'],
 ['settings','SET','ผู้ใช้และสำรองข้อมูล','ระบบ']
@@ -480,7 +477,7 @@ function settingsPage(){
  document.querySelector('#openDrive').onclick=()=>window.open(DRIVE_FOLDER_URL,'_blank');
  document.querySelector('#addUser').onclick=()=>{document.querySelector('#newUser').innerHTML='<div class="note" style="margin-top:10px"><div class="grid g2">'+f('un','ชื่อผู้ใช้','')+f('ue','อีเมล','')+f('up','รหัสผ่าน','','password')+sel('ur','สิทธิ์',[['member','member'],['admin','admin']],'member')+'</div><button class="btn" id="createUser" style="margin-top:9px">สร้างบัญชี</button></div>';document.querySelector('#createUser').onclick=async()=>{const n=val('un'),e=val('ue').trim().toLowerCase(),p=val('up');if(!n||!e||p.length<4){toast('กรอกข้อมูลให้ครบ');return}const a=accounts();if(a.some(x=>x.email===e)){toast('มีอีเมลนี้แล้ว');return}a.push({id:'u_'+Date.now(),name:n,email:e,role:val('ur'),pass:await hash(p)});setAccounts(a);toast('สร้างบัญชีแล้ว');settingsPage()}}
 }
-function render(){nav();setTitle();if(current==='dashboard')dashboard();else if(current==='profile')profilePage();else if(current==='eligibility')eligibilityPage();else if(current==='plan')planPage();else if(current==='auto')autoPage();else if(current==='outcome')outcomePage();else if(current==='evidence')evidencePage();else if(current==='video')videoPage();else if(current==='result')resultPage();else if(current==='report')reportPage();else settingsPage()}
+function render(){nav();setTitle();if(current==='dashboard')dashboard();else if(current==='profile')profilePage();else if(current==='eligibility')eligibilityPage();else if(current==='auto')autoPage();else if(current==='evidence')evidencePage();else if(current==='result')resultPage();else if(current==='report')reportPage();else settingsPage()}
 function odb(){return new Promise((ok,no)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE,{keyPath:'id'});r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
 function putFile(x){return odb().then(db=>new Promise((ok,no)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(x);tx.oncomplete=ok;tx.onerror=()=>no(tx.error)}))}
 function getFile(id){return odb().then(db=>new Promise((ok,no)=>{const r=db.transaction(STORE,'readonly').objectStore(STORE).get(id);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)}))}
