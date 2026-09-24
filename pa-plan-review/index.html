@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#163c9a">
+<title>PA Plan Review | ตรวจแผนและความพร้อมวิทยฐานะ</title>
+<style>
+:root{--nav:#0f2559;--pri:#2457d6;--pri2:#163c9a;--bg:#f4f7fb;--card:#fff;--line:#dde4ee;--txt:#172033;--mut:#6b7484;--ok:#147a4b;--warn:#9a6200;--bad:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans Thai","Leelawadee UI",Tahoma,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+button,input,select,textarea{font:inherit}.hidden{display:none!important}.app{min-height:100vh;display:grid;grid-template-columns:260px 1fr}
+.side{background:var(--nav);color:#fff;padding:18px 14px;position:sticky;top:0;height:100vh;overflow:auto}.brand{padding:8px 10px 20px 70px;position:relative;min-height:66px;font-weight:800;font-size:17px}.brand:before{content:"PA";position:absolute;left:7px;top:5px;width:52px;height:52px;border-radius:15px;background:var(--pri);display:grid;place-items:center;font-size:19px}.brand small{display:block;font-size:11px;opacity:.74;font-weight:400;margin-top:4px}
+.navhead{font-size:10px;opacity:.5;letter-spacing:.08em;margin:15px 10px 5px}.nav{display:block;width:100%;border:0;background:transparent;color:#dfe7ff;text-align:left;padding:11px 12px;border-radius:10px;cursor:pointer;margin:2px 0}.nav:hover,.nav.on{background:#ffffff20;color:#fff}.nav span{display:inline-block;min-width:54px;font-size:10px;background:#ffffff12;padding:2px 5px;border-radius:6px;text-align:center;margin-right:6px}
+.main{min-width:0}.top{height:66px;position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 22px;gap:10px}.top h1{margin:0;flex:1;font-size:18px}.top small{display:block;color:var(--mut);font-size:11px;font-weight:400}.who{font-size:11px;color:var(--mut);text-align:right}.wrap{max-width:1480px;margin:auto;padding:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 9px 28px #12263f10;padding:18px;margin-bottom:15px}.card h2{font-size:18px;margin:0 0 4px}.card h3{font-size:15px;margin:16px 0 8px}.muted{color:var(--mut);font-size:12px}.grid{display:grid;gap:13px}.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}
+.field{display:grid;gap:5px}.field label{font-size:12px;font-weight:700}.field input,.field select,.field textarea,input,select,textarea{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;padding:9px 10px;color:var(--txt)}textarea{min-height:80px;resize:vertical}
+.btn{border:0;border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer;background:var(--pri);color:#fff}.btn.alt{background:#edf2ff;color:var(--pri2)}.btn.red{background:#feeceb;color:var(--bad)}.btn.sm{padding:6px 9px;font-size:11px}.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.head{display:flex;gap:10px;align-items:center;margin-bottom:14px}.head>div{flex:1}
+.metric strong{font-size:30px}.metric .bar{margin-top:8px}.bar{height:9px;background:#e8edf5;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pri)}
+.badge{display:inline-block;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:800;background:#eef2ff;color:var(--pri2)}.badge.ok{background:#e7f6ee;color:var(--ok)}.badge.warn{background:#fff3da;color:var(--warn)}.badge.bad{background:#feecec;color:var(--bad)}
+.note{background:#f8faff;border:1px solid var(--line);border-radius:12px;padding:11px 13px;color:#536078;font-size:12px}.note.warn{background:#fff9eb;border-color:#f0d9a2;color:#76510b}
+.rubric{display:grid;gap:10px}.rubric-item{border:1px solid var(--line);border-radius:13px;padding:12px}.rubric-item .title{font-weight:800}.criteria{display:grid;gap:6px;margin-top:8px}.criteria label{display:flex;gap:8px;align-items:flex-start;font-size:12px}.criteria input{width:auto;margin-top:3px}.scorebox{display:flex;gap:8px;align-items:center;margin-top:10px}.scorebox select{max-width:190px}.advice{margin-top:9px;padding:9px 11px;border-radius:10px;background:#fff8e8;color:#6e5114;font-size:12px}.advice.ok{background:#eaf8f0;color:#185f40}
+.tbl{overflow:auto;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:8px 9px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);font-size:12px}th{background:#f6f8fb}
+.upload{border:1px dashed #b9c5d8;border-radius:12px;background:#f9fbff;padding:12px;margin-top:9px}.files{display:grid;gap:7px;margin-top:8px}.file{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:8px;background:#fff}.file>div{flex:1;min-width:0}.file b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.status-list{display:grid;gap:8px}.status-item{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px}.status-item small{display:block;color:var(--mut)}.checkrow{display:flex;gap:8px;align-items:flex-start;font-size:12px}.checkrow input{width:auto;margin-top:3px}
+.progress-ring{--p:0;width:160px;height:160px;border-radius:50%;background:conic-gradient(var(--pri) calc(var(--p)*1%),#e7edf5 0);display:grid;place-items:center;position:relative;margin:auto}.progress-ring:after{content:"";position:absolute;width:116px;height:116px;background:#fff;border-radius:50%}.progress-ring strong{z-index:1;font-size:28px}
+.login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(145deg,#eef4ff,#fbfcff);padding:20px}.loginbox{width:min(470px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 20px 70px #12263f18;padding:28px}.loginlogo{width:60px;height:60px;border-radius:16px;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:900;font-size:20px;margin-bottom:14px}
+.print-only{display:none}.toast{position:fixed;right:20px;bottom:20px;background:#172033;color:#fff;padding:9px 13px;border-radius:9px;opacity:0;transform:translateY(8px);transition:.2s;z-index:99}.toast.on{opacity:1;transform:none}.menu{display:none}
+@media(max-width:1050px){.g5,.g4,.g3,.g2{grid-template-columns:1fr 1fr}.app{grid-template-columns:230px 1fr}}
+@media(max-width:760px){.app{display:block}.side{position:fixed;left:-275px;width:255px;z-index:40;transition:.2s}.side.open{left:0}.menu{display:inline-block}.top{padding:0 12px}.wrap{padding:13px}.g5,.g4,.g3,.g2{grid-template-columns:1fr}.who{display:none}}
+@media print{.side,.top,.btn,.upload,.no-print{display:none!important}.app{display:block}.wrap{padding:0}.card{box-shadow:none;border:0;padding:0}.print-only{display:block}.pagebreak{page-break-before:always}body{background:#fff}}
+</style>
+</head>
+<body>
+<div id="auth" class="login"></div>
+<div id="app" class="app hidden">
+  <aside class="side" id="side">
+    <div class="brand">PA Plan Review<small>ตรวจแผน • หลักฐาน • ความพร้อมยื่น DPA</small></div>
+    <div id="nav"></div>
+    <div style="margin-top:18px">
+      <button class="btn alt" id="backupBtn" style="width:100%">สำรองข้อมูล JSON</button>
+      <button class="btn alt" id="restoreBtn" style="width:100%;margin-top:7px">นำเข้าข้อมูล</button>
+      <input type="file" id="restoreFile" accept="application/json" hidden>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="top">
+      <button class="btn alt menu" id="menu">☰</button>
+      <h1 id="pageTitle">แดชบอร์ด<small>ตามคู่มือ ก.ค.ศ. ว 9/2564 ตำแหน่งครู</small></h1>
+      <div class="who" id="who"></div>
+      <button class="btn red" id="logout">ออกจากระบบ</button>
+    </header>
+    <div class="wrap" id="content"></div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const KEY='pa_plan_review_v1', ACC='pa_plan_review_accounts_v1', SES='pa_plan_review_session_v1', DB='pa_plan_review_files_v1', STORE='files';
+const DRIVE_FOLDER_URL='https://drive.google.com/drive/folders/16RixazCUl-O5UizycHpTbOLgDja_zCcO';
+const levels={
+ skilled:{label:'ครูชำนาญการ',expected:'แก้ไขปัญหา (Solve the Problem)',pass:65},
+ senior:{label:'ครูชำนาญการพิเศษ',expected:'ริเริ่ม พัฒนา (Originate and Improve)',pass:70},
+ expert:{label:'ครูเชี่ยวชาญ',expected:'คิดค้น ปรับเปลี่ยน (Invent and Transform)',pass:75},
+ special:{label:'ครูเชี่ยวชาญพิเศษ',expected:'สร้างการเปลี่ยนแปลง (Create an Impact)',pass:80}
+};
+const indicators=[
+'ผู้เรียนสามารถเข้าถึงสิ่งที่เรียนและเข้าใจบทเรียน',
+'ผู้เรียนสามารถเชื่อมโยงความรู้หรือประสบการณ์เดิมกับการเรียนรู้ใหม่',
+'ผู้เรียนได้สร้างความรู้เอง หรือได้สร้างประสบการณ์ใหม่จากการเรียนรู้',
+'ผู้เรียนได้รับการกระตุ้นและเกิดแรงจูงใจในการเรียนรู้',
+'ผู้เรียนได้รับการพัฒนาทักษะความเชี่ยวชาญจากการเรียนรู้',
+'ผู้เรียนได้รับข้อมูลสะท้อนกลับเพื่อปรับปรุงการเรียนรู้',
+'ผู้เรียนได้รับการพัฒนาการเรียนรู้ในบรรยากาศชั้นเรียนที่เหมาะสม',
+'ผู้เรียนสามารถกำกับการเรียนรู้และมีการเรียนรู้แบบนำตนเอง'
+];
+const outcomeIndicators=[
+'ผลงานหรือผลการปฏิบัติเป็นผลลัพธ์ที่เกิดขึ้นจากการจัดการเรียนรู้ของครู',
+'ผลงานหรือผลการปฏิบัติสะท้อนถึงการได้รับการพัฒนาทักษะพื้นฐาน (Basic Skills)',
+'ผลงานหรือผลการปฏิบัติสะท้อนถึงความสามารถในการเรียนรู้ (Cognitive Abilities)',
+'ผลงานหรือผลการปฏิบัติสะท้อนถึงการบูรณาการทักษะในการทำงาน (Cross-functional Skills)'
+];
+const base123=[
+['เนื้อหา/มโนทัศน์ถูกต้องและตรงตามหลักสูตร','ออกแบบและจัดโครงสร้างบทเรียนเป็นระบบ ใช้เวลาเหมาะสม','ใช้สื่อเหมาะสมและช่วยให้บรรลุวัตถุประสงค์'],
+['มีการทบทวนความรู้ ทักษะ หรือประสบการณ์เดิม','เข้าถึงผู้เรียนที่ยังไม่พร้อมเรียนรู้ใหม่','ช่วยเหลือผู้เรียนที่มีพื้นฐานไม่เพียงพอให้เชื่อมโยงกับการเรียนรู้ใหม่'],
+['ออกแบบงาน/กิจกรรมให้ผู้เรียนสร้างความรู้หรือประสบการณ์ใหม่เหมาะกับวัยและบริบท','ผู้เรียนได้ลงมือปฏิบัติกิจกรรมที่ใช้ความรู้/ทักษะหลากหลาย','มีเทคนิคให้ผู้เรียนสรุปความรู้หรือประสบการณ์ใหม่ด้วยตนเอง'],
+['กิจกรรมเชื่อมโยงชีวิตประจำวัน ชุมชน หรือสภาพจริง','กิจกรรมมีความท้าทายและความยากง่ายเหมาะสม','ผู้เรียนมีโอกาสสะท้อนการเรียนรู้ ความสำเร็จ ข้อผิดพลาดหรือความล้มเหลว'],
+['ผู้เรียนได้ฝึกทักษะครบตามวัตถุประสงค์','ผู้เรียนได้บูรณาการทักษะลงสู่การปฏิบัติ','ผู้เรียนได้ประยุกต์ใช้ทักษะในสถานการณ์หรือการแก้ปัญหาใหม่'],
+['ครูสังเกต/ค้นหาข้อผิดพลาดหรือมโนทัศน์คลาดเคลื่อนระหว่างเรียน','มีการประเมินระหว่างเรียนด้วยวิธีเหมาะสม','นำผลการสังเกต/ประเมินสะท้อนกลับให้ผู้เรียน'],
+['ครูเป็นแบบอย่างด้านภาษา พฤติกรรม และเจตคติ','กระตุ้นความมั่นใจ อิสระในการคิด/ทดลอง และการรับรู้ความสามารถตนเอง','ใช้สื่อ/ตัวอย่างหลากหลายเพื่อกระตุ้นการคิดวิเคราะห์และเปรียบเทียบ'],
+['เปิดโอกาสให้ผู้เรียนกำหนดเป้าหมายหรือการลงมือปฏิบัติ','ผู้เรียนประเมินตนเองหรือเพื่อนประเมิน','มีงานต่อเนื่องให้ศึกษา ค้นคว้า ฝึกฝน หรือเรียนรู้เพิ่มเติมหลังบทเรียน']
+];
+function level45(level,i){
+ const action=i===0?'ออกแบบโครงสร้าง กิจกรรมหรือสื่อ':i===1?'เชื่อมโยงความรู้เดิมกับการเรียนรู้ใหม่':i===2?'สร้างความรู้หรือประสบการณ์ใหม่':i===3?'กระตุ้นแรงจูงใจในการเรียนรู้':i===4?'พัฒนาทักษะความเชี่ยวชาญ':i===5?'ให้ข้อมูลสะท้อนกลับเพื่อปรับปรุงการเรียนรู้':i===6?'สร้างบรรยากาศชั้นเรียนที่ส่งเสริมการเรียนรู้':'กำกับการเรียนรู้และการเรียนรู้แบบนำตนเอง';
+ if(level==='skilled')return ['แสดงให้เห็นถึงการแก้ปัญหาในการ'+action,'แสดงผลการแก้ปัญหาที่ส่งผลลัพธ์ที่ดีต่อผู้เรียน และมีบันทึกหลังการสอน'];
+ if(level==='senior')return ['แสดงให้เห็นถึงการริเริ่มใช้วิธีการใหม่ ๆ ในการ'+action,'วิธีการใหม่ส่งผลลัพธ์ที่ดีต่อผู้เรียน และมีบันทึกหลังการสอน'];
+ if(level==='expert')return ['แสดงให้เห็นถึงการคิดค้นวิธีการใหม่ ๆ ในการ'+action+'อย่างชัดเจน','แสดงการปรับเปลี่ยนวิธีการ/กิจกรรมที่ส่งผลต่อผู้เรียน และมีบันทึกหลังการสอน'];
+ return ['แสดงให้เห็นถึงนวัตกรรมในการ'+action+'อย่างชัดเจน','นวัตกรรมที่พัฒนาขึ้นสร้างการเปลี่ยนแปลงแก่ผู้เรียน และมีบันทึกหลังการสอน'];
+}
+const outcomes=[
+['เป็นไปตามเป้าหมาย/วัตถุประสงค์ในแผน','เหมาะกับวัยและพัฒนาการ','สอดคล้องบริบทผู้เรียน/ชั้นเรียน','เกิดจากผู้เรียนรายบุคคลหรือกลุ่ม ไม่ใช่ผลงานครู','เหมาะสม คุ้มค่าและเป็นประโยชน์ต่อการเรียนรู้'],
+['มีทักษะการสื่อสาร','มีทักษะการนำเสนอ','ใช้เครื่องมือ/อุปกรณ์ได้','มีความคล่องแคล่ว ชำนาญ หรือถูกต้อง','มีทักษะออกแบบและวางแผน'],
+['มีความยืดหยุ่นหรือคิดเชื่อมโยง','มีความคิดสร้างสรรค์/นวัตกรรม','มีกระบวนการสืบเสาะหาความหมาย/ตัดสินใจ','มีการคิดเชิงเหตุผล/ตรรกะ','มีการคิดเชิงระบบ'],
+['มีทักษะกระบวนการ','มีทักษะทางสังคม','มีทักษะการจัดการ','มีทักษะเฉพาะทาง','มีทักษะการแก้ปัญหาที่ซับซ้อน']
+];
+const modules=[
+['dashboard','HOME','แดชบอร์ด','ภาพรวม'],
+['profile','USER','ข้อมูลผู้ขอ','ผู้ขอและคุณสมบัติ'],
+['eligibility','QUAL','ตรวจคุณสมบัติ','ผู้ขอและคุณสมบัติ'],
+['plan','PLAN','ตรวจแผน 8 ตัวชี้วัด','การประเมิน'],
+['outcome','OUT','ผลลัพธ์ผู้เรียน','การประเมิน'],
+['evidence','FILES','หลักฐาน DPA','หลักฐาน'],
+['video','VIDEO','ตรวจรูปแบบวิดีโอ','หลักฐาน'],
+['result','READY','ประมวลผลความพร้อม','สรุป'],
+['report','PDF','รายงาน/พิมพ์','สรุป'],
+['settings','SET','ผู้ใช้และสำรองข้อมูล','ระบบ']
+];
+function defaults(){return{
+ school:{name:'โรงเรียนบ้านจรูกแขวะ',agency:'สำนักงานเขตพื้นที่การศึกษาประถมศึกษาสุรินทร์ เขต 3'},
+ applicant:{name:'',email:'',current:'none',requested:'skilled',classroom:'basic',subject:'',grade:'',positionDate:'',currentLevelDate:'',reduce:false,discipline:true,license:true},
+ pa:[{year:'',score:''},{year:'',score:''},{year:'',score:''}],
+ workload:true,
+ planChecks:Array.from({length:8},()=>Array(5).fill(false)),
+ planScores:Array(8).fill(0),
+ planNotes:Array(8).fill(''),
+ outcomeChecks:Array.from({length:4},()=>Array(5).fill(false)),
+ outcomeScores:Array(4).fill(0),
+ outcomeNotes:Array(4).fill(''),
+ docs:{planLink:'',problemVideoLink:'',teachingVideoLink:'',studentLinks:['','',''],academic1:'',academic2:'',tci:false},
+ video:{singleCamera:false,noTitle:false,noMusic:false,oneTake:false,noEdit:false,fixedAngle:false,overview:false,clearAudio:false,teachingMp4:false,teachingMinutes:'',problemMp4:false,problemMinutes:'',teacherPresents:false},
+ logs:[],updatedAt:null
+}}
+let state=load(),session=null,current='dashboard';
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||defaults()}catch(e){return defaults()}}
+function save(msg='บันทึกข้อมูลแล้ว'){state.updatedAt=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state));toast(msg)}
+function toast(t){const e=document.querySelector('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1800)}
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function val(id){const e=document.getElementById(id);return e?e.value:''}
+function accounts(){try{return JSON.parse(localStorage.getItem(ACC))||[]}catch(e){return[]}}
+function setAccounts(x){localStorage.setItem(ACC,JSON.stringify(x))}
+async function hash(s){const b=new TextEncoder().encode(s);const d=await crypto.subtle.digest('SHA-256',b);return Array.from(new Uint8Array(d)).map(x=>x.toString(16).padStart(2,'0')).join('')}
+function auth(){
+ document.querySelector('#app').classList.add('hidden');document.querySelector('#auth').classList.remove('hidden');
+ if(!accounts().length){
+  document.querySelector('#auth').innerHTML='<div class="loginbox"><div class="loginlogo">PA</div><h2>ตั้งค่าผู้ดูแลระบบครั้งแรก</h2><div class="muted">บัญชีนี้ใช้ลงชื่อเข้าใช้แอปในเบราว์เซอร์เครื่องนี้</div><div class="field" style="margin-top:12px"><label>ชื่อผู้ใช้</label><input id="sn" value="สิบเอกวรุธ ภิชาเศวตว์"></div><div class="field" style="margin-top:10px"><label>อีเมล</label><input id="se" value="waroot32049@gmail.com"></div><div class="field" style="margin-top:10px"><label>รหัสผ่าน</label><input id="sp" type="password"></div><button class="btn" id="setup" style="width:100%;margin-top:14px">สร้างบัญชีและเข้าใช้</button></div>';
+  document.querySelector('#setup').onclick=async()=>{const n=val('sn'),e=val('se').trim().toLowerCase(),p=val('sp');if(!n||!e||p.length<4){toast('กรอกข้อมูลให้ครบ รหัสผ่านอย่างน้อย 4 ตัวอักษร');return}const a={id:'u_'+Date.now(),name:n,email:e,role:'admin',pass:await hash(p)};setAccounts([a]);login(a)}
+ }else{
+  document.querySelector('#auth').innerHTML='<div class="loginbox"><div class="loginlogo">PA</div><h2>ลงชื่อเข้าใช้ระบบตรวจแผน</h2><div class="muted">PA Plan Review • ว 9/2564</div><div class="field" style="margin-top:12px"><label>อีเมล</label><input id="le"></div><div class="field" style="margin-top:10px"><label>รหัสผ่าน</label><input id="lp" type="password"></div><button class="btn" id="loginBtn" style="width:100%;margin-top:14px">เข้าสู่ระบบ</button></div>';
+  document.querySelector('#loginBtn').onclick=async()=>{const e=val('le').trim().toLowerCase(),p=await hash(val('lp')),a=accounts().find(x=>x.email.toLowerCase()===e&&x.pass===p);if(!a){toast('อีเมลหรือรหัสผ่านไม่ถูกต้อง');return}login(a)}
+ }
+}
+function login(a){session={id:a.id,name:a.name,email:a.email,role:a.role};sessionStorage.setItem(SES,JSON.stringify(session));state.logs.push({name:a.name,email:a.email,at:new Date().toISOString()});save('เข้าสู่ระบบแล้ว');show()}
+function show(){document.querySelector('#auth').classList.add('hidden');document.querySelector('#app').classList.remove('hidden');document.querySelector('#who').innerHTML='<b>'+esc(session.name)+'</b><br>'+esc(session.email);render()}
+function logout(){sessionStorage.removeItem(SES);session=null;auth()}
+function nav(){let g='',h='';modules.forEach(m=>{if(g!==m[3]){g=m[3];h+='<div class="navhead">'+g+'</div>'}h+='<button class="nav '+(current===m[0]?'on':'')+'" data-nav="'+m[0]+'"><span>'+m[1]+'</span>'+m[2]+'</button>'});document.querySelector('#nav').innerHTML=h;document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{current=b.dataset.nav;document.querySelector('#side').classList.remove('open');render()})}
+function setTitle(){const m=modules.find(x=>x[0]===current);document.querySelector('#pageTitle').childNodes[0].nodeValue=m?m[2]:'PA Plan Review'}
+function target(){return levels[state.applicant.requested]||levels.skilled}
+function weighted(){const d1=state.planScores.reduce((a,b)=>a+(+b||0),0)*2.5;const d2=state.outcomeScores.reduce((a,b)=>a+(+b||0),0)*5;return {d1:+d1.toFixed(2),d2:+d2.toFixed(2),total:+(d1+d2).toFixed(2)}}
+function yearsSince(d){if(!d)return 0;const x=new Date(d),n=new Date();return (n-x)/31557600000}
+function eligibility(){
+ const a=state.applicant,t=target(),date=a.current==='none'?a.positionDate:a.currentLevelDate,need=a.reduce?3:4;
+ const paok=state.pa.length===3&&state.pa.every(x=>parseFloat(x.score)>=70);
+ const dur=yearsSince(date)>=need;
+ const academic=a.requested==='expert'?!!state.docs.academic1:a.requested==='special'?!!state.docs.academic1&&!!state.docs.academic2&&state.docs.tci:true;
+ const docs=!!state.docs.planLink&&!!state.docs.problemVideoLink&&!!state.docs.teachingVideoLink&&state.docs.studentLinks.filter(Boolean).length>=1&&academic;
+ const v=state.video,videoOk=v.singleCamera&&v.noTitle&&v.noMusic&&v.oneTake&&v.noEdit&&v.fixedAngle&&v.overview&&v.clearAudio&&v.teachingMp4&&(+v.teachingMinutes>0&&+v.teachingMinutes<=60)&&v.problemMp4&&(+v.problemMinutes>0&&+v.problemMinutes<=10)&&v.teacherPresents;
+ const w=weighted(),score=w.total>=t.pass;
+ return {dur,paok,discipline:a.discipline,license:a.license,workload:state.workload,docs,videoOk,score,academic,w,need,ready:dur&&paok&&a.discipline&&a.license&&state.workload&&docs&&videoOk&&score}
+}
+function dashboard(){
+ const e=eligibility(),w=e.w,t=target();const complete=[e.dur,e.paok,e.discipline,e.license,e.workload,e.docs,e.videoOk,e.score].filter(Boolean).length, pct=Math.round(complete/8*100);
+ document.querySelector('#content').innerHTML=
+ '<div class="note">ผลในระบบเป็นการตรวจความพร้อมเบื้องต้นจากข้อมูลที่กรอก ไม่ใช่ผลอนุมัติจาก ก.ค.ศ. หรือระบบ DPA</div>'+
+ '<div class="grid g5"><div class="card metric"><span class="muted">ความพร้อมยื่น</span><br><strong>'+pct+'%</strong><div class="bar"><i style="width:'+pct+'%"></i></div></div><div class="card metric"><span class="muted">คะแนนจำลองรวม</span><br><strong>'+w.total+'</strong>/100</div><div class="card metric"><span class="muted">เกณฑ์ '+esc(t.label)+'</span><br><strong>'+t.pass+'%</strong></div><div class="card metric"><span class="muted">ด้านที่ 1</span><br><strong>'+w.d1+'</strong>/80</div><div class="card metric"><span class="muted">ด้านที่ 2</span><br><strong>'+w.d2+'</strong>/20</div></div>'+
+ '<div class="grid g2"><div class="card"><div class="head"><div><h2>สถานะความพร้อม</h2><div class="muted">'+esc(t.expected)+'</div></div><span class="badge '+(e.ready?'ok':'warn')+'">'+(e.ready?'พร้อมยื่นตรวจสอบ':'ยังมีรายการต้องแก้')+'</span></div>'+statusHtml(e)+'</div>'+
+ '<div class="card"><h2>ประเด็นที่ต้องแก้ก่อนยื่น</h2>'+gapHtml(e)+'</div></div>'+
+ '<div class="card"><h2>หลักฐานสำคัญตามคู่มือ</h2><div class="grid g4"><div class="note"><b>แผนการจัดการเรียนรู้</b><br>PDF 1 ไฟล์ และต้องเป็นแผนเดียวกับที่ปรากฏในวิดีโอบันทึกการสอน</div><div class="note"><b>วิดีโอบันทึกการสอน</b><br>MP4 1 ไฟล์ ตามคาบจริง รวมไม่เกิน 60 นาที</div><div class="note"><b>วิดีโอสภาพปัญหา/แรงบันดาลใจ</b><br>MP4 1 ไฟล์ ไม่เกิน 10 นาที</div><div class="note"><b>ผลลัพธ์ผู้เรียน</b><br>ไม่เกิน 3 ไฟล์: วิดีโอ/ภาพ/PDF</div></div></div>';
+}
+function statusHtml(e){const a=[
+ ['ระยะเวลาตามมาตรฐาน',e.dur,'ไม่น้อยกว่า '+e.need+' ปีตามข้อมูลที่เลือก'],
+ ['ผล PA ย้อนหลัง 3 รอบ',e.paok,'แต่ละรอบต้องผ่านเกณฑ์'],
+ ['วินัย คุณธรรม จริยธรรม จรรยาบรรณ',e.discipline,'ต้องไม่มีเงื่อนไขที่ทำให้ขาดคุณสมบัติ'],
+ ['ใบอนุญาตประกอบวิชาชีพ',e.license,'ตรวจสถานะใบอนุญาตก่อนยื่น'],
+ ['ภาระงานตามที่ ก.ค.ศ. กำหนด',e.workload,'ต้องเป็นไปตามหลักเกณฑ์'],
+ ['หลักฐาน DPA',e.docs,'แผน วิดีโอ ผลลัพธ์ และผลงานวิชาการถ้าจำเป็น'],
+ ['รูปแบบวิดีโอ',e.videoOk,'ตรวจเทคนิคและระยะเวลาไฟล์'],
+ ['คะแนนประเมินจำลอง',e.score,'ต้องไม่น้อยกว่า '+target().pass+'%']
+];return '<div class="status-list">'+a.map(x=>'<div class="status-item"><div><b>'+x[0]+'</b><small>'+x[2]+'</small></div><span class="badge '+(x[1]?'ok':'bad')+'">'+(x[1]?'ครบ':'ยังไม่ครบ')+'</span></div>').join('')+'</div>'}
+function gapHtml(e){const gaps=[];if(!e.dur)gaps.push('ตรวจวันที่ดำรงตำแหน่ง/วิทยฐานะและระยะเวลาตามมาตรฐาน');if(!e.paok)gaps.push('กรอกผล PA ย้อนหลัง 3 รอบให้ครบ และตรวจว่าผ่านเกณฑ์ทุกรอบ');if(!e.workload)gaps.push('ตรวจภาระงานให้เป็นไปตามที่ ก.ค.ศ. กำหนด');if(!e.docs)gaps.push('แนบ/ระบุลิงก์หลักฐาน DPA ให้ครบ');if(!e.videoOk)gaps.push('ปรับรูปแบบไฟล์วิดีโอให้ตรงข้อกำหนด');if(!e.score)gaps.push('แก้แผนและหลักฐานในตัวชี้วัดที่คะแนนต่ำ เพื่อให้คะแนนจำลองไม่น้อยกว่า '+target().pass+'%');if(!e.discipline)gaps.push('ตรวจเงื่อนไขด้านวินัย คุณธรรม จริยธรรมและจรรยาบรรณ');if(!e.license)gaps.push('ตรวจใบอนุญาตประกอบวิชาชีพให้ถูกต้อง/ยังใช้ได้');return gaps.length?'<ol>'+gaps.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol>':'<div class="advice ok">ข้อมูลที่กรอกครบตามเงื่อนไขตรวจสอบเบื้องต้นแล้ว ให้ตรวจต้นฉบับหลักฐานและยืนยันในระบบ DPA อีกครั้ง</div>'}
+function profilePage(){
+ const a=state.applicant;
+ document.querySelector('#content').innerHTML='<div class="card"><div class="head"><div><h2>ข้อมูลผู้ขอรับการประเมิน</h2><div class="muted">ใช้สำหรับประมวลผลเกณฑ์ตามวิทยฐานะที่ขอ</div></div><button class="btn" id="saveProfile">บันทึก</button></div><div class="grid g3">'+
+ f('pName','ชื่อ-นามสกุล',a.name)+f('pEmail','อีเมล',a.email)+sel('pCurrent','วิทยฐานะปัจจุบัน',[['none','ครู (ยังไม่มีวิทยฐานะ)'],['skilled','ครูชำนาญการ'],['senior','ครูชำนาญการพิเศษ'],['expert','ครูเชี่ยวชาญ']],a.current)+
+ sel('pRequested','วิทยฐานะที่ขอ',[['skilled','ครูชำนาญการ'],['senior','ครูชำนาญการพิเศษ'],['expert','ครูเชี่ยวชาญ'],['special','ครูเชี่ยวชาญพิเศษ']],a.requested)+
+ sel('pClass','ประเภทห้องเรียน',[['basic','วิชาสามัญ/วิชาพื้นฐาน'],['early','ปฐมวัย'],['specialedu','การศึกษาพิเศษ'],['vocational','สายวิชาชีพ'],['nonformal','การศึกษานอกระบบ/ตามอัธยาศัย']],a.classroom)+
+ f('pSubject','รายวิชา/กลุ่มสาระ',a.subject)+f('pGrade','ชั้น/ระดับ',a.grade)+
+ '<div class="field"><label>วันที่บรรจุ/ดำรงตำแหน่งครู</label><input id="pPosDate" type="date" value="'+esc(a.positionDate)+'"></div><div class="field"><label>วันที่ได้รับวิทยฐานะปัจจุบัน</label><input id="pLevelDate" type="date" value="'+esc(a.currentLevelDate)+'"></div>'+
+ '<div class="field"><label>ใช้เงื่อนไขลดระยะเวลาเป็น 3 ปี</label><select id="pReduce"><option value="no" '+(!a.reduce?'selected':'')+'>ไม่ใช้</option><option value="yes" '+(a.reduce?'selected':'')+'>ใช้ และมีหลักฐานตามเกณฑ์</option></select></div></div>'+
+ '<div class="grid g3" style="margin-top:12px"><label class="checkrow"><input id="pDisc" type="checkbox" '+(a.discipline?'checked':'')+'> มีคุณสมบัติด้านวินัย คุณธรรม จริยธรรมและจรรยาบรรณวิชาชีพตามเกณฑ์</label><label class="checkrow"><input id="pLic" type="checkbox" '+(a.license?'checked':'')+'> ใบอนุญาตประกอบวิชาชีพถูกต้อง/ยังใช้ได้</label><label class="checkrow"><input id="pWork" type="checkbox" '+(state.workload?'checked':'')+'> ภาระงานเป็นไปตามที่ ก.ค.ศ. กำหนด</label></div></div>';
+ document.querySelector('#saveProfile').onclick=()=>{state.applicant={...a,name:val('pName'),email:val('pEmail'),current:val('pCurrent'),requested:val('pRequested'),classroom:val('pClass'),subject:val('pSubject'),grade:val('pGrade'),positionDate:val('pPosDate'),currentLevelDate:val('pLevelDate'),reduce:val('pReduce')==='yes',discipline:document.querySelector('#pDisc').checked,license:document.querySelector('#pLic').checked};state.workload=document.querySelector('#pWork').checked;save();profilePage()}
+}
+function f(id,label,v,type='text'){return '<div class="field"><label>'+label+'</label><input id="'+id+'" type="'+type+'" value="'+esc(v)+'"></div>'}
+function sel(id,label,opts,v){return '<div class="field"><label>'+label+'</label><select id="'+id+'">'+opts.map(o=>'<option value="'+o[0]+'" '+(v===o[0]?'selected':'')+'>'+o[1]+'</option>').join('')+'</select></div>'}
+function eligibilityPage(){
+ const e=eligibility();document.querySelector('#content').innerHTML='<div class="grid g2"><div class="card"><h2>ผล PA ย้อนหลัง 3 รอบ</h2><div class="muted">เกณฑ์ PA ต้องผ่านในแต่ละรอบ</div><div class="tbl" style="margin-top:10px"><table><thead><tr><th>รอบ</th><th>ปีงบประมาณ</th><th>คะแนนร้อยละ</th><th>สถานะ</th></tr></thead><tbody>'+state.pa.map((x,i)=>'<tr><td>'+(i+1)+'</td><td><input data-pa="'+i+'" data-f="year" value="'+esc(x.year)+'"></td><td><input data-pa="'+i+'" data-f="score" type="number" min="0" max="100" value="'+esc(x.score)+'"></td><td><span class="badge '+(parseFloat(x.score)>=70?'ok':'warn')+'">'+(parseFloat(x.score)>=70?'ผ่าน':'รอตรวจ')+'</span></td></tr>').join('')+'</tbody></table></div><button class="btn" id="savePa" style="margin-top:10px">บันทึกผล PA</button></div><div class="card"><h2>สรุปคุณสมบัติ</h2>'+statusHtml(e)+'</div></div>';
+ document.querySelector('#savePa').onclick=()=>{document.querySelectorAll('[data-pa]').forEach(x=>state.pa[+x.dataset.pa][x.dataset.f]=x.value);save();eligibilityPage()}
+}
+function planPage(){
+ const t=target();
+ document.querySelector('#content').innerHTML='<div class="note warn">การตรวจแผนนี้ใช้เกณฑ์ 8 ตัวชี้วัดด้านทักษะการจัดการเรียนรู้และการจัดการชั้นเรียน และปรับข้อ 4–5 ตามระดับการปฏิบัติที่คาดหวังของวิทยฐานะที่ขอ โดยเวอร์ชันนี้ใช้ถ้อยคำรายละเอียดหลักสำหรับห้องเรียนวิชาสามัญ/พื้นฐาน หากเลือกห้องเรียนประเภทอื่น ให้ใช้เป็นเช็กลิสต์โครงสร้างและตรวจคู่มือเฉพาะประเภทห้องเรียนประกอบ</div><div class="card"><div class="head"><div><h2>ตรวจแผน 8 ตัวชี้วัด</h2><div class="muted">'+esc(t.label)+' • '+esc(t.expected)+' • เกณฑ์รวมไม่น้อยกว่า '+t.pass+'%</div></div><button class="btn" id="savePlan">บันทึกการตรวจ</button></div><div class="rubric">'+indicators.map((title,i)=>rubricItem(i,title)).join('')+'</div></div>';
+ document.querySelector('#savePlan').onclick=()=>{for(let i=0;i<8;i++){state.planChecks[i]=Array.from(document.querySelectorAll('[data-plan="'+i+'"]')).map(x=>x.checked);state.planScores[i]=+val('ps'+i)||0;state.planNotes[i]=val('pn'+i)}save();planPage()}
+}
+function rubricItem(i,title){const c=[...base123[i],...level45(state.applicant.requested,i)],score=state.planScores[i]||0,targetMin=target().pass>=75?4:target().pass>=70?4:3;const adv=score>=targetMin?'หลักฐานอยู่ในระดับที่เหมาะสม ควรตรวจความสอดคล้องกับวิดีโอและบันทึกหลังการสอน':'ควรเพิ่มหลักฐานให้ครบข้อ 1–3 และยกระดับข้อ 4–5 ให้เห็น '+target().expected+' อย่างชัดเจน';return '<div class="rubric-item"><div class="title">'+(i+1)+'. '+esc(title)+'</div><div class="criteria">'+c.map((x,j)=>'<label><input type="checkbox" data-plan="'+i+'" '+(state.planChecks[i][j]?'checked':'')+'> '+(j+1)+') '+esc(x)+'</label>').join('')+'</div><div class="scorebox"><b>คะแนนจำลอง</b><select id="ps'+i+'">'+[0,1,2,3,4,5].map(s=>'<option '+(score===s?'selected':'')+'>'+s+'</option>').join('')+'</select><span class="muted">ตาม rubric 1–5</span></div><div class="advice '+(score>=targetMin?'ok':'')+'">'+esc(adv)+'</div><div class="field" style="margin-top:8px"><label>ข้อเสนอแนะ/จุดแก้ไขเฉพาะตัวชี้วัด</label><textarea id="pn'+i+'">'+esc(state.planNotes[i])+'</textarea></div></div>'}
+function outcomePage(){
+ document.querySelector('#content').innerHTML='<div class="card"><div class="head"><div><h2>ด้านที่ 2 ผลลัพธ์การเรียนรู้ของผู้เรียน</h2><div class="muted">4 ตัวชี้วัด คะแนนเต็ม 20 คะแนน • คะแนนดิบตัวชี้วัดละ 1–5</div></div><button class="btn" id="saveOut">บันทึก</button></div><div class="rubric">'+outcomeIndicators.map((t,i)=>outcomeItem(i,t)).join('')+'</div></div>';
+ document.querySelector('#saveOut').onclick=()=>{for(let i=0;i<4;i++){state.outcomeChecks[i]=Array.from(document.querySelectorAll('[data-out="'+i+'"]')).map(x=>x.checked);state.outcomeScores[i]=+val('os'+i)||0;state.outcomeNotes[i]=val('on'+i)}save();outcomePage()}
+}
+function outcomeItem(i,title){const score=state.outcomeScores[i]||0;return '<div class="rubric-item"><div class="title">'+(i+1)+'. '+esc(title)+'</div><div class="criteria">'+outcomes[i].map((x,j)=>'<label><input type="checkbox" data-out="'+i+'" '+(state.outcomeChecks[i][j]?'checked':'')+'> '+(j+1)+') '+esc(x)+'</label>').join('')+'</div><div class="scorebox"><b>คะแนนจำลอง</b><select id="os'+i+'">'+[0,1,2,3,4,5].map(s=>'<option '+(score===s?'selected':'')+'>'+s+'</option>').join('')+'</select></div><div class="advice '+(score>=4?'ok':'')+'">'+esc(score>=4?'ผลลัพธ์ผู้เรียนมีหลักฐานค่อนข้างชัด ควรตรวจความเชื่อมโยงกับแผนและวิดีโอ':'ควรเพิ่มชิ้นงาน/ผลการปฏิบัติของผู้เรียนให้เห็นผลลัพธ์ตามตัวบ่งชี้ และเลือกหลักฐานที่ตรวจสอบย้อนกลับได้')+'</div><div class="field"><label>ข้อเสนอแนะ</label><textarea id="on'+i+'">'+esc(state.outcomeNotes[i])+'</textarea></div></div>'}
+function evidencePage(){
+ const d=state.docs,req=state.applicant.requested;
+ document.querySelector('#content').innerHTML='<div class="card"><div class="head"><div><h2>ชุดหลักฐานประกอบการยื่น DPA</h2><div class="muted">แนบไฟล์ไว้ในเครื่อง หรือระบุลิงก์ Google Drive ของไฟล์จริง</div></div><button class="btn" id="saveDocs">บันทึกลิงก์</button></div>'+
+ evidenceBlock('plan','แผนการจัดการเรียนรู้ PDF 1 ไฟล์','planLink',d.planLink,'application/pdf')+
+ evidenceBlock('problem','วิดีโอสภาพปัญหา/ที่มา/แรงบันดาลใจ MP4 1 ไฟล์','problemVideoLink',d.problemVideoLink,'video/mp4')+
+ evidenceBlock('teaching','วิดีโอบันทึกการสอน MP4 1 ไฟล์','teachingVideoLink',d.teachingVideoLink,'video/mp4')+
+ '<h3>ผลลัพธ์การเรียนรู้ของผู้เรียน ไม่เกิน 3 ไฟล์</h3>'+[0,1,2].map(i=>evidenceBlock('student'+i,'หลักฐานผลลัพธ์ผู้เรียน '+(i+1),'studentLink'+i,d.studentLinks[i],'video/mp4,image/*,application/pdf')).join('')+
+ (req==='expert'||req==='special'?'<h3>ผลงานทางวิชาการ</h3>'+evidenceBlock('academic1',req==='expert'?'งานวิจัยหรือนวัตกรรม 1 รายการ PDF':'งานวิจัย 1 รายการ PDF','academic1',d.academic1,'application/pdf')+(req==='special'?evidenceBlock('academic2','นวัตกรรมการจัดการเรียนรู้ 1 รายการ PDF','academic2',d.academic2,'application/pdf')+'<label class="checkrow"><input id="tci" type="checkbox" '+(d.tci?'checked':'')+'> งานวิจัยเผยแพร่ในวารสาร TCI กลุ่ม 1 หรือ 2 และมีไฟล์บทความประกอบ</label>':''):'')+
+ '<div class="note" style="margin-top:12px">ไฟล์ที่แนบในแอปเก็บใน IndexedDB ของเบราว์เซอร์ อาจติดข้อจำกัดพื้นที่ โดยเฉพาะวิดีโอขนาดใหญ่ แนะนำเก็บไฟล์จริงใน Google Drive แล้ววางลิงก์ไว้ในระบบ</div></div>';
+ document.querySelector('#saveDocs').onclick=()=>{d.planLink=val('planLink');d.problemVideoLink=val('problemVideoLink');d.teachingVideoLink=val('teachingVideoLink');d.studentLinks=[val('studentLink0'),val('studentLink1'),val('studentLink2')];d.academic1=val('academic1');d.academic2=val('academic2');if(document.querySelector('#tci'))d.tci=document.querySelector('#tci').checked;save();evidencePage()};
+ document.querySelectorAll('[data-upload]').forEach(b=>b.onchange=async()=>{const f=b.files[0];if(!f)return;await putFile({id:b.dataset.upload,scope:b.dataset.upload,name:f.name,type:f.type,size:f.size,blob:f});toast('แนบไฟล์ในเครื่องแล้ว');renderFileStatus(b.dataset.upload)});
+ ['plan','problem','teaching','student0','student1','student2','academic1','academic2'].forEach(renderFileStatus);
+}
+function evidenceBlock(scope,label,id,link,accept){return '<div class="upload"><div class="row"><b>'+label+'</b><span id="fs_'+scope+'" class="badge">ยังไม่แนบในเครื่อง</span></div><div class="grid g2" style="margin-top:8px"><div class="field"><label>แนบไฟล์ในเครื่อง</label><input data-upload="'+scope+'" type="file" accept="'+accept+'"></div><div class="field"><label>ลิงก์ Google Drive / URL หลักฐาน</label><input id="'+id+'" value="'+esc(link)+'" placeholder="https://drive.google.com/..."></div></div></div>'}
+function videoPage(){
+ const v=state.video,checks=[['singleCamera','ใช้กล้องตัวเดียว (Single video camera)'],['noTitle','ไม่มีส่วนนำ (No Title)'],['noMusic','ไม่มีดนตรีประกอบ/สอดแทรก'],['oneTake','ถ่ายต่อเนื่อง One-Take'],['noEdit','ไม่มีการตัดต่อ'],['fixedAngle','ไม่เดินกล้อง/ไม่ย้ายมุมกล้อง'],['overview','เห็นภาพรวมชั้นเรียน/ผู้เรียนชัดเจน'],['clearAudio','ภาพและเสียงชัดเจนเพียงพอสำหรับประเมิน']];
+ document.querySelector('#content').innerHTML='<div class="grid g2"><div class="card"><div class="head"><div><h2>ตรวจวิดีโอบันทึกการสอน</h2><div class="muted">ตามรูปแบบที่ ก.ค.ศ. กำหนด</div></div><button class="btn" id="saveVideo">บันทึก</button></div>'+checks.map(x=>'<label class="checkrow"><input id="v_'+x[0]+'" type="checkbox" '+(v[x[0]]?'checked':'')+'> '+x[1]+'</label>').join('')+'<hr style="border:0;border-top:1px solid var(--line);margin:14px 0"><label class="checkrow"><input id="v_teachingMp4" type="checkbox" '+(v.teachingMp4?'checked':'')+'> ไฟล์บันทึกการสอนเป็น MP4</label>'+f('v_teachingMinutes','ความยาววิดีโอบันทึกการสอน (นาที)',v.teachingMinutes,'number')+'<div class="note">ตามคู่มือ: ความยาวตามคาบจริง แต่รวมแล้วไม่เกิน 60 นาที</div></div><div class="card"><h2>วิดีโอสภาพปัญหา/แรงบันดาลใจ</h2><label class="checkrow"><input id="v_problemMp4" type="checkbox" '+(v.problemMp4?'checked':'')+'> ไฟล์เป็น MP4</label><label class="checkrow"><input id="v_teacherPresents" type="checkbox" '+(v.teacherPresents?'checked':'')+'> ผู้ขอปรากฏตัวและบรรยายด้วยตนเอง</label>'+f('v_problemMinutes','ความยาววิดีโอ (นาที)',v.problemMinutes,'number')+'<div class="note">ตามคู่มือ: ไม่เกิน 10 นาที ไม่มี Title ไม่มีดนตรี/เสียงพิเศษ และไม่มีการซ้อนตัวอักษรระหว่างนำเสนอ</div></div></div>';
+ document.querySelector('#saveVideo').onclick=()=>{checks.forEach(x=>v[x[0]]=document.querySelector('#v_'+x[0]).checked);v.teachingMp4=document.querySelector('#v_teachingMp4').checked;v.teachingMinutes=val('v_teachingMinutes');v.problemMp4=document.querySelector('#v_problemMp4').checked;v.problemMinutes=val('v_problemMinutes');v.teacherPresents=document.querySelector('#v_teacherPresents').checked;save();videoPage()}
+}
+function resultPage(){
+ const e=eligibility(),w=e.w,t=target(),pct=Math.round([e.dur,e.paok,e.discipline,e.license,e.workload,e.docs,e.videoOk,e.score].filter(Boolean).length/8*100);
+ document.querySelector('#content').innerHTML='<div class="grid g2"><div class="card"><h2>ผลประมวลความพร้อม</h2><div class="progress-ring" style="--p:'+pct+'"><strong>'+pct+'%</strong></div><div style="text-align:center;margin-top:10px"><span class="badge '+(e.ready?'ok':'warn')+'">'+(e.ready?'พร้อมยื่นตรวจสอบเบื้องต้น':'ยังไม่พร้อมยื่น')+'</span></div><div class="note" style="margin-top:12px">สถานะนี้ไม่ใช่คำสั่งอนุมัติวิทยฐานะ เป็นระบบคัดกรองเอกสารและคุณสมบัติก่อนนำเข้าสู่ DPA</div></div><div class="card"><h2>คะแนนประเมินจำลอง</h2><div class="grid g3"><div class="note"><b>ด้านที่ 1</b><br><span style="font-size:25px">'+w.d1+'</span>/80</div><div class="note"><b>ด้านที่ 2</b><br><span style="font-size:25px">'+w.d2+'</span>/20</div><div class="note"><b>รวม</b><br><span style="font-size:25px">'+w.total+'</span>/100</div></div><p>เกณฑ์สำหรับ '+esc(t.label)+' ไม่น้อยกว่า '+t.pass+'%</p>'+gapHtml(e)+'</div></div><div class="card"><h2>รายละเอียดสถานะ</h2>'+statusHtml(e)+'</div>';
+}
+function reportPage(){
+ const e=eligibility(),w=e.w,t=target();
+ document.querySelector('#content').innerHTML='<div class="card no-print"><div class="head"><div><h2>รายงานสรุปก่อนยื่น DPA</h2><div class="muted">พิมพ์หรือบันทึกเป็น PDF</div></div><button class="btn" id="printReport">พิมพ์รายงาน</button></div></div><div class="card"><div class="print-only"><h2 style="text-align:center">รายงานตรวจความพร้อมการขอมีหรือเลื่อนวิทยฐานะ</h2></div><p><b>ผู้ขอ:</b> '+esc(state.applicant.name||'-')+' &nbsp; <b>สถานศึกษา:</b> '+esc(state.school.name)+'</p><p><b>วิทยฐานะที่ขอ:</b> '+esc(t.label)+' &nbsp; <b>ระดับที่คาดหวัง:</b> '+esc(t.expected)+'</p><h3>1. ผลตรวจคุณสมบัติ</h3>'+statusHtml(e)+'<h3>2. ผลประเมินจำลองด้านที่ 1 และ 2</h3><div class="tbl"><table><thead><tr><th>ด้าน</th><th>คะแนน</th><th>เกณฑ์รวม</th></tr></thead><tbody><tr><td>ด้านที่ 1 ทักษะการจัดการเรียนรู้และการจัดการชั้นเรียน</td><td>'+w.d1+'/80</td><td rowspan="2">'+t.pass+'%</td></tr><tr><td>ด้านที่ 2 ผลลัพธ์การเรียนรู้ของผู้เรียน</td><td>'+w.d2+'/20</td></tr><tr><td><b>รวม</b></td><td><b>'+w.total+'/100</b></td><td><b>'+(e.score?'ผ่านเกณฑ์จำลอง':'ยังไม่ผ่านเกณฑ์จำลอง')+'</b></td></tr></tbody></table></div><h3>3. ประเด็นแก้ไขก่อนยื่น</h3>'+gapHtml(e)+'<h3>4. ข้อเสนอแนะรายตัวชี้วัด</h3>'+state.planNotes.map((x,i)=>x?'<p><b>'+(i+1)+'. '+esc(indicators[i])+'</b><br>'+esc(x)+'</p>':'').join('')+'<h3>5. สถานะสรุป</h3><p><b>'+(e.ready?'พร้อมยื่นตรวจสอบเอกสารในระบบ DPA':'ควรปรับปรุง/จัดเตรียมข้อมูลให้ครบก่อนยื่น DPA')+'</b></p><p class="muted">รายงานนี้เป็นเครื่องมือเตรียมความพร้อมภายใน ไม่ใช่ผลการพิจารณาของ ก.ค.ศ.</p></div>';
+ document.querySelector('#printReport').onclick=()=>window.print();
+}
+function settingsPage(){
+ const acc=accounts();
+ document.querySelector('#content').innerHTML='<div class="grid g2"><div class="card"><div class="head"><div><h2>บัญชีผู้ใช้ระบบ</h2><div class="muted">ผู้ใช้ทุกคนต้องลงชื่อเข้าใช้ก่อนใช้งาน</div></div><button class="btn" id="addUser">เพิ่มผู้ใช้</button></div><div class="tbl"><table><thead><tr><th>ชื่อ</th><th>อีเมล</th><th>สิทธิ์</th></tr></thead><tbody>'+acc.map(x=>'<tr><td>'+esc(x.name)+'</td><td>'+esc(x.email)+'</td><td>'+esc(x.role)+'</td></tr>').join('')+'</tbody></table></div><div id="newUser"></div></div><div class="card"><h2>Google Drive สำรองข้อมูล</h2><p>สร้างโฟลเดอร์ปลายทางไว้แล้ว:</p><p><a href="'+DRIVE_FOLDER_URL+'" target="_blank">ระบบตรวจแผนจัดการเรียนรู้และวิทยฐานะ ว9-2564</a></p><div class="note warn">GitHub Pages เป็นเว็บแบบ Static จึงไม่สามารถเขียนไฟล์เข้า Google Drive อัตโนมัติโดยปลอดภัยได้หากยังไม่มี Google OAuth Client ID/Backend ขององค์กร รุ่นนี้จึงสำรองข้อมูลอัตโนมัติในเบราว์เซอร์ และให้ส่งออก JSON แล้วอัปโหลดไปยังโฟลเดอร์ Drive ที่กำหนด</div><button class="btn alt" id="openDrive" style="margin-top:10px">เปิดโฟลเดอร์ Google Drive</button></div></div>';
+ document.querySelector('#openDrive').onclick=()=>window.open(DRIVE_FOLDER_URL,'_blank');
+ document.querySelector('#addUser').onclick=()=>{document.querySelector('#newUser').innerHTML='<div class="note" style="margin-top:10px"><div class="grid g2">'+f('un','ชื่อผู้ใช้','')+f('ue','อีเมล','')+f('up','รหัสผ่าน','','password')+sel('ur','สิทธิ์',[['member','member'],['admin','admin']],'member')+'</div><button class="btn" id="createUser" style="margin-top:9px">สร้างบัญชี</button></div>';document.querySelector('#createUser').onclick=async()=>{const n=val('un'),e=val('ue').trim().toLowerCase(),p=val('up');if(!n||!e||p.length<4){toast('กรอกข้อมูลให้ครบ');return}const a=accounts();if(a.some(x=>x.email===e)){toast('มีอีเมลนี้แล้ว');return}a.push({id:'u_'+Date.now(),name:n,email:e,role:val('ur'),pass:await hash(p)});setAccounts(a);toast('สร้างบัญชีแล้ว');settingsPage()}}
+}
+function render(){nav();setTitle();if(current==='dashboard')dashboard();else if(current==='profile')profilePage();else if(current==='eligibility')eligibilityPage();else if(current==='plan')planPage();else if(current==='outcome')outcomePage();else if(current==='evidence')evidencePage();else if(current==='video')videoPage();else if(current==='result')resultPage();else if(current==='report')reportPage();else settingsPage()}
+function odb(){return new Promise((ok,no)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE,{keyPath:'id'});r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
+function putFile(x){return odb().then(db=>new Promise((ok,no)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(x);tx.oncomplete=ok;tx.onerror=()=>no(tx.error)}))}
+function getFile(id){return odb().then(db=>new Promise((ok,no)=>{const r=db.transaction(STORE,'readonly').objectStore(STORE).get(id);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)}))}
+function renderFileStatus(id){const e=document.querySelector('#fs_'+id);if(e)getFile(id).then(x=>{e.textContent=x?x.name:'ยังไม่แนบในเครื่อง';e.className='badge '+(x?'ok':'')})}
+function backup(){const data=JSON.stringify({state,accounts:accounts(),createdAt:new Date().toISOString()},null,2),blob=new Blob([data],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='PA_Plan_Review_backup_'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href);toast('ดาวน์โหลดไฟล์สำรองแล้ว')}
+function restore(file){const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);state=x.state||x;if(x.accounts)setAccounts(x.accounts);save('นำเข้าข้อมูลแล้ว');render()}catch(e){toast('ไฟล์สำรองไม่ถูกต้อง')}};r.readAsText(file)}
+document.querySelector('#menu').onclick=()=>document.querySelector('#side').classList.toggle('open');
+document.querySelector('#logout').onclick=logout;document.querySelector('#backupBtn').onclick=backup;document.querySelector('#restoreBtn').onclick=()=>document.querySelector('#restoreFile').click();document.querySelector('#restoreFile').onchange=function(){if(this.files[0])restore(this.files[0]);this.value=''};
+try{session=JSON.parse(sessionStorage.getItem(SES))}catch(e){}
+if(session&&accounts().some(x=>x.id===session.id))show();else auth();
+</script>
+</body>
+</html>
