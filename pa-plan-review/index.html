@@ -53,6 +53,7 @@ button,input,select,textarea{font:inherit}.hidden{display:none!important}.app{mi
   </main>
 </div>
 <div class="toast" id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 const KEY='pa_plan_review_v1', ACC='pa_plan_review_accounts_v1', SES='pa_plan_review_session_v1', DB='pa_plan_review_files_v1', STORE='files';
 const DRIVE_FOLDER_URL='https://drive.google.com/drive/folders/16RixazCUl-O5UizycHpTbOLgDja_zCcO';
@@ -106,6 +107,7 @@ const modules=[
 ['profile','USER','ข้อมูลผู้ขอ','ผู้ขอและคุณสมบัติ'],
 ['eligibility','QUAL','ตรวจคุณสมบัติ','ผู้ขอและคุณสมบัติ'],
 ['plan','PLAN','ตรวจแผน 8 ตัวชี้วัด','การประเมิน'],
+['auto','AUTO','วิเคราะห์ไฟล์อัตโนมัติ','การประเมิน'],
 ['outcome','OUT','ผลลัพธ์ผู้เรียน','การประเมิน'],
 ['evidence','FILES','หลักฐาน DPA','หลักฐาน'],
 ['video','VIDEO','ตรวจรูปแบบวิดีโอ','หลักฐาน'],
@@ -126,10 +128,29 @@ function defaults(){return{
  outcomeNotes:Array(4).fill(''),
  docs:{planLink:'',problemVideoLink:'',teachingVideoLink:'',studentLinks:['','',''],academic1:'',academic2:'',tci:false},
  video:{singleCamera:false,noTitle:false,noMusic:false,oneTake:false,noEdit:false,fixedAngle:false,overview:false,clearAudio:false,teachingMp4:false,teachingMinutes:'',problemMp4:false,problemMinutes:'',teacherPresents:false},
+ auto:{planText:'',planFileName:'',analyzedAt:'',alignment:null,completeness:[],paResults:[],videoMeta:{},engine:'rule-based-v2'},
  logs:[],updatedAt:null
 }}
 let state=load(),session=null,current='dashboard';
-function load(){try{return JSON.parse(localStorage.getItem(KEY))||defaults()}catch(e){return defaults()}}
+function normalizeState(s){
+ const d=defaults(), x=s||{};
+ x.school={...d.school,...(x.school||{})};
+ x.applicant={...d.applicant,...(x.applicant||{})};
+ x.pa=Array.isArray(x.pa)&&x.pa.length===3?x.pa:d.pa;
+ x.planChecks=Array.isArray(x.planChecks)&&x.planChecks.length===8?x.planChecks:d.planChecks;
+ x.planScores=Array.isArray(x.planScores)&&x.planScores.length===8?x.planScores:d.planScores;
+ x.planNotes=Array.isArray(x.planNotes)&&x.planNotes.length===8?x.planNotes:d.planNotes;
+ x.outcomeChecks=Array.isArray(x.outcomeChecks)&&x.outcomeChecks.length===4?x.outcomeChecks:d.outcomeChecks;
+ x.outcomeScores=Array.isArray(x.outcomeScores)&&x.outcomeScores.length===4?x.outcomeScores:d.outcomeScores;
+ x.outcomeNotes=Array.isArray(x.outcomeNotes)&&x.outcomeNotes.length===4?x.outcomeNotes:d.outcomeNotes;
+ x.docs={...d.docs,...(x.docs||{})};
+ x.video={...d.video,...(x.video||{})};
+ x.auto={...d.auto,...(x.auto||{}),videoMeta:{...(d.auto.videoMeta||{}),...((x.auto||{}).videoMeta||{})}};
+ x.logs=Array.isArray(x.logs)?x.logs:[];
+ if(typeof x.workload!=='boolean')x.workload=true;
+ return x;
+}
+function load(){try{return normalizeState(JSON.parse(localStorage.getItem(KEY))||defaults())}catch(e){return defaults()}}
 function save(msg='บันทึกข้อมูลแล้ว'){state.updatedAt=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state));toast(msg)}
 function toast(t){const e=document.querySelector('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1800)}
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
@@ -153,7 +174,13 @@ function logout(){sessionStorage.removeItem(SES);session=null;auth()}
 function nav(){let g='',h='';modules.forEach(m=>{if(g!==m[3]){g=m[3];h+='<div class="navhead">'+g+'</div>'}h+='<button class="nav '+(current===m[0]?'on':'')+'" data-nav="'+m[0]+'"><span>'+m[1]+'</span>'+m[2]+'</button>'});document.querySelector('#nav').innerHTML=h;document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{current=b.dataset.nav;document.querySelector('#side').classList.remove('open');render()})}
 function setTitle(){const m=modules.find(x=>x[0]===current);document.querySelector('#pageTitle').childNodes[0].nodeValue=m?m[2]:'PA Plan Review'}
 function target(){return levels[state.applicant.requested]||levels.skilled}
-function weighted(){const d1=state.planScores.reduce((a,b)=>a+(+b||0),0)*2.5;const d2=state.outcomeScores.reduce((a,b)=>a+(+b||0),0)*5;return {d1:+d1.toFixed(2),d2:+d2.toFixed(2),total:+(d1+d2).toFixed(2)}}
+function weighted(){
+ const d1Raw=state.planScores.reduce((a,b)=>a+(+b||0),0);
+ const d2Raw=state.outcomeScores.reduce((a,b)=>a+(+b||0),0);
+ const d1Percent=+(d1Raw/40*100).toFixed(2);
+ const d2Percent=+(d2Raw/20*100).toFixed(2);
+ return {d1Raw,d2Raw,d1Percent,d2Percent};
+}
 function yearsSince(d){if(!d)return 0;const x=new Date(d),n=new Date();return (n-x)/31557600000}
 function eligibility(){
  const a=state.applicant,t=target(),date=a.current==='none'?a.positionDate:a.currentLevelDate,need=a.reduce?3:4;
@@ -162,14 +189,14 @@ function eligibility(){
  const academic=a.requested==='expert'?!!state.docs.academic1:a.requested==='special'?!!state.docs.academic1&&!!state.docs.academic2&&state.docs.tci:true;
  const docs=!!state.docs.planLink&&!!state.docs.problemVideoLink&&!!state.docs.teachingVideoLink&&state.docs.studentLinks.filter(Boolean).length>=1&&academic;
  const v=state.video,videoOk=v.singleCamera&&v.noTitle&&v.noMusic&&v.oneTake&&v.noEdit&&v.fixedAngle&&v.overview&&v.clearAudio&&v.teachingMp4&&(+v.teachingMinutes>0&&+v.teachingMinutes<=60)&&v.problemMp4&&(+v.problemMinutes>0&&+v.problemMinutes<=10)&&v.teacherPresents;
- const w=weighted(),score=w.total>=t.pass;
+ const w=weighted(),score=w.d1Percent>=t.pass&&w.d2Percent>=t.pass;
  return {dur,paok,discipline:a.discipline,license:a.license,workload:state.workload,docs,videoOk,score,academic,w,need,ready:dur&&paok&&a.discipline&&a.license&&state.workload&&docs&&videoOk&&score}
 }
 function dashboard(){
  const e=eligibility(),w=e.w,t=target();const complete=[e.dur,e.paok,e.discipline,e.license,e.workload,e.docs,e.videoOk,e.score].filter(Boolean).length, pct=Math.round(complete/8*100);
  document.querySelector('#content').innerHTML=
  '<div class="note">ผลในระบบเป็นการตรวจความพร้อมเบื้องต้นจากข้อมูลที่กรอก ไม่ใช่ผลอนุมัติจาก ก.ค.ศ. หรือระบบ DPA</div>'+
- '<div class="grid g5"><div class="card metric"><span class="muted">ความพร้อมยื่น</span><br><strong>'+pct+'%</strong><div class="bar"><i style="width:'+pct+'%"></i></div></div><div class="card metric"><span class="muted">คะแนนจำลองรวม</span><br><strong>'+w.total+'</strong>/100</div><div class="card metric"><span class="muted">เกณฑ์ '+esc(t.label)+'</span><br><strong>'+t.pass+'%</strong></div><div class="card metric"><span class="muted">ด้านที่ 1</span><br><strong>'+w.d1+'</strong>/80</div><div class="card metric"><span class="muted">ด้านที่ 2</span><br><strong>'+w.d2+'</strong>/20</div></div>'+
+ '<div class="grid g5"><div class="card metric"><span class="muted">ความพร้อมยื่น</span><br><strong>'+pct+'%</strong><div class="bar"><i style="width:'+pct+'%"></i></div></div><div class="card metric"><span class="muted">ด้านที่ 1</span><br><strong>'+w.d1Percent+'%</strong><div class="muted">'+w.d1Raw+'/40</div></div><div class="card metric"><span class="muted">เกณฑ์ '+esc(t.label)+'</span><br><strong>'+t.pass+'%</strong></div><div class="card metric"><span class="muted">ด้านที่ 2</span><br><strong>'+w.d2Percent+'%</strong><div class="muted">'+w.d2Raw+'/20</div></div><div class="card metric"><span class="muted">ไฟล์แผน</span><br><strong>'+(state.auto.planText?'แล้ว':'—')+'</strong><div class="muted">'+(state.auto.planFileName||'ยังไม่วิเคราะห์')+'</div></div></div>'+
  '<div class="grid g2"><div class="card"><div class="head"><div><h2>สถานะความพร้อม</h2><div class="muted">'+esc(t.expected)+'</div></div><span class="badge '+(e.ready?'ok':'warn')+'">'+(e.ready?'พร้อมยื่นตรวจสอบ':'ยังมีรายการต้องแก้')+'</span></div>'+statusHtml(e)+'</div>'+
  '<div class="card"><h2>ประเด็นที่ต้องแก้ก่อนยื่น</h2>'+gapHtml(e)+'</div></div>'+
  '<div class="card"><h2>หลักฐานสำคัญตามคู่มือ</h2><div class="grid g4"><div class="note"><b>แผนการจัดการเรียนรู้</b><br>PDF 1 ไฟล์ และต้องเป็นแผนเดียวกับที่ปรากฏในวิดีโอบันทึกการสอน</div><div class="note"><b>วิดีโอบันทึกการสอน</b><br>MP4 1 ไฟล์ ตามคาบจริง รวมไม่เกิน 60 นาที</div><div class="note"><b>วิดีโอสภาพปัญหา/แรงบันดาลใจ</b><br>MP4 1 ไฟล์ ไม่เกิน 10 นาที</div><div class="note"><b>ผลลัพธ์ผู้เรียน</b><br>ไม่เกิน 3 ไฟล์: วิดีโอ/ภาพ/PDF</div></div></div>';
@@ -222,20 +249,225 @@ function evidencePage(){
  evidenceBlock('teaching','วิดีโอบันทึกการสอน MP4 1 ไฟล์','teachingVideoLink',d.teachingVideoLink,'video/mp4')+
  '<h3>ผลลัพธ์การเรียนรู้ของผู้เรียน ไม่เกิน 3 ไฟล์</h3>'+[0,1,2].map(i=>evidenceBlock('student'+i,'หลักฐานผลลัพธ์ผู้เรียน '+(i+1),'studentLink'+i,d.studentLinks[i],'video/mp4,image/*,application/pdf')).join('')+
  (req==='expert'||req==='special'?'<h3>ผลงานทางวิชาการ</h3>'+evidenceBlock('academic1',req==='expert'?'งานวิจัยหรือนวัตกรรม 1 รายการ PDF':'งานวิจัย 1 รายการ PDF','academic1',d.academic1,'application/pdf')+(req==='special'?evidenceBlock('academic2','นวัตกรรมการจัดการเรียนรู้ 1 รายการ PDF','academic2',d.academic2,'application/pdf')+'<label class="checkrow"><input id="tci" type="checkbox" '+(d.tci?'checked':'')+'> งานวิจัยเผยแพร่ในวารสาร TCI กลุ่ม 1 หรือ 2 และมีไฟล์บทความประกอบ</label>':''):'')+
- '<div class="note" style="margin-top:12px">ไฟล์ที่แนบในแอปเก็บใน IndexedDB ของเบราว์เซอร์ อาจติดข้อจำกัดพื้นที่ โดยเฉพาะวิดีโอขนาดใหญ่ แนะนำเก็บไฟล์จริงใน Google Drive แล้ววางลิงก์ไว้ในระบบ</div></div>';
+ '<div class="note" style="margin-top:12px">เมื่อแนบแผน PDF ระบบจะดึงข้อความและประเมิน Alignment + PA 8 ตัวชี้วัดให้อัตโนมัติ ส่วนไฟล์วิดีโอระบบตรวจชนิดไฟล์ ระยะเวลา ความละเอียด และขนาดไฟล์อัตโนมัติ เงื่อนไขที่ต้องดูเนื้อหาต่อเนื่อง เช่น One-Take/ไม่มีการตัดต่อ/คุณภาพการสอน ต้องยืนยันจากการดูวิดีโอหรือใช้บริการ AI ภายนอกเพิ่มเติม</div></div>';
  document.querySelector('#saveDocs').onclick=()=>{d.planLink=val('planLink');d.problemVideoLink=val('problemVideoLink');d.teachingVideoLink=val('teachingVideoLink');d.studentLinks=[val('studentLink0'),val('studentLink1'),val('studentLink2')];d.academic1=val('academic1');d.academic2=val('academic2');if(document.querySelector('#tci'))d.tci=document.querySelector('#tci').checked;save();evidencePage()};
- document.querySelectorAll('[data-upload]').forEach(b=>b.onchange=async()=>{const f=b.files[0];if(!f)return;await putFile({id:b.dataset.upload,scope:b.dataset.upload,name:f.name,type:f.type,size:f.size,blob:f});toast('แนบไฟล์ในเครื่องแล้ว');renderFileStatus(b.dataset.upload)});
+ document.querySelectorAll('[data-upload]').forEach(b=>b.onchange=async()=>{const f=b.files[0];if(!f)return;await putFile({id:b.dataset.upload,scope:b.dataset.upload,name:f.name,type:f.type,size:f.size,blob:f});toast('แนบไฟล์ในเครื่องแล้ว');await processUploadedEvidence(f,b.dataset.upload);renderFileStatus(b.dataset.upload)});
  ['plan','problem','teaching','student0','student1','student2','academic1','academic2'].forEach(renderFileStatus);
 }
 function evidenceBlock(scope,label,id,link,accept){return '<div class="upload"><div class="row"><b>'+label+'</b><span id="fs_'+scope+'" class="badge">ยังไม่แนบในเครื่อง</span></div><div class="grid g2" style="margin-top:8px"><div class="field"><label>แนบไฟล์ในเครื่อง</label><input data-upload="'+scope+'" type="file" accept="'+accept+'"></div><div class="field"><label>ลิงก์ Google Drive / URL หลักฐาน</label><input id="'+id+'" value="'+esc(link)+'" placeholder="https://drive.google.com/..."></div></div></div>'}
 function videoPage(){
  const v=state.video,checks=[['singleCamera','ใช้กล้องตัวเดียว (Single video camera)'],['noTitle','ไม่มีส่วนนำ (No Title)'],['noMusic','ไม่มีดนตรีประกอบ/สอดแทรก'],['oneTake','ถ่ายต่อเนื่อง One-Take'],['noEdit','ไม่มีการตัดต่อ'],['fixedAngle','ไม่เดินกล้อง/ไม่ย้ายมุมกล้อง'],['overview','เห็นภาพรวมชั้นเรียน/ผู้เรียนชัดเจน'],['clearAudio','ภาพและเสียงชัดเจนเพียงพอสำหรับประเมิน']];
- document.querySelector('#content').innerHTML='<div class="grid g2"><div class="card"><div class="head"><div><h2>ตรวจวิดีโอบันทึกการสอน</h2><div class="muted">ตามรูปแบบที่ ก.ค.ศ. กำหนด</div></div><button class="btn" id="saveVideo">บันทึก</button></div>'+checks.map(x=>'<label class="checkrow"><input id="v_'+x[0]+'" type="checkbox" '+(v[x[0]]?'checked':'')+'> '+x[1]+'</label>').join('')+'<hr style="border:0;border-top:1px solid var(--line);margin:14px 0"><label class="checkrow"><input id="v_teachingMp4" type="checkbox" '+(v.teachingMp4?'checked':'')+'> ไฟล์บันทึกการสอนเป็น MP4</label>'+f('v_teachingMinutes','ความยาววิดีโอบันทึกการสอน (นาที)',v.teachingMinutes,'number')+'<div class="note">ตามคู่มือ: ความยาวตามคาบจริง แต่รวมแล้วไม่เกิน 60 นาที</div></div><div class="card"><h2>วิดีโอสภาพปัญหา/แรงบันดาลใจ</h2><label class="checkrow"><input id="v_problemMp4" type="checkbox" '+(v.problemMp4?'checked':'')+'> ไฟล์เป็น MP4</label><label class="checkrow"><input id="v_teacherPresents" type="checkbox" '+(v.teacherPresents?'checked':'')+'> ผู้ขอปรากฏตัวและบรรยายด้วยตนเอง</label>'+f('v_problemMinutes','ความยาววิดีโอ (นาที)',v.problemMinutes,'number')+'<div class="note">ตามคู่มือ: ไม่เกิน 10 นาที ไม่มี Title ไม่มีดนตรี/เสียงพิเศษ และไม่มีการซ้อนตัวอักษรระหว่างนำเสนอ</div></div></div>';
+ document.querySelector('#content').innerHTML='<div class="card"><h2>ผลตรวจไฟล์วิดีโออัตโนมัติ</h2>'+videoMetaHtml()+'<div class="note" style="margin-top:10px">ระบบตรวจอัตโนมัติได้เฉพาะชนิดไฟล์ ระยะเวลา ความละเอียดและขนาดไฟล์ ส่วน One-Take การตัดต่อ มุมกล้อง เสียง และพฤติกรรมการจัดการเรียนรู้ต้องยืนยันจากการดูวิดีโอ</div></div><div class="grid g2"><div class="card"><div class="head"><div><h2>ตรวจวิดีโอบันทึกการสอน</h2><div class="muted">ตามรูปแบบที่ ก.ค.ศ. กำหนด</div></div><button class="btn" id="saveVideo">บันทึก</button></div>'+checks.map(x=>'<label class="checkrow"><input id="v_'+x[0]+'" type="checkbox" '+(v[x[0]]?'checked':'')+'> '+x[1]+'</label>').join('')+'<hr style="border:0;border-top:1px solid var(--line);margin:14px 0"><label class="checkrow"><input id="v_teachingMp4" type="checkbox" '+(v.teachingMp4?'checked':'')+'> ไฟล์บันทึกการสอนเป็น MP4</label>'+f('v_teachingMinutes','ความยาววิดีโอบันทึกการสอน (นาที)',v.teachingMinutes,'number')+'<div class="note">ตามคู่มือ: ความยาวตามคาบจริง แต่รวมแล้วไม่เกิน 60 นาที</div></div><div class="card"><h2>วิดีโอสภาพปัญหา/แรงบันดาลใจ</h2><label class="checkrow"><input id="v_problemMp4" type="checkbox" '+(v.problemMp4?'checked':'')+'> ไฟล์เป็น MP4</label><label class="checkrow"><input id="v_teacherPresents" type="checkbox" '+(v.teacherPresents?'checked':'')+'> ผู้ขอปรากฏตัวและบรรยายด้วยตนเอง</label>'+f('v_problemMinutes','ความยาววิดีโอ (นาที)',v.problemMinutes,'number')+'<div class="note">ตามคู่มือ: ไม่เกิน 10 นาที ไม่มี Title ไม่มีดนตรี/เสียงพิเศษ และไม่มีการซ้อนตัวอักษรระหว่างนำเสนอ</div></div></div>';
  document.querySelector('#saveVideo').onclick=()=>{checks.forEach(x=>v[x[0]]=document.querySelector('#v_'+x[0]).checked);v.teachingMp4=document.querySelector('#v_teachingMp4').checked;v.teachingMinutes=val('v_teachingMinutes');v.problemMp4=document.querySelector('#v_problemMp4').checked;v.problemMinutes=val('v_problemMinutes');v.teacherPresents=document.querySelector('#v_teacherPresents').checked;save();videoPage()}
 }
+
+function hasAny(text,words){const t=(text||'').toLowerCase();return words.some(w=>t.includes(String(w).toLowerCase()))}
+function cleanText(t){return String(t||'').replace(/\u0000/g,' ').replace(/[ \t]+/g,' ').replace(/\n{3,}/g,'\n\n').trim()}
+function snippetFor(text,words,max=260){
+ const lines=cleanText(text).split(/\n+/).map(x=>x.trim()).filter(Boolean);
+ for(const line of lines){if(words.some(w=>line.toLowerCase().includes(String(w).toLowerCase())))return line.slice(0,max)}
+ const low=text.toLowerCase();for(const w of words){const i=low.indexOf(String(w).toLowerCase());if(i>=0)return cleanText(text.slice(Math.max(0,i-80),i+max)).slice(0,max)}
+ return '';
+}
+function sectionFrom(text,heads,nextHeads){
+ const low=text.toLowerCase();let start=-1,head='';
+ for(const h of heads){const i=low.indexOf(h.toLowerCase());if(i>=0&&(start<0||i<start)){start=i;head=h}}
+ if(start<0)return '';
+ let end=text.length;
+ for(const h of nextHeads){const i=low.indexOf(h.toLowerCase(),start+head.length);if(i>start&&i<end)end=i}
+ return cleanText(text.slice(start,end)).slice(0,1800);
+}
+function planCompleteness(text){
+ const rows=[
+  ['หัวแผน/รหัสวิชา/หน่วย/เรื่อง/ชั้น', ['รหัสวิชา','หน่วยการเรียนรู้','เรื่อง','ชั้น'], 'เติมรหัสวิชา ประเภทวิชา ชื่อหน่วย เรื่อง และระดับชั้นให้ครบ'],
+  ['มาตรฐานการเรียนรู้/ตัวชี้วัดหรือผลการเรียนรู้', ['มาตรฐานการเรียนรู้','ตัวชี้วัด'], 'ตรวจรหัสมาตรฐานและตัวชี้วัดให้ตรงหลักสูตร หากเป็นวิชาเพิ่มเติมใช้ผลการเรียนรู้'],
+  ['สาระสำคัญ/ความคิดรวบยอด', ['สาระสำคัญ','ความคิดรวบยอด'], 'เขียนสาระสำคัญแบบความเรียงให้เชื่อมมาตรฐาน ตัวชี้วัด เรื่อง และสาระตามหลักสูตร'],
+  ['จุดประสงค์การเรียนรู้', ['จุดประสงค์การเรียนรู้'], 'กำหนดจุดประสงค์ที่สังเกต/วัดได้และเชื่อมกับมาตรฐาน ตัวชี้วัด และเรื่อง'],
+  ['กิจกรรมการเรียนรู้', ['กิจกรรมการเรียนรู้','ขั้นนำ','ขั้นสอน','ขั้นสรุป'], 'ระบุกระบวนการ Active Learning และบทบาทผู้เรียนให้สะท้อนจุดประสงค์'],
+  ['การวัดและประเมินผล', ['การวัดและประเมินผล','วิธีการวัด','เครื่องมือ','เกณฑ์การประเมิน'], 'ให้วิธีวัด เครื่องมือ ชิ้นงาน/ภาระงาน และเกณฑ์สอดคล้องกับจุดประสงค์ทั้งความรู้ ทักษะ และคุณลักษณะ']
+ ];
+ return rows.map((r,i)=>{
+   let ok=false;
+   if(i===0)ok=hasAny(text,['รหัสวิชา'])&&hasAny(text,['หน่วยการเรียนรู้'])&&hasAny(text,['เรื่อง'])&&hasAny(text,['ชั้น']);
+   else if(i===1)ok=(hasAny(text,['มาตรฐานการเรียนรู้'])&&hasAny(text,['ตัวชี้วัด']))||hasAny(text,['ผลการเรียนรู้']);
+   else ok=hasAny(text,r[1]);
+   return {name:r[0],ok,evidence:snippetFor(text,r[1]),fix:r[2]};
+ });
+}
+function alignmentAnalyze(text){
+ const o=sectionFrom(text,['จุดประสงค์การเรียนรู้','วัตถุประสงค์การเรียนรู้'],['สาระการเรียนรู้','กิจกรรมการเรียนรู้','กระบวนการจัดการเรียนรู้','การวัดและประเมินผล']);
+ const a=sectionFrom(text,['กิจกรรมการเรียนรู้','กระบวนการจัดการเรียนรู้'],['สื่อ','แหล่งเรียนรู้','การวัดและประเมินผล','บันทึกหลังการสอน']);
+ const e=sectionFrom(text,['การวัดและประเมินผล','การวัดผลและประเมินผล'],['บันทึกหลังการสอน','ความคิดเห็น','ภาคผนวก']);
+ const oVerb=hasAny(o,['อธิบาย','วิเคราะห์','คำนวณ','สร้าง','ปฏิบัติ','จำแนก','เปรียบเทียบ','นำเสนอ','แก้ปัญหา','ประยุกต์','สื่อสาร']);
+ const active=hasAny(a,['ลงมือ','ปฏิบัติ','กลุ่ม','อภิปราย','ทดลอง','สืบค้น','แก้ปัญหา','นำเสนอ','เกม','โครงงาน','สถานการณ์','ร่วมกัน','active learning']);
+ const assess=hasAny(e,['แบบทดสอบ','ใบงาน','ชิ้นงาน','แบบประเมิน','rubric','สังเกต','ภาระงาน','คำถาม','ผลงาน','เกณฑ์']);
+ const present=[o.length>30,a.length>60,e.length>30];
+ const level=present.every(Boolean)&&oVerb&&active&&assess?'สอดคล้องเบื้องต้น':present.filter(Boolean).length>=2?'สอดคล้องบางส่วน':'หลักฐานไม่พอ';
+ const fixes=[];
+ if(!o||!oVerb)fixes.push('ปรับจุดประสงค์ให้ใช้คำกริยาที่สังเกตและวัดได้');
+ if(!a||!active)fixes.push('เพิ่มกิจกรรม Active Learning ที่ผู้เรียนลงมือคิด ปฏิบัติ สร้างความรู้ และสะท้อนผล');
+ if(!e||!assess)fixes.push('ระบุชิ้นงาน/ภาระงาน วิธีวัด เครื่องมือ และเกณฑ์ให้ชัด');
+ if(present.every(Boolean)&&!(oVerb&&active&&assess))fixes.push('ทำ Mapping จุดประสงค์ → กิจกรรม → หลักฐานการเรียนรู้/เครื่องมือวัดให้ตรงกันรายข้อ');
+ return {topic:snippetFor(text,['เรื่อง','หน่วยการเรียนรู้','ชั้น']),o,a,e,oVerb,active,assess,level,fixes};
+}
+const paRuleWords=[
+ [
+  [['มาตรฐานการเรียนรู้','ตัวชี้วัด','สาระการเรียนรู้','หลักสูตร'],['เวลา','นาที','ขั้นนำ','ขั้นสอน','ขั้นสรุป','กิจกรรมการเรียนรู้'],['สื่อ','แหล่งเรียนรู้','ใบงาน','แบบฝึก','เทคโนโลยี']],
+  ['หลักสูตร','โครงสร้างบทเรียน','สื่อ']
+ ],
+ [
+  [['ทบทวน','ความรู้เดิม','ประสบการณ์เดิม','คำถามนำ'],['ความแตกต่างระหว่างบุคคล','ไม่พร้อม','รายบุคคล','ซ่อมเสริม'],['ช่วยเหลือ','อธิบายเพิ่มเติม','ยกตัวอย่าง','เกม','เสริมพื้นฐาน']],
+  ['ทบทวนความรู้เดิม','ช่วยเหลือผู้เรียน','เชื่อมโยง']
+ ],
+ [
+  [['เหมาะสมกับวัย','บริบทผู้เรียน','สร้างความรู้','ประสบการณ์ใหม่'],['ลงมือปฏิบัติ','ทดลอง','สืบค้น','กิจกรรมกลุ่ม','แก้ปัญหา'],['สรุปความรู้','ด้วยตนเอง','แผนผังความคิด','mind map','นำเสนอ']],
+  ['สร้างความรู้','ลงมือปฏิบัติ','สรุปความรู้']
+ ],
+ [
+  [['ชีวิตประจำวัน','ชุมชน','สภาพจริง','สถานการณ์จริง'],['ท้าทาย','เกม','สถานการณ์ปัญหา','ภารกิจ'],['สะท้อนการเรียนรู้','reflection','นำเสนอ','ข้อผิดพลาด','ความล้มเหลว']],
+  ['แรงจูงใจ','ท้าทาย','สะท้อนการเรียนรู้']
+ ],
+ [
+  [['ฝึกทักษะ','ทักษะ'],['บูรณาการทักษะ','บูรณาการ'],['ประยุกต์ใช้','สถานการณ์ใหม่','โจทย์ใหม่','ปัญหาใหม่']],
+  ['พัฒนาทักษะ','ประยุกต์ใช้','บูรณาการ']
+ ],
+ [
+  [['ข้อผิดพลาด','คลาดเคลื่อน','ตรวจคำตอบ','สังเกต'],['ประเมินระหว่างเรียน','formative','แบบทดสอบ','คำถาม','ประเมินการปฏิบัติ'],['สะท้อนกลับ','feedback','ข้อมูลย้อนกลับ','ปรับปรุง']],
+  ['ข้อมูลสะท้อนกลับ','ประเมินระหว่างเรียน','ปรับปรุง']
+ ],
+ [
+  [['บรรยากาศชั้นเรียน','แบบอย่างที่ดี','เจตคติ'],['มั่นใจ','อิสระในการคิด','กล้าแสดงออก','ปลอดภัย'],['สื่อหลากหลาย','คิดวิเคราะห์','เปรียบเทียบ']],
+  ['บรรยากาศ','มั่นใจ','สื่อหลากหลาย']
+ ],
+ [
+  [['กำหนดเป้าหมาย','เป้าหมายการเรียนรู้'],['ประเมินตนเอง','เพื่อนประเมิน','peer assessment'],['ค้นคว้าเพิ่มเติม','ศึกษาต่อ','ฝึกฝนเพิ่มเติม','งานต่อเนื่อง','เรียนรู้ด้วยตนเอง']],
+  ['กำกับการเรียนรู้','ประเมินตนเอง','ค้นคว้าเพิ่มเติม']
+ ]
+];
+function levelWords(level){
+ if(level==='skilled')return {c4:['แก้ปัญหา','การแก้ปัญหา','วิธีแก้ปัญหา'],c5:['บันทึกหลังการสอน','ผลการแก้ปัญหา','ผลลัพธ์ที่ดี','ดีขึ้น']};
+ if(level==='senior')return {c4:['ริเริ่ม','วิธีการใหม่','แนวทางใหม่','กิจกรรมใหม่','สื่อใหม่'],c5:['บันทึกหลังการสอน','ผลจากการใช้วิธีการใหม่','ส่งผลให้ผู้เรียน','ผลลัพธ์ที่ดี']};
+ if(level==='expert')return {c4:['คิดค้น','วิธีการใหม่','พัฒนารูปแบบ','สร้างรูปแบบ'],c5:['ปรับเปลี่ยน','บันทึกหลังการสอน','ส่งผลต่อผู้เรียน','ผลลัพธ์']};
+ return {c4:['นวัตกรรม','สร้างนวัตกรรม','พัฒนานวัตกรรม'],c5:['สร้างการเปลี่ยนแปลง','บันทึกหลังการสอน','ผลกระทบ','เปลี่ยนแปลงแก่ผู้เรียน']};
+}
+function analyzePA(text,level){
+ const lw=levelWords(level);
+ return indicators.map((title,i)=>{
+  const base=paRuleWords[i][0];
+  const crit=[
+   {ok:hasAny(text,base[0]),evidence:snippetFor(text,base[0])},
+   {ok:hasAny(text,base[1]),evidence:snippetFor(text,base[1])},
+   {ok:hasAny(text,base[2]),evidence:snippetFor(text,base[2])},
+   {ok:hasAny(text,lw.c4)&&hasAny(text,paRuleWords[i][1]),evidence:snippetFor(text,[...lw.c4,...paRuleWords[i][1]])},
+   {ok:hasAny(text,lw.c5),evidence:snippetFor(text,lw.c5)}
+  ];
+  const baseCount=crit.slice(0,3).filter(x=>x.ok).length;
+  let score=baseCount;
+  if(baseCount===3)score=3+crit.slice(3).filter(x=>x.ok).length;
+  const missing=crit.map((x,j)=>!x.ok?j+1:null).filter(Boolean);
+  let advice='';
+  if(score<3)advice='เพิ่มหลักฐานข้อพื้นฐาน '+missing.filter(x=>x<=3).join(', ')+' ให้ปรากฏชัดในแผน';
+  else if(score===3)advice='ข้อ 1–3 ครบเบื้องต้น ควรเพิ่มหลักฐานข้อ 4–5 ให้สะท้อนระดับ "'+target().expected+'"';
+  else if(score===4)advice='เพิ่มหลักฐานข้อ '+missing.join(', ')+' โดยเฉพาะผลที่เกิดกับผู้เรียนและบันทึกหลังการสอน เพื่อมุ่งสู่ 5 คะแนน';
+  else advice='พบองค์ประกอบครบ 5 ข้อเบื้องต้น ควรตรวจให้หลักฐานในแผน วิดีโอ และบันทึกหลังการสอนสอดคล้องกัน';
+  return {title,criteria:crit,score,advice};
+ });
+}
+async function extractPdfText(file){
+ if(!window.pdfjsLib)throw new Error('ไม่สามารถโหลดตัวอ่าน PDF ได้');
+ pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+ const data=await file.arrayBuffer(),pdf=await pdfjsLib.getDocument({data}).promise;let parts=[];
+ for(let p=1;p<=pdf.numPages;p++){
+  const page=await pdf.getPage(p),tc=await page.getTextContent();
+  parts.push('หน้า '+p+'\n'+tc.items.map(x=>x.str).join(' '));
+ }
+ return cleanText(parts.join('\n'));
+}
+function applyAutoPA(results){
+ state.planScores=results.map(x=>x.score);
+ state.planChecks=results.map(x=>x.criteria.map(c=>c.ok));
+ state.planNotes=results.map(x=>x.advice);
+}
+async function analyzePlanFile(file){
+ toast('กำลังอ่านข้อความและประเมินแผน...');
+ let text='';
+ try{text=await extractPdfText(file)}catch(err){state.auto.planText='';state.auto.planFileName=file.name;state.auto.paResults=[];state.auto.alignment=null;save('อ่าน PDF ไม่สำเร็จ');throw err}
+ state.auto.planFileName=file.name;state.auto.planText=text;state.auto.analyzedAt=new Date().toISOString();
+ if(text.length<180){
+  state.auto.alignment={level:'ข้อมูลไม่พอ',o:'',a:'',e:'',fixes:['PDF อาจเป็นภาพสแกนหรือไม่มีข้อความที่ดึงได้ กรุณาใช้ PDF ที่มีข้อความ หรือวิเคราะห์ด้วย OCR/AI ภายนอก']};
+  state.auto.completeness=[];state.auto.paResults=[];save('พบข้อความไม่เพียงพอสำหรับประเมินอัตโนมัติ');return;
+ }
+ state.auto.alignment=alignmentAnalyze(text);
+ state.auto.completeness=planCompleteness(text);
+ state.auto.paResults=analyzePA(text,state.applicant.requested);
+ applyAutoPA(state.auto.paResults);
+ save('วิเคราะห์แผนและคำนวณคะแนนอัตโนมัติแล้ว');
+}
+function readVideoMeta(file){
+ return new Promise((resolve,reject)=>{
+  const url=URL.createObjectURL(file),v=document.createElement('video');v.preload='metadata';
+  v.onloadedmetadata=()=>{const x={name:file.name,type:file.type,size:file.size,duration:+v.duration.toFixed(2),minutes:+(v.duration/60).toFixed(2),width:v.videoWidth,height:v.videoHeight};URL.revokeObjectURL(url);resolve(x)};
+  v.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('อ่านข้อมูลวิดีโอไม่ได้'))};v.src=url;
+ });
+}
+async function processUploadedEvidence(file,scope){
+ try{
+  if(scope==='plan'&&file.type==='application/pdf'){await analyzePlanFile(file);return}
+  if(scope==='teaching'||scope==='problem'){
+   const m=await readVideoMeta(file);state.auto.videoMeta[scope]=m;
+   if(scope==='teaching'){state.video.teachingMp4=(file.type==='video/mp4'||/\.mp4$/i.test(file.name));state.video.teachingMinutes=m.minutes}
+   if(scope==='problem'){state.video.problemMp4=(file.type==='video/mp4'||/\.mp4$/i.test(file.name));state.video.problemMinutes=m.minutes}
+   save('ตรวจข้อมูลวิดีโออัตโนมัติแล้ว');
+  }
+ }catch(err){toast(err.message||'ประมวลไฟล์ไม่สำเร็จ')}
+}
+function promptForLevel(){
+ const l=state.applicant.requested, lv=target();
+ const action=l==='skilled'?'การแก้ปัญหาและผลการแก้ปัญหาที่ส่งผลดีต่อผู้เรียน':
+  l==='senior'?'การริเริ่มใช้วิธีการใหม่ ๆ และผลจากวิธีการใหม่ต่อผู้เรียน':
+  l==='expert'?'การคิดค้นวิธีการใหม่ ๆ และการปรับเปลี่ยนที่ส่งผลต่อผู้เรียน':
+  'นวัตกรรมและการสร้างการเปลี่ยนแปลงแก่ผู้เรียน';
+ return 'ในฐานะผู้เชี่ยวชาญด้านศาสตร์การสอนและกรรมการประเมินวิทยฐานะครูตาม ว9/2564 ให้ประเมินแผนการจัดการเรียนรู้ตามหลักสูตรแกนกลางการศึกษาขั้นพื้นฐาน พ.ศ.2551 ฉบับปรับปรุง 2560 โดย 1) วิเคราะห์ Constructive Alignment: วัตถุประสงค์ (O) – กิจกรรม Active Learning (A) – การวัดและประเมินผล (E) ในรูป Alignment Matrix 2) ตรวจความสมบูรณ์ของหัวแผน รหัสวิชา/ประเภทวิชา หน่วย/เรื่อง/ชั้น มาตรฐานและตัวชี้วัดหรือผลการเรียนรู้ สาระสำคัญ จุดประสงค์ กิจกรรม และการวัดผล 3) ประเมิน PA4 ด้านที่ 1 ทั้ง 8 ตัวชี้วัด ตาม Scoring Rubric 1–5 โดยข้อ 1–3 เป็นองค์ประกอบพื้นฐาน และข้อ 4–5 ต้องสะท้อนระดับ '+lv.label+' คือ '+action+' 4) ทุกตัวชี้วัดระบุ บรรลุ/ไม่บรรลุ หลักฐานจากแผน คะแนน และข้อแก้ไข 5) สรุปจุดเด่น จุดที่ต้องแก้ และแนวทางทำให้ได้ 5 คะแนน โดยห้ามให้คะแนนจากสิ่งที่ไม่ปรากฏในไฟล์';
+}
+function autoPage(){
+ const a=state.auto,t=target(),rows=a.paResults||[],raw=rows.reduce((s,x)=>s+(+x.score||0),0),pct=+(raw/40*100).toFixed(2);
+ document.querySelector('#content').innerHTML=
+ '<div class="card"><div class="head"><div><h2>วิเคราะห์แผนจากไฟล์อัตโนมัติ</h2><div class="muted">'+esc(t.label)+' • '+esc(t.expected)+'</div></div><button class="btn" id="reanalyze">วิเคราะห์ใหม่</button></div>'+
+ '<div class="grid g2"><div class="upload"><b>แนบแผน PDF</b><input id="autoPlanFile" type="file" accept="application/pdf" style="margin-top:8px"><div class="muted">'+esc(a.planFileName||'ยังไม่มีไฟล์ที่วิเคราะห์')+'</div></div><div class="note"><b>คะแนนอัตโนมัติด้านที่ 1</b><br><span style="font-size:28px">'+raw+'/40</span> ('+pct+'%)<br>เกณฑ์ '+t.pass+'% <span class="badge '+(pct>=t.pass?'ok':'warn')+'">'+(pct>=t.pass?'ผ่านเกณฑ์คะแนนเบื้องต้น':'ยังต่ำกว่าเกณฑ์')+'</span></div></div>'+
+ (a.planText?'<div class="note" style="margin-top:10px">วิเคราะห์ล่าสุด: '+esc(a.analyzedAt?new Date(a.analyzedAt).toLocaleString('th-TH'):'-')+' • ระบบใช้การอ่านข้อความและกฎตรวจหลักฐานอัตโนมัติ ผลนี้เป็นการคัดกรองก่อนประเมินจริง</div>':'')+
+ '</div>'+
+ '<div class="card"><h2>Alignment Matrix</h2>'+alignmentHtml(a.alignment)+'</div>'+
+ '<div class="card"><h2>ตรวจองค์ประกอบแผน 6 ส่วน</h2>'+completenessHtml(a.completeness)+'</div>'+
+ '<div class="card"><h2>ผล PA4 ด้านที่ 1 รายตัวชี้วัด</h2>'+autoPaHtml(rows)+'</div>'+
+ '<div class="card"><div class="head"><div><h2>Prompt ตามระดับวิทยฐานะ</h2><div class="muted">ใช้เกณฑ์เดียวกับที่ระบบนำไปตรวจ</div></div><button class="btn alt" id="copyPrompt">คัดลอก Prompt</button></div><textarea id="promptBox" style="min-height:180px">'+esc(promptForLevel())+'</textarea></div>';
+ const inp=document.querySelector('#autoPlanFile');inp.onchange=async()=>{const f=inp.files[0];if(!f)return;await putFile({id:'plan',scope:'plan',name:f.name,type:f.type,size:f.size,blob:f});await analyzePlanFile(f);autoPage()};
+ document.querySelector('#reanalyze').onclick=async()=>{const x=await getFile('plan');if(!x){toast('ยังไม่มีไฟล์แผนที่แนบ');return}await analyzePlanFile(x.blob);autoPage()};
+ document.querySelector('#copyPrompt').onclick=async()=>{await navigator.clipboard.writeText(promptForLevel()+'\n\nข้อความจากแผน:\n'+(state.auto.planText||''));toast('คัดลอก Prompt และข้อความแผนแล้ว')};
+}
+function alignmentHtml(a){
+ if(!a)return '<div class="note">ยังไม่มีผลวิเคราะห์ กรุณาแนบแผน PDF</div>';
+ return '<div class="note"><b>ผล:</b> '+esc(a.level||'ข้อมูลไม่พอ')+'</div><div class="tbl" style="margin-top:10px"><table><thead><tr><th>องค์ประกอบ</th><th>หลักฐานที่พบ</th><th>สถานะ</th></tr></thead><tbody>'+
+ '<tr><td>O วัตถุประสงค์</td><td>'+esc((a.o||'ไม่พบ').slice(0,650))+'</td><td><span class="badge '+(a.oVerb?'ok':'warn')+'">'+(a.oVerb?'มีคำกริยาวัดได้':'ควรปรับ')+'</span></td></tr>'+
+ '<tr><td>A กิจกรรม Active Learning</td><td>'+esc((a.a||'ไม่พบ').slice(0,650))+'</td><td><span class="badge '+(a.active?'ok':'warn')+'">'+(a.active?'พบกิจกรรมเชิงรุก':'หลักฐานไม่พอ')+'</span></td></tr>'+
+ '<tr><td>E การวัด/ประเมินผล</td><td>'+esc((a.e||'ไม่พบ').slice(0,650))+'</td><td><span class="badge '+(a.assess?'ok':'warn')+'">'+(a.assess?'พบเครื่องมือ/หลักฐาน':'ควรระบุให้ชัด')+'</span></td></tr></tbody></table></div>'+
+ ((a.fixes||[]).length?'<div class="advice"><b>ข้อแก้ไข:</b><ul>'+a.fixes.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></div>':'<div class="advice ok">องค์ประกอบ O–A–E พบครบในระดับคัดกรองเบื้องต้น</div>');
+}
+function completenessHtml(rows){
+ if(!rows||!rows.length)return '<div class="note">ยังไม่มีข้อมูลเพียงพอ</div>';
+ return '<div class="status-list">'+rows.map(x=>'<div class="status-item"><div><b>'+esc(x.name)+'</b><small>'+(x.evidence?esc(x.evidence):esc(x.fix))+'</small></div><span class="badge '+(x.ok?'ok':'bad')+'">'+(x.ok?'พบ':'ควรแก้')+'</span></div>').join('')+'</div>';
+}
+function autoPaHtml(rows){
+ if(!rows||!rows.length)return '<div class="note">ยังไม่มีผลประเมินอัตโนมัติ หรือข้อความใน PDF ไม่เพียงพอ</div>';
+ return '<div class="rubric">'+rows.map((r,i)=>'<div class="rubric-item"><div class="head"><div><div class="title">'+(i+1)+'. '+esc(r.title)+'</div></div><span class="badge '+(r.score>=4?'ok':r.score>=3?'warn':'bad')+'">'+r.score+'/5</span></div><div class="criteria">'+r.criteria.map((c,j)=>'<div class="status-item"><div><b>ข้อ '+(j+1)+' • '+(c.ok?'บรรลุ':'ไม่บรรลุ')+'</b><small>'+(c.evidence?esc(c.evidence):'ไม่พบข้อความ/หลักฐานชัดเจนในไฟล์')+'</small></div><span class="badge '+(c.ok?'ok':'bad')+'">'+(c.ok?'พบ':'ไม่พบ')+'</span></div>').join('')+'</div><div class="advice '+(r.score===5?'ok':'')+'"><b>ข้อเสนอแนะ/ข้อแก้ไข:</b> '+esc(r.advice)+'</div></div>').join('')+'</div>';
+}
+function videoMetaHtml(){
+ const m=state.auto.videoMeta||{},arr=[['teaching','วิดีโอบันทึกการสอน',60],['problem','วิดีโอสภาพปัญหา/แรงบันดาลใจ',10]];
+ return '<div class="status-list">'+arr.map(([k,n,limit])=>{const x=m[k];if(!x)return '<div class="status-item"><div><b>'+n+'</b><small>ยังไม่พบไฟล์ที่ระบบอ่าน metadata</small></div><span class="badge">รอไฟล์</span></div>';const mp4=x.type==='video/mp4'||/\\.mp4$/i.test(x.name),dur=x.minutes<=limit;return '<div class="status-item"><div><b>'+n+'</b><small>'+esc(x.name)+' • '+x.minutes+' นาที • '+x.width+'×'+x.height+' • '+(x.size/1048576).toFixed(1)+' MB</small></div><span class="badge '+(mp4&&dur?'ok':'bad')+'">'+(mp4&&dur?'ผ่าน metadata':'ควรแก้')+'</span></div>'}).join('')+'</div>';
+}
+
 function resultPage(){
  const e=eligibility(),w=e.w,t=target(),pct=Math.round([e.dur,e.paok,e.discipline,e.license,e.workload,e.docs,e.videoOk,e.score].filter(Boolean).length/8*100);
- document.querySelector('#content').innerHTML='<div class="grid g2"><div class="card"><h2>ผลประมวลความพร้อม</h2><div class="progress-ring" style="--p:'+pct+'"><strong>'+pct+'%</strong></div><div style="text-align:center;margin-top:10px"><span class="badge '+(e.ready?'ok':'warn')+'">'+(e.ready?'พร้อมยื่นตรวจสอบเบื้องต้น':'ยังไม่พร้อมยื่น')+'</span></div><div class="note" style="margin-top:12px">สถานะนี้ไม่ใช่คำสั่งอนุมัติวิทยฐานะ เป็นระบบคัดกรองเอกสารและคุณสมบัติก่อนนำเข้าสู่ DPA</div></div><div class="card"><h2>คะแนนประเมินจำลอง</h2><div class="grid g3"><div class="note"><b>ด้านที่ 1</b><br><span style="font-size:25px">'+w.d1+'</span>/80</div><div class="note"><b>ด้านที่ 2</b><br><span style="font-size:25px">'+w.d2+'</span>/20</div><div class="note"><b>รวม</b><br><span style="font-size:25px">'+w.total+'</span>/100</div></div><p>เกณฑ์สำหรับ '+esc(t.label)+' ไม่น้อยกว่า '+t.pass+'%</p>'+gapHtml(e)+'</div></div><div class="card"><h2>รายละเอียดสถานะ</h2>'+statusHtml(e)+'</div>';
+ document.querySelector('#content').innerHTML='<div class="grid g2"><div class="card"><h2>ผลประมวลความพร้อม</h2><div class="progress-ring" style="--p:'+pct+'"><strong>'+pct+'%</strong></div><div style="text-align:center;margin-top:10px"><span class="badge '+(e.ready?'ok':'warn')+'">'+(e.ready?'พร้อมยื่นตรวจสอบเบื้องต้น':'ยังไม่พร้อมยื่น')+'</span></div><div class="note" style="margin-top:12px">สถานะนี้ไม่ใช่คำสั่งอนุมัติวิทยฐานะ เป็นระบบคัดกรองเอกสารและคุณสมบัติก่อนนำเข้าสู่ DPA</div></div><div class="card"><h2>คะแนนประเมินจำลอง</h2><div class="grid g2"><div class="note"><b>ด้านที่ 1</b><br><span style="font-size:25px">'+w.d1Raw+'/40</span><br>'+w.d1Percent+'%</div><div class="note"><b>ด้านที่ 2</b><br><span style="font-size:25px">'+w.d2Raw+'/20</span><br>'+w.d2Percent+'%</div></div><p>เกณฑ์สำหรับ '+esc(t.label)+' ไม่น้อยกว่า '+t.pass+'% ในแต่ละด้าน</p>'+gapHtml(e)+'</div></div><div class="card"><h2>รายละเอียดสถานะ</h2>'+statusHtml(e)+'</div>';
 }
 function reportPage(){
  const e=eligibility(),w=e.w,t=target();
@@ -248,13 +480,13 @@ function settingsPage(){
  document.querySelector('#openDrive').onclick=()=>window.open(DRIVE_FOLDER_URL,'_blank');
  document.querySelector('#addUser').onclick=()=>{document.querySelector('#newUser').innerHTML='<div class="note" style="margin-top:10px"><div class="grid g2">'+f('un','ชื่อผู้ใช้','')+f('ue','อีเมล','')+f('up','รหัสผ่าน','','password')+sel('ur','สิทธิ์',[['member','member'],['admin','admin']],'member')+'</div><button class="btn" id="createUser" style="margin-top:9px">สร้างบัญชี</button></div>';document.querySelector('#createUser').onclick=async()=>{const n=val('un'),e=val('ue').trim().toLowerCase(),p=val('up');if(!n||!e||p.length<4){toast('กรอกข้อมูลให้ครบ');return}const a=accounts();if(a.some(x=>x.email===e)){toast('มีอีเมลนี้แล้ว');return}a.push({id:'u_'+Date.now(),name:n,email:e,role:val('ur'),pass:await hash(p)});setAccounts(a);toast('สร้างบัญชีแล้ว');settingsPage()}}
 }
-function render(){nav();setTitle();if(current==='dashboard')dashboard();else if(current==='profile')profilePage();else if(current==='eligibility')eligibilityPage();else if(current==='plan')planPage();else if(current==='outcome')outcomePage();else if(current==='evidence')evidencePage();else if(current==='video')videoPage();else if(current==='result')resultPage();else if(current==='report')reportPage();else settingsPage()}
+function render(){nav();setTitle();if(current==='dashboard')dashboard();else if(current==='profile')profilePage();else if(current==='eligibility')eligibilityPage();else if(current==='plan')planPage();else if(current==='auto')autoPage();else if(current==='outcome')outcomePage();else if(current==='evidence')evidencePage();else if(current==='video')videoPage();else if(current==='result')resultPage();else if(current==='report')reportPage();else settingsPage()}
 function odb(){return new Promise((ok,no)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE,{keyPath:'id'});r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
 function putFile(x){return odb().then(db=>new Promise((ok,no)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(x);tx.oncomplete=ok;tx.onerror=()=>no(tx.error)}))}
 function getFile(id){return odb().then(db=>new Promise((ok,no)=>{const r=db.transaction(STORE,'readonly').objectStore(STORE).get(id);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)}))}
 function renderFileStatus(id){const e=document.querySelector('#fs_'+id);if(e)getFile(id).then(x=>{e.textContent=x?x.name:'ยังไม่แนบในเครื่อง';e.className='badge '+(x?'ok':'')})}
 function backup(){const data=JSON.stringify({state,accounts:accounts(),createdAt:new Date().toISOString()},null,2),blob=new Blob([data],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='PA_Plan_Review_backup_'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href);toast('ดาวน์โหลดไฟล์สำรองแล้ว')}
-function restore(file){const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);state=x.state||x;if(x.accounts)setAccounts(x.accounts);save('นำเข้าข้อมูลแล้ว');render()}catch(e){toast('ไฟล์สำรองไม่ถูกต้อง')}};r.readAsText(file)}
+function restore(file){const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);state=normalizeState(x.state||x);if(x.accounts)setAccounts(x.accounts);save('นำเข้าข้อมูลแล้ว');render()}catch(e){toast('ไฟล์สำรองไม่ถูกต้อง')}};r.readAsText(file)}
 document.querySelector('#menu').onclick=()=>document.querySelector('#side').classList.toggle('open');
 document.querySelector('#logout').onclick=logout;document.querySelector('#backupBtn').onclick=backup;document.querySelector('#restoreBtn').onclick=()=>document.querySelector('#restoreFile').click();document.querySelector('#restoreFile').onchange=function(){if(this.files[0])restore(this.files[0]);this.value=''};
 try{session=JSON.parse(sessionStorage.getItem(SES))}catch(e){}
