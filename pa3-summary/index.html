@@ -19,7 +19,30 @@
 .result{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;padding:13px;border-radius:12px}.result.wait{background:#f8fafc;border:1px solid var(--line)}.result.ok{background:var(--okbg);border:1px solid #b7e7cd}.result.bad{background:var(--badbg);border:1px solid #f3c3bf}.pill{border-radius:999px;padding:5px 9px;font-size:.85rem;font-weight:800}.pill.ok{background:#d7f1e2;color:var(--ok)}.pill.bad{background:#ffdcd8;color:var(--bad)}.pill.wait{background:#eaecf0;color:#667085}.muted{color:var(--muted);font-size:.88rem}
 .guide{margin:6px 0 0;padding-left:22px}.guide li{margin:6px 0}.print{display:none}
 @media(max-width:780px){.grid{grid-template-columns:1fr}.row,.s2{grid-template-columns:1fr}.scorebar{grid-template-columns:1fr repeat(3,1fr)}}@media(max-width:500px){.wrap{padding:9px}.hero{border-radius:16px}.scorebar{grid-template-columns:1fr}.actions .btn{flex:1}}
-@page{size:A4;margin:12mm}@media print{body{background:#fff;color:#000;font-family:"TH Sarabun New",Tahoma,sans-serif;font-size:14pt}.screen{display:none!important}.print{display:block!important}.wrap{max-width:none;padding:0}.ps h1,.ps h2{text-align:center;margin:0}.ps h1{font-size:18pt}.ps h2{font-size:15pt;margin-bottom:12px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;margin:9px 0}.meta div{border-bottom:1px dotted #777}.pt{min-width:0;font-size:12pt}.pt th,.pt td{border:1px solid #000;padding:6px}.sign{display:grid;grid-template-columns:1fr 1fr;gap:24px;text-align:center;margin-top:28px}.chair{grid-column:1/-1}.sig{margin-top:26px}.foot{font-size:9pt;margin-top:12px}}
+@page{size:A4;margin:12mm}
+@media print{
+body{background:#fff;color:#000;font-family:"TH SarabunPSK","TH Sarabun New",serif;font-size:16pt;line-height:1.05}
+.screen{display:none!important}.print{display:block!important}.wrap{max-width:none;padding:0}
+.official{position:relative;font-family:"TH SarabunPSK","TH Sarabun New",serif;font-size:16pt;color:#000}
+.official *{font-family:"TH SarabunPSK","TH Sarabun New",serif}
+.of-page{text-align:center;font-size:14pt;margin:0 0 2mm}
+.of-code{position:absolute;right:0;top:0;text-align:center;border:1px solid #000;padding:1mm 4mm;font-size:14pt;line-height:1.1}
+.of-code b{display:block;border-bottom:1px solid #000;margin:-1mm -4mm 1mm;padding:1mm 4mm}
+.of-title{text-align:center;font-weight:700;line-height:1.05;margin:0}
+.of-sub{text-align:center;font-weight:700;line-height:1.05;margin:0}
+.of-year{text-align:center;font-weight:700;margin:2mm 0 0}
+.of-period{text-align:center;margin:0 0 2mm}
+.of-head{font-weight:700;margin:1mm 0 0}
+.of-line{margin:0;line-height:1.05}
+.of-table{width:100%;min-width:0;border-collapse:collapse;margin-top:1.5mm;font-size:14pt}
+.of-table th,.of-table td{border:1px solid #000;padding:1mm 1.5mm;vertical-align:middle}
+.of-table th{text-align:center;background:#fff;font-weight:700}
+.of-table .c{text-align:center}.of-table .note{vertical-align:top;text-align:center}
+.of-summary{font-weight:700;margin:3mm 0 0}
+.of-sign{width:100%;margin-top:6mm;border-collapse:collapse;font-size:15pt}
+.of-sign td{width:50%;text-align:center;vertical-align:top;padding:0 3mm}
+.of-chair{text-align:center;margin-top:6mm}
+}
 </style>
 </head>
 <body>
@@ -27,7 +50,7 @@
 <section class="hero screen">
 <h1>ระบบสรุปคะแนน PA 3/ส</h1>
 <p>คำนวณจากระดับคุณภาพในแบบ PA 2/ส แล้วสรุปคะแนนลง PA 3/ส ตามคู่มือ ก.ค.ศ. ว 9/2564</p>
-<div class="actions"><button class="btn" id="save">บันทึกในเครื่อง</button><button class="btn alt" id="clear">ล้างข้อมูล</button><button class="btn alt" id="print">พิมพ์ / บันทึก PDF</button></div>
+<div class="actions"><button class="btn" id="save">บันทึกในเครื่อง</button><button class="btn alt" id="clear">ล้างข้อมูล</button><button class="btn alt" id="print">พิมพ์ / บันทึก PDF</button><button class="btn alt" id="word">ส่งออก Word PA 3/ส</button></div>
 </section>
 
 <section class="card screen">
@@ -77,12 +100,34 @@
 <div class="muted">อ้างอิงคู่มือ ว 9/2564 คำชี้แจงการประเมินหน้า 72-74 ตารางแปลงคะแนนหน้า 73 และแบบ PA 3/ส หน้า 103</div>
 </section>
 
-<section class="print ps" id="ps">
-<h1>แบบสรุปผลการประเมินการพัฒนางานตามข้อตกลง (PA)</h1><h2>สำหรับข้าราชการครูและบุคลากรทางการศึกษา ตำแหน่งครู (PA 3/ส)</h2>
-<div class="meta" id="pm"></div>
-<table class="pt"><thead><tr><th>การประเมินข้อตกลงในการพัฒนางาน</th><th>คะแนนเต็ม</th><th>คนที่ 1</th><th>คนที่ 2</th><th>คนที่ 3</th></tr></thead><tbody id="pb"></tbody></table>
-<div id="pr" style="margin-top:10px"></div><div class="sign" id="sg"></div>
-<div class="foot">เกณฑ์ผ่าน: ภาระงานเป็นไปตามที่ ก.ค.ศ. กำหนด และคะแนนจากกรรมการแต่ละคนไม่ต่ำกว่าร้อยละ 70</div>
+<section class="print official" id="ps">
+<div class="of-page">- 103 -</div>
+<div class="of-code"><b>PA 3/ส</b>สำหรับกรรมการประเมิน PA</div>
+<p class="of-title">แบบสรุปผลการประเมินการพัฒนางานตามข้อตกลง (PA)</p>
+<p class="of-sub">สำหรับข้าราชการครูและบุคลากรทางการศึกษา ตำแหน่งครู</p>
+<p class="of-sub">(ทุกสังกัด)</p>
+<p class="of-year" id="ofYear"></p>
+<p class="of-period" id="ofPeriod"></p>
+<p class="of-head">ข้อมูลผู้รับการประเมิน</p>
+<p class="of-line" id="ofName"></p>
+<p class="of-line" id="ofSchool"></p>
+<p class="of-line" id="ofSalary"></p>
+<p class="of-line" id="ofWork"></p>
+<p class="of-head">ผลการประเมิน</p>
+<table class="of-table">
+<thead><tr>
+<th style="width:32%">การประเมินข้อตกลง<br>ในการพัฒนางาน</th>
+<th style="width:10%">คะแนนเต็ม</th>
+<th style="width:10%">คนที่ 1</th>
+<th style="width:10%">คนที่ 2</th>
+<th style="width:10%">คนที่ 3</th>
+<th style="width:28%">หมายเหตุ</th>
+</tr></thead>
+<tbody id="ofBody"></tbody>
+</table>
+<p class="of-summary" id="ofResult"></p>
+<div class="of-chair" id="ofChair"></div>
+<table class="of-sign"><tr><td id="ofSig2"></td><td id="ofSig3"></td></tr></table>
 </section>
 </div>
 
@@ -138,14 +183,76 @@ function data(){
 return {fn:q('fn').value,ln:q('ln').value,rank:q('rank').value,fy:q('fy').value,ks:q('ks').value,salary:q('salary').value,school:q('school').value,org:q('org').value,start:q('start').value,end:q('end').value,work:q('work').value,comm:[0,1,2].map(function(i){return {n:q('cn'+i).value,p:q('cp'+i).value};}),evals:[0,1,2].map(function(i){var e=ev(i);return {a:e.a,m:e.mv,q:e.qv,l:e.lv};})};
 }
 function apply(d){if(!d)return;['fn','ln','fy','ks','salary','school','org','start','end','work'].forEach(function(k){if(d[k]!==undefined)q(k).value=d[k];});q('rank').value=d.rank||'teacher';(d.comm||[]).forEach(function(c,i){if(i<3){q('cn'+i).value=c.n||'';q('cp'+i).value=c.p||'';}});(d.evals||[]).forEach(function(e,i){Array.from(document.querySelectorAll('select[data-k="s1"][data-e="'+i+'"]')).forEach(function(s,n){s.value=e.a&&e.a[n]?e.a[n]:'';});['method','quant','qual'].forEach(function(x,n){var s=document.querySelector('select[data-k="s2"][data-e="'+i+'"][data-x="'+x+'"]');var z=[e.m,e.q,e.l][n];s.value=z||'';});});update();}
-function printData(es,pass,all,work){var r=ranks.find(function(x){return x[0]===q('rank').value;})||ranks[0];q('pm').innerHTML='<div>ชื่อ '+esc((q('fn').value+' '+q('ln').value).trim()||'................................')+'</div><div>ตำแหน่ง/วิทยฐานะ '+esc(r[1])+'</div><div>สถานศึกษา '+esc(q('school').value||'................................')+'</div><div>สังกัด '+esc(q('org').value||'................................')+'</div><div>อันดับ '+esc(q('ks').value||'........')+' อัตราเงินเดือน '+esc(q('salary').value||'........')+' บาท</div><div>ปีงบประมาณ พ.ศ. '+esc(q('fy').value||'........')+'</div><div>รอบประเมิน '+esc(q('start').value||'........')+' ถึง '+esc(q('end').value||'........')+'</div><div>ภาระงาน: '+esc(work==='yes'?'เป็นไปตามที่ ก.ค.ศ. กำหนด':work==='no'?'ไม่เป็นไปตามที่ ก.ค.ศ. กำหนด':'ยังไม่ระบุ')+'</div>';
-q('pb').innerHTML='<tr><td>ส่วนที่ 1 ข้อตกลงในการพัฒนางานตามมาตรฐานตำแหน่ง</td><td class="num">60</td>'+es.map(function(e){return '<td class="num">'+fmt(e.s1)+'</td>';}).join('')+'</tr><tr><td>ส่วนที่ 2 ประเด็นท้าทายในการพัฒนาผลลัพธ์การเรียนรู้ของผู้เรียน</td><td class="num">40</td>'+es.map(function(e){return '<td class="num">'+fmt(e.s2)+'</td>';}).join('')+'</tr><tr><td><b>รวม</b></td><td class="num">100</td>'+es.map(function(e){return '<td class="num"><b>'+fmt(e.total)+'</b></td>';}).join('')+'</tr>';
-q('pr').innerHTML='สรุปผลการประเมินทั้ง 2 ส่วน จากกรรมการ 3 คน: <b>'+(!all||!work?'ยังสรุปผลไม่ได้':pass?'ผ่านเกณฑ์':'ไม่ผ่านเกณฑ์')+'</b>';var c=[0,1,2].map(function(i){return {n:q('cn'+i).value,p:q('cp'+i).value};});q('sg').innerHTML='<div class="chair"><div class="sig">ลงชื่อ................................................ ประธานกรรมการผู้ประเมิน</div><div>('+esc(c[0].n||'................................')+')</div><div>'+esc(c[0].p||'ตำแหน่ง................................')+'</div></div><div><div class="sig">ลงชื่อ................................................ กรรมการผู้ประเมิน</div><div>('+esc(c[1].n||'................................')+')</div><div>'+esc(c[1].p||'ตำแหน่ง................................')+'</div></div><div><div class="sig">ลงชื่อ................................................ กรรมการผู้ประเมิน</div><div>('+esc(c[2].n||'................................')+')</div><div>'+esc(c[2].p||'ตำแหน่ง................................')+'</div></div>';
+
+function rankLabel(){
+  var r=ranks.find(function(x){return x[0]===q('rank').value;})||ranks[0];
+  return r[1]==='ครู (ยังไม่มีวิทยฐานะ)'?'':r[1].replace(/^ครู/,'');
+}
+function thaiDateText(v){
+  if(!v)return {d:'.........',m:'...............................',y:'.........'};
+  var a=v.split('-'), months=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+  return {d:String(Number(a[2])),m:months[Number(a[1])-1]||'...............................',y:String(Number(a[0])+543)};
+}
+function dots(v,d){return esc(String(v||'').trim()||d);}
+function officialHtml(es,pass,all,work){
+  var sd=thaiDateText(q('start').value),ed=thaiDateText(q('end').value),vt=rankLabel();
+  var c=[0,1,2].map(function(i){return {n:q('cn'+i).value,p:q('cp'+i).value};});
+  var workBox=work==='yes'?'☒ เป็นไปตามที่ ก.ค.ศ. กำหนด &nbsp;&nbsp; ☐ ไม่เป็นไปตามที่ ก.ค.ศ. กำหนด':work==='no'?'☐ เป็นไปตามที่ ก.ค.ศ. กำหนด &nbsp;&nbsp; ☒ ไม่เป็นไปตามที่ ก.ค.ศ. กำหนด':'☐ เป็นไปตามที่ ก.ค.ศ. กำหนด &nbsp;&nbsp; ☐ ไม่เป็นไปตามที่ ก.ค.ศ. กำหนด';
+  var resultBox=!all||!work?'☐ ผ่านเกณฑ์ &nbsp;&nbsp; ☐ ไม่ผ่านเกณฑ์':pass?'☒ ผ่านเกณฑ์ &nbsp;&nbsp; ☐ ไม่ผ่านเกณฑ์':'☐ ผ่านเกณฑ์ &nbsp;&nbsp; ☒ ไม่ผ่านเกณฑ์';
+  return '<div class="doc">'+
+  '<div class="page">- 103 -</div>'+
+  '<div class="code"><b>PA 3/ส</b><span>สำหรับกรรมการประเมิน PA</span></div>'+
+  '<p class="title">แบบสรุปผลการประเมินการพัฒนางานตามข้อตกลง (PA)</p>'+
+  '<p class="title">สำหรับข้าราชการครูและบุคลากรทางการศึกษา ตำแหน่งครู</p>'+
+  '<p class="title">(ทุกสังกัด)</p>'+
+  '<p class="center strong">ประจำปีงบประมาณ พ.ศ. '+dots(q('fy').value,'.....................')+'</p>'+
+  '<p class="center">(ระหว่างวันที่ '+sd.d+' เดือน '+sd.m+' พ.ศ. '+sd.y+' ถึงวันที่ '+ed.d+' เดือน '+ed.m+' พ.ศ. '+ed.y+')</p>'+
+  '<p class="strong">ข้อมูลผู้รับการประเมิน</p>'+
+  '<p>ชื่อ '+dots(q('fn').value,'............................................')+' นามสกุล '+dots(q('ln').value,'..........................................')+' ตำแหน่งครู วิทยฐานะ '+dots(vt,'................................')+'</p>'+
+  '<p>สถานศึกษา '+dots(q('school').value,'.................................................................')+' &nbsp; สังกัด '+dots(q('org').value,'..............................................................................')+'</p>'+
+  '<p>รับเงินเดือนในอันดับ คศ. '+dots(q('ks').value,'......')+' &nbsp; อัตราเงินเดือน '+dots(q('salary').value,'.........')+' บาท</p>'+
+  '<p>ภาระงาน &nbsp; '+workBox+'</p>'+
+  '<p class="strong">ผลการประเมิน</p>'+
+  '<table><thead><tr><th style="width:32%">การประเมินข้อตกลง<br>ในการพัฒนางาน</th><th style="width:10%">คะแนนเต็ม</th><th style="width:10%">คนที่ 1</th><th style="width:10%">คนที่ 2</th><th style="width:10%">คนที่ 3</th><th style="width:28%">หมายเหตุ</th></tr></thead><tbody>'+
+  '<tr><td>ส่วนที่ 1 ข้อตกลงในการพัฒนางาน<br>ตามมาตรฐานตำแหน่ง</td><td class="c">60</td>'+es.map(function(e){return '<td class="c">'+fmt(e.s1)+'</td>';}).join('')+'<td class="note" rowspan="3">เกณฑ์ผ่านต้องได้คะแนน<br>จากกรรมการแต่ละคน<br>ไม่ต่ำกว่าร้อยละ 70</td></tr>'+
+  '<tr><td>ส่วนที่ 2 ข้อตกลงในการพัฒนางาน<br>ที่เสนอเป็นประเด็นท้าทายในการพัฒนา<br>ผลลัพธ์การเรียนรู้ของผู้เรียน</td><td class="c">40</td>'+es.map(function(e){return '<td class="c">'+fmt(e.s2)+'</td>';}).join('')+'</tr>'+
+  '<tr><td class="c strong">รวม</td><td class="c"></td>'+es.map(function(e){return '<td class="c strong">'+fmt(e.total)+'</td>';}).join('')+'</tr>'+
+  '</tbody></table>'+
+  '<p class="strong">สรุปผลการประเมินทั้ง 2 ส่วน จากกรรมการ 3 คน &nbsp;&nbsp; '+resultBox+'</p>'+
+  '<div class="chair">(ลงชื่อ)........................................................ประธานกรรมการผู้ประเมิน<br>('+dots(c[0].n,'......................................................')+')<br>วันที่..........เดือน..............................พ.ศ. ..........</div>'+
+  '<table class="sig"><tr><td>(ลงชื่อ)................................................กรรมการผู้ประเมิน<br>('+dots(c[1].n,'..........................................')+')<br>วันที่..........เดือน..............................พ.ศ. ..........</td><td>(ลงชื่อ)................................................กรรมการผู้ประเมิน<br>('+dots(c[2].n,'..........................................')+')<br>วันที่..........เดือน..............................พ.ศ. ..........</td></tr></table>'+
+  '</div>';
+}
+function exportWord(){
+  update();
+  var es=[ev(0),ev(1),ev(2)],all=es.every(function(e){return e.done;}),work=q('work').value,pass=all&&work==='yes'&&es.every(function(e){return e.total>=70;});
+  var html='<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>PA 3/ส</title>'+
+  '<style>@page{size:21cm 29.7cm;margin:1.4cm 1.5cm}body{font-family:"TH SarabunPSK","TH Sarabun New",serif;font-size:16pt;line-height:1.05;color:#000}.doc{position:relative}.page{text-align:center;font-size:14pt;margin:0 0 2pt}.code{position:absolute;right:0;top:0;text-align:center;border:1px solid #000;font-size:14pt;line-height:1.05}.code b{display:block;border-bottom:1px solid #000;padding:1px 18px}.code span{display:block;padding:1px 8px}.title{text-align:center;font-weight:bold;margin:0}.center{text-align:center;margin:0}.strong{font-weight:bold}p{margin:0 0 2pt}table{width:100%;border-collapse:collapse;font-family:"TH SarabunPSK","TH Sarabun New",serif;font-size:14pt}th,td{border:1px solid #000;padding:2px 4px;vertical-align:middle}th{text-align:center;font-weight:bold}.c{text-align:center}.note{text-align:center;vertical-align:top}.chair{text-align:center;margin-top:12pt}.sig{border:0;margin-top:12pt}.sig td{border:0;width:50%;text-align:center;vertical-align:top}</style></head><body>'+officialHtml(es,pass,all,work)+'</body></html>';
+  var blob=new Blob(['\ufeff',html],{type:'application/msword;charset=utf-8'});
+  var a=document.createElement('a'),url=URL.createObjectURL(blob);
+  var safe=((q('fn').value+'_'+q('ln').value).trim().replace(/\s+/g,'_').replace(/[\\/:*?"<>|]/g,'')||'ผู้รับการประเมิน');
+  a.href=url;a.download='PA3ส_'+safe+'_'+(q('fy').value||'ปีงบประมาณ')+'.doc';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1000);
+}
+
+function printData(es,pass,all,work){
+  var sd=thaiDateText(q('start').value),ed=thaiDateText(q('end').value),vt=rankLabel(),c=[0,1,2].map(function(i){return {n:q('cn'+i).value,p:q('cp'+i).value};});
+  q('ofYear').textContent='ประจำปีงบประมาณ พ.ศ. '+(q('fy').value||'.....................');
+  q('ofPeriod').textContent='(ระหว่างวันที่ '+sd.d+' เดือน '+sd.m+' พ.ศ. '+sd.y+' ถึงวันที่ '+ed.d+' เดือน '+ed.m+' พ.ศ. '+ed.y+')';
+  q('ofName').innerHTML='ชื่อ '+dots(q('fn').value,'............................................')+' นามสกุล '+dots(q('ln').value,'..........................................')+' ตำแหน่งครู วิทยฐานะ '+dots(vt,'................................');
+  q('ofSchool').innerHTML='สถานศึกษา '+dots(q('school').value,'.................................................................')+' &nbsp; สังกัด '+dots(q('org').value,'..............................................................................');
+  q('ofSalary').innerHTML='รับเงินเดือนในอันดับ คศ. '+dots(q('ks').value,'......')+' &nbsp; อัตราเงินเดือน '+dots(q('salary').value,'.........')+' บาท';
+  q('ofWork').innerHTML='ภาระงาน &nbsp; '+(work==='yes'?'☒ เป็นไปตามที่ ก.ค.ศ. กำหนด &nbsp;&nbsp; ☐ ไม่เป็นไปตามที่ ก.ค.ศ. กำหนด':work==='no'?'☐ เป็นไปตามที่ ก.ค.ศ. กำหนด &nbsp;&nbsp; ☒ ไม่เป็นไปตามที่ ก.ค.ศ. กำหนด':'☐ เป็นไปตามที่ ก.ค.ศ. กำหนด &nbsp;&nbsp; ☐ ไม่เป็นไปตามที่ ก.ค.ศ. กำหนด');
+  q('ofBody').innerHTML='<tr><td>ส่วนที่ 1 ข้อตกลงในการพัฒนางาน<br>ตามมาตรฐานตำแหน่ง</td><td class="c">60</td>'+es.map(function(e){return '<td class="c">'+fmt(e.s1)+'</td>';}).join('')+'<td class="note" rowspan="3">เกณฑ์ผ่านต้องได้คะแนน<br>จากกรรมการแต่ละคน<br>ไม่ต่ำกว่าร้อยละ 70</td></tr><tr><td>ส่วนที่ 2 ข้อตกลงในการพัฒนางาน<br>ที่เสนอเป็นประเด็นท้าทายในการพัฒนา<br>ผลลัพธ์การเรียนรู้ของผู้เรียน</td><td class="c">40</td>'+es.map(function(e){return '<td class="c">'+fmt(e.s2)+'</td>';}).join('')+'</tr><tr><td class="c"><b>รวม</b></td><td class="c"></td>'+es.map(function(e){return '<td class="c"><b>'+fmt(e.total)+'</b></td>';}).join('')+'</tr>';
+  q('ofResult').innerHTML='สรุปผลการประเมินทั้ง 2 ส่วน จากกรรมการ 3 คน &nbsp;&nbsp; '+(!all||!work?'☐ ผ่านเกณฑ์ &nbsp;&nbsp; ☐ ไม่ผ่านเกณฑ์':pass?'☒ ผ่านเกณฑ์ &nbsp;&nbsp; ☐ ไม่ผ่านเกณฑ์':'☐ ผ่านเกณฑ์ &nbsp;&nbsp; ☒ ไม่ผ่านเกณฑ์');
+  q('ofChair').innerHTML='(ลงชื่อ)........................................................ประธานกรรมการผู้ประเมิน<br>('+dots(c[0].n,'......................................................')+')<br>วันที่..........เดือน..............................พ.ศ. ..........';
+  q('ofSig2').innerHTML='(ลงชื่อ)................................................กรรมการผู้ประเมิน<br>('+dots(c[1].n,'..........................................')+')<br>วันที่..........เดือน..............................พ.ศ. ..........';
+  q('ofSig3').innerHTML='(ลงชื่อ)................................................กรรมการผู้ประเมิน<br>('+dots(c[2].n,'..........................................')+')<br>วันที่..........เดือน..............................พ.ศ. ..........';
 }
 document.querySelectorAll('input,select').forEach(function(x){x.addEventListener('input',update);x.addEventListener('change',update);});
 q('save').onclick=function(){localStorage.setItem('pa3s_v9_draft',JSON.stringify(data()));alert('บันทึกข้อมูลในเครื่องแล้ว');};
 q('clear').onclick=function(){if(confirm('ล้างข้อมูลทั้งหมดใช่หรือไม่')){localStorage.removeItem('pa3s_v9_draft');location.reload();}};
 q('print').onclick=function(){update();window.print();};
+q('word').onclick=exportWord;
 try{var d=JSON.parse(localStorage.getItem('pa3s_v9_draft')||'null');if(d)apply(d);}catch(e){}
 update();
 })();
