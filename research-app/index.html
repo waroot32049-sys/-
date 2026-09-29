@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#0f766e"/>
+<title>ระบบช่วยจัดทำวิจัยในชั้นเรียน</title>
+
+<style>
+:root{--bg:#f6f8fb;--card:#fff;--ink:#172033;--muted:#667085;--pri:#0f766e;--pri2:#115e59;--line:#e4e7ec;--warn:#a15c00;--good:#067647;--bad:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans Thai",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{position:sticky;top:0;z-index:9;background:#fff;border-bottom:1px solid var(--line);padding:12px 18px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.brand{font-weight:800}.brand small{display:block;color:var(--muted);font-weight:500}
+button,.btn{border:0;border-radius:10px;padding:9px 13px;cursor:pointer;font:inherit;background:var(--pri);color:#fff;text-decoration:none;display:inline-block}
+button.secondary,.btn.secondary{background:#fff;color:var(--pri);border:1px solid var(--pri)}button.gray{background:#475467}button.danger{background:#b42318}
+.layout{display:grid;grid-template-columns:255px 1fr;min-height:calc(100vh - 66px)}
+nav{background:#fff;border-right:1px solid var(--line);padding:14px;position:sticky;top:66px;height:calc(100vh - 66px);overflow:auto}
+nav .navlink{display:block;width:100%;text-align:left;background:transparent;color:#344054;padding:10px;border-radius:9px;margin:2px 0;text-decoration:none}
+nav .navlink:hover,nav .navlink:focus{background:#ecfdf3;color:#067647;font-weight:700}
+main{padding:20px;max-width:1200px;width:100%;margin:auto}.view{display:block;scroll-margin-top:82px}.view+ .view{margin-top:26px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+label{font-weight:700;font-size:.94rem;display:block;margin-bottom:5px}input,textarea,select{width:100%;padding:10px 11px;border:1px solid #d0d5dd;border-radius:9px;background:#fff;font:inherit;color:var(--ink)}textarea{min-height:120px;resize:vertical}
+.help{color:var(--muted);font-size:.88rem}.note{padding:10px 12px;border-radius:9px;background:#fffaeb;color:#7a2e0e;margin:10px 0}.good{color:var(--good)}.bad{color:var(--bad)}
+.progress{height:10px;background:#eaecf0;border-radius:99px;overflow:hidden}.progress span{display:block;height:100%;background:var(--pri)}
+.kpi{font-size:1.7rem;font-weight:800}.small{font-size:.86rem;color:var(--muted)}
+.ref{border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0}.ref h4{margin:0 0 4px}.ref .meta{font-size:.86rem;color:var(--muted)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.right{margin-left:auto}.pill{display:inline-block;border:1px solid var(--line);padding:3px 8px;border-radius:999px;font-size:.78rem;background:#fff}
+.report{background:#fff;color:#000;max-width:794px;margin:0 auto;padding:28mm 22mm;min-height:1123px}.report h1,.report h2{text-align:center}.report h3{margin-top:1.3em}.report p{text-align:justify;text-indent:2.5em;white-space:pre-wrap}.report .cover{min-height:900px;display:flex;flex-direction:column;justify-content:center;text-align:center}.report .cover p{text-indent:0;text-align:center}
+hr{border:0;border-top:1px solid var(--line)}
+.auth-screen{position:fixed;inset:0;z-index:999;background:linear-gradient(135deg,#ecfdf3,#f8fafc);display:flex;align-items:center;justify-content:center;padding:18px}
+.auth-box{width:min(460px,100%);background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 20px 55px rgba(16,24,40,.14)}
+.auth-box h1{margin:0 0 6px;font-size:1.45rem}.auth-box p{color:var(--muted);margin-top:0}
+.auth-tabs{display:flex;gap:8px;margin:16px 0}.auth-tabs button{flex:1}.auth-tabs .secondary{background:#fff}
+.auth-screen.hidden{display:none}.user-chip{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:.88rem}
+.user-avatar{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#ecfdf3;color:#067647;font-weight:800}
+@media(max-width:850px){.layout{grid-template-columns:1fr}nav{position:relative;top:0;height:auto;border-right:0;border-bottom:1px solid var(--line);display:flex;overflow:auto;gap:4px}nav .navlink{min-width:max-content}.grid,.grid3{grid-template-columns:1fr}header{position:relative}.report{padding:16mm 12mm}}
+@media print{header,nav,.no-print{display:none!important}.layout{display:block}.view{display:none!important}#printView{display:block!important}main{padding:0;max-width:none}.report{box-shadow:none;max-width:none;padding:20mm 22mm}.pagebreak{break-before:page}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">ระบบช่วยจัดทำวิจัยในชั้นเรียน <span class="pill">รุ่นแก้ไข 29-09-2569</span><small>โครงสร้าง A-P-A-O-R และรายงานฉบับเต็ม 5 บท</small></div>
+  <div class="row"><div id="userChip" class="user-chip" style="display:none"><span id="userAvatar" class="user-avatar">U</span><span id="userLabel"></span></div><button class="secondary" onclick="saveAll()">บันทึก</button><button onclick="openPrint()">พิมพ์/บันทึก PDF</button></div>
+</header>
+<div class="layout">
+<nav id="nav">
+  <a class="navlink" href="#dashboard">ภาพรวม</a>
+  <a class="navlink" href="#setup">ข้อมูลโครงการ</a>
+  <a class="navlink" href="#analyze">1 วิเคราะห์ปัญหา</a>
+  <a class="navlink" href="#plan">2 วางแผนแก้ปัญหา</a>
+  <a class="navlink" href="#chapter1">บทที่ 1 บทนำ</a>
+  <a class="navlink" href="#chapter2">บทที่ 2 เอกสาร/งานวิจัย</a>
+  <a class="navlink" href="#chapter3">บทที่ 3 วิธีดำเนินการ</a>
+  <a class="navlink" href="#chapter4">บทที่ 4 ผลการวิจัย</a>
+  <a class="navlink" href="#chapter5">บทที่ 5 สรุป/อภิปราย</a>
+  <a class="navlink" href="#references">บรรณานุกรม</a>
+  <a class="navlink" href="#backup">สำรองข้อมูล</a>
+  <a class="navlink" href="#printView">ตรวจฉบับพิมพ์</a>
+</nav>
+<main>
+<section id="dashboard" class="view active">
+  <div class="card"><h2>ภาพรวมงานวิจัย</h2><div class="progress"><span id="progBar" style="width:0%"></span></div><p><b id="progTxt">0%</b> ของช่องข้อมูลหลักที่กรอกแล้ว</p></div>
+  <div class="grid3">
+    <div class="card"><div class="small">งานอ้างอิงที่บันทึก</div><div class="kpi" id="refCount">0</div></div>
+    <div class="card"><div class="small">สถานะบทที่ 1–5</div><div class="kpi" id="chapterCount">0/5</div></div>
+    <div class="card"><div class="small">บันทึกล่าสุด</div><div class="kpi" style="font-size:1rem" id="lastSaved">ยังไม่บันทึก</div></div>
+  </div>
+  <div class="card"><h3>ลำดับงานตามคู่มือ</h3><p>ระบบจัดขั้นตอนเป็น 4 ระยะ: วิเคราะห์ปัญหา (Analysing) → กำหนดวิธีแก้ปัญหา (Planning) → ดำเนินการและสังเกตผล (Acting and Observing) → สรุปผลและเขียนรายงาน (Reflecting) จากนั้นจัดรายงานฉบับเต็มเป็นส่วนนำ บทที่ 1–5 และส่วนอ้างอิง</p></div>
+</section>
+
+<section id="setup" class="view">
+<div class="card"><h2>ข้อมูลโครงการวิจัย</h2>
+<div class="grid">
+<div><label>ชื่อเรื่องวิจัย</label><textarea data-k="title"></textarea></div>
+<div><label>ผู้วิจัย</label><input data-k="researcher"/></div>
+<div><label>หน่วยงาน/โรงเรียน</label><input data-k="organization"/></div>
+<div><label>ปีการศึกษา</label><input data-k="academicYear"/></div>
+<div><label>รายวิชา/ชั้นเรียน</label><input data-k="classInfo"/></div>
+<div><label>กลุ่มเป้าหมายโดยย่อ</label><input data-k="targetBrief"/></div>
+</div></div>
+</section>
+
+<section id="analyze" class="view">
+<div class="card"><h2>ขั้นที่ 1 วิเคราะห์ปัญหาการเรียนการสอน</h2>
+<p class="help">พิจารณาผลผลิตของผู้เรียน แล้วแยกสาเหตุจากปัจจัย (Input) และกระบวนการ (Process) เพื่อเลือกปัญหาที่ครูสามารถแก้ไขได้</p>
+<div class="grid">
+<div><label>สภาพปัญหาที่พบ/หลักฐานเชิงประจักษ์</label><textarea data-k="problemEvidence"></textarea></div>
+<div><label>ผลผลิตที่ไม่เป็นไปตามเป้าหมาย</label><textarea data-k="productGap"></textarea></div>
+<div><label>สาเหตุจากปัจจัย (Input)</label><textarea data-k="inputCauses"></textarea></div>
+<div><label>สาเหตุจากกระบวนการ (Process)</label><textarea data-k="processCauses"></textarea></div>
+</div>
+<label>ปัญหาวิจัยที่เลือกแก้</label><textarea data-k="selectedProblem"></textarea>
+</div>
+</section>
+
+<section id="plan" class="view">
+<div class="card"><h2>ขั้นที่ 2 กำหนดวิธีแก้ปัญหา/แนวทางแก้ไข</h2>
+<div class="grid">
+<div><label>สาเหตุหลักที่เลือก 1 สาเหตุ</label><textarea data-k="chosenCause"></textarea></div>
+<div><label>วิธีแก้ปัญหา/นวัตกรรม</label><textarea data-k="intervention"></textarea></div>
+<div><label>ศึกษาเรื่อง/ปัญหาอะไร</label><input data-k="studyWhat"/></div>
+<div><label>ศึกษากับใคร</label><input data-k="studyWho"/></div>
+<div><label>ศึกษาอย่างไร</label><input data-k="studyHow"/></div>
+<div><label>ชื่อเรื่องที่สังเคราะห์ได้</label><textarea data-k="draftTitle"></textarea></div>
+</div></div>
+</section>
+
+<section id="chapter1" class="view">
+<div class="card"><h2>บทที่ 1 บทนำ</h2>
+<label>1. ความเป็นมาและความสำคัญของปัญหา</label><textarea data-k="ch1Background"></textarea>
+<div class="grid">
+<div><label>2. วัตถุประสงค์การวิจัย</label><textarea data-k="objectives"></textarea></div>
+<div><label>3. สมมติฐาน (ถ้ามี)</label><textarea data-k="hypotheses"></textarea></div>
+<div><label>4. ข้อตกลงเบื้องต้น</label><textarea data-k="assumptions"></textarea></div>
+<div><label>5. ขอบเขตการวิจัย</label><textarea data-k="scope"></textarea></div>
+<div><label>6. นิยามศัพท์เฉพาะ</label><textarea data-k="definitions"></textarea></div>
+<div><label>7. ประโยชน์ที่คาดว่าจะได้รับ</label><textarea data-k="benefits"></textarea></div>
+</div></div>
+</section>
+
+<section id="chapter2" class="view">
+<div class="card"><h2>บทที่ 2 เอกสารและงานวิจัยที่เกี่ยวข้อง</h2>
+<div class="grid">
+<div><label>คำค้น / หัวข้อวิจัย</label><input id="searchQ" placeholder="เช่น Active Learning การอ่านออกเขียนได้"/></div>
+<div><label>จำนวนผลลัพธ์ต่อฐาน</label><select id="resultLimit"><option>10</option><option selected>20</option><option>30</option></select></div>
+</div>
+<div class="row" style="margin-top:10px">
+<button onclick="searchAllSources()">ค้นพร้อมกัน</button>
+<button class="secondary" onclick="searchOpenAlex()">OpenAlex</button>
+<button class="secondary" onclick="searchCrossref()">Crossref</button>
+<button class="secondary" onclick="searchSemanticScholar()">Semantic Scholar</button>
+<button class="secondary" onclick="searchThaiJo()">ThaiJO</button>
+<span id="searchStatus" class="help"></span>
+</div>
+<div class="note">ฐานข้อมูลที่ค้นอัตโนมัติในแอปใช้ API/metadata ที่เปิดให้เรียกจากเว็บได้ ได้แก่ OpenAlex, Crossref, Semantic Scholar และ ThaiJO OAI-PMH ส่วน Google Scholar, Scopus และ Web of Science ไม่มี public browser API แบบเดียวกัน จึงเปิดเป็นลิงก์ค้นโดยตรงและให้ผู้ใช้ตรวจสอบต้นฉบับก่อนเพิ่มอ้างอิง</div>
+<div class="row">
+<a id="gsLink" class="btn secondary" href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a>
+<a id="scopusLink" class="btn secondary" href="https://www.scopus.com/" target="_blank" rel="noopener">Scopus</a>
+<a id="wosLink" class="btn secondary" href="https://www.webofscience.com/" target="_blank" rel="noopener">Web of Science</a>
+<a id="thaiJoLink" class="btn secondary" href="https://www.tci-thaijo.org/" target="_blank" rel="noopener">ThaiJO</a>
+</div>
+<div id="searchResults"></div>
+</div>
+<div class="card">
+<label>หัวข้อทฤษฎี/แนวคิดหลักที่ต้องทบทวน</label><textarea data-k="ch2Framework"></textarea>
+<label>สังเคราะห์เอกสารและงานวิจัยที่เกี่ยวข้อง</label><textarea data-k="ch2Synthesis" style="min-height:220px"></textarea>
+<label>ช่องว่างจากงานเดิมที่งานวิจัยนี้จะเติมเต็ม</label><textarea data-k="researchGap"></textarea>
+</div>
+</section>
+
+<section id="chapter3" class="view">
+<div class="card"><h2>บทที่ 3 วิธีดำเนินการวิจัย</h2>
+<div class="grid">
+<div><label>1. ประชากร/กลุ่มตัวอย่าง</label><textarea data-k="population"></textarea></div>
+<div><label>วิธีเลือกกลุ่มตัวอย่าง</label><textarea data-k="sampling"></textarea></div>
+<div><label>2. เครื่องมือแก้ปัญหา/นวัตกรรม</label><textarea data-k="instrumentIntervention"></textarea></div>
+<div><label>2. เครื่องมือเก็บรวบรวมข้อมูล</label><textarea data-k="instrumentData"></textarea></div>
+<div><label>3. ขั้นตอนสร้างและตรวจคุณภาพเครื่องมือ</label><textarea data-k="instrumentQuality"></textarea></div>
+<div><label>4. วิธีเก็บรวบรวมข้อมูล</label><textarea data-k="dataCollection"></textarea></div>
+<div><label>5. สถิติ/วิธีวิเคราะห์ข้อมูล</label><textarea data-k="analysisPlan"></textarea></div>
+<div><label>ตารางเวลาปฏิบัติการวิจัย</label><textarea data-k="timeline"></textarea></div>
+</div>
+</div>
+<div class="card"><h3>ตัวช่วยตรวจคุณภาพเครื่องมือ</h3><p class="help">ระบบช่วยคำนวณและเตือนค่าที่ใช้บ่อย แต่ไม่มี “ค่ามาตรฐานเดียว” ที่ใช้ได้กับทุกเครื่องมือ ควรเลือกดัชนีให้ตรงชนิดเครื่องมือ ออกแบบการตรวจคุณภาพล่วงหน้า และอ้างแหล่งวิธีวิจัยที่ตรวจสอบได้</p>
+<div class="grid"><div><label>ชนิดเครื่องมือ</label><select data-k="instrumentType"><option>แบบทดสอบผลสัมฤทธิ์</option><option>แบบสอบถาม/มาตรประมาณค่า</option><option>แบบสังเกต</option><option>แบบสัมภาษณ์</option><option>แบบประเมินชิ้นงาน/รูบริก</option><option>นวัตกรรม/สื่อการเรียนรู้</option></select></div><div><label>หลักฐานคุณภาพที่ต้องรายงาน</label><textarea data-k="qualityEvidence" placeholder="เช่น ความตรงเชิงเนื้อหา ความเชื่อมั่น ค่าความยาก อำนาจจำแนก ความสอดคล้องระหว่างผู้ประเมิน..."></textarea></div></div>
+<div class="grid3">
+<div><label>IOC</label><input id="iocRatings" placeholder="-1,1,1,0,1"/><button style="margin-top:8px" onclick="calcIOC()">คำนวณ</button><div id="iocOut" class="help"></div></div>
+<div><label>Cronbach's alpha</label><input id="alphaValue" type="number" step=".001" placeholder="0.82"/><button style="margin-top:8px" onclick="checkAlpha()">ตรวจค่า</button><div id="alphaOut" class="help"></div></div>
+<div><label>ข้อสอบ: p / r</label><div class="row"><input id="pValue" type="number" step=".01" placeholder="p" style="width:45%"><input id="rValue" type="number" step=".01" placeholder="r" style="width:45%"></div><button style="margin-top:8px" onclick="checkItem()">ตรวจค่า</button><div id="itemOut" class="help"></div></div>
+</div></div>
+</section>
+
+<section id="chapter4" class="view">
+<div class="card"><h2>บทที่ 4 ผลการวิเคราะห์ข้อมูล</h2>
+<label>ผลการวิเคราะห์ตามวัตถุประสงค์/สมมติฐาน</label><textarea data-k="resultsNarrative" style="min-height:220px"></textarea>
+<label>ตาราง/แผนภูมิ/คำอธิบายประกอบ</label><textarea data-k="resultsTables"></textarea>
+</div>
+<div class="card"><h3>คำนวณสถิติพื้นฐานจากคะแนน</h3><div class="grid"><div><label>ก่อนเรียน (คั่นด้วย ,)</label><textarea id="preScores" placeholder="10,12,9,15"></textarea></div><div><label>หลังเรียน (คั่นด้วย ,)</label><textarea id="postScores" placeholder="15,16,13,18"></textarea></div></div><button onclick="calcStats()">คำนวณ</button><pre id="statsOut"></pre></div>
+</section>
+
+<section id="chapter5" class="view">
+<div class="card"><h2>บทที่ 5 สรุป อภิปรายผล และข้อเสนอแนะ</h2>
+<label>สรุปวิธีดำเนินการโดยย่อ</label><textarea data-k="ch5MethodSummary"></textarea>
+<label>สรุปผลการวิจัยตามวัตถุประสงค์</label><textarea data-k="ch5Summary"></textarea>
+<label>อภิปรายผล เชื่อมโยงทฤษฎี/งานวิจัยเดิม และข้อจำกัด</label><textarea data-k="discussion" style="min-height:200px"></textarea>
+<div class="grid"><div><label>ข้อเสนอแนะในการนำผลไปใช้</label><textarea data-k="recommendUse"></textarea></div><div><label>ข้อเสนอแนะสำหรับการวิจัยต่อไป</label><textarea data-k="recommendFuture"></textarea></div></div>
+</div>
+</section>
+
+<section id="references" class="view">
+<div class="card"><h2>บรรณานุกรม</h2><p class="help">รายการจาก OpenAlex, Crossref, Semantic Scholar และ ThaiJO จะถูกเพิ่มที่นี่เมื่อกด “เพิ่มอ้างอิง” ควรตรวจชื่อผู้แต่ง ปี ชื่อวารสาร เล่ม/ฉบับ หน้า DOI/URL กับต้นฉบับก่อนพิมพ์</p>
+<div id="refList"></div>
+<hr><h3>เพิ่มรายการด้วยตนเอง</h3>
+<div class="grid"><input id="manualRef" placeholder="พิมพ์รายการบรรณานุกรมฉบับสมบูรณ์"/><button onclick="addManualRef()">เพิ่มรายการ</button></div></div>
+</section>
+
+<section id="backup" class="view">
+<div class="card"><h2>สำรองและกู้คืนข้อมูล</h2>
+<div class="row"><button onclick="exportJson()">ดาวน์โหลด JSON</button><label class="btn secondary" style="font-weight:400">นำเข้า JSON<input id="importFile" type="file" accept=".json,application/json" style="display:none"></label></div>
+<hr><h3>Google Drive</h3>
+<p class="help">การสำรองตรงจากเว็บไปยัง Google Drive ต้องใช้ Google OAuth Client ID ของเว็บนี้ 1 ครั้ง โดยเพิ่มโดเมน GitHub Pages เป็น Authorized JavaScript origin แล้วระบบจะขอสิทธิ์เฉพาะไฟล์ที่แอปสร้าง (drive.file)</p>
+<div class="grid"><div><label>Google OAuth Client ID</label><input id="googleClientId" placeholder="xxxxxxxx.apps.googleusercontent.com"></div><div><label>สถานะ</label><div id="driveStatus" class="help">ยังไม่เชื่อมต่อ</div></div></div>
+<div class="row" style="margin-top:10px"><button onclick="connectDrive()">เชื่อม Google Drive</button><button class="secondary" onclick="backupDrive()">สำรองตอนนี้</button><button class="secondary" onclick="restoreDrive()">กู้คืนล่าสุด</button></div>
+</div>
+</section>
+
+<section id="printView" class="view"><div class="no-print row" style="margin-bottom:12px"><button onclick="renderReport()">อัปเดตฉบับพิมพ์</button><button onclick="window.print()">พิมพ์/บันทึก PDF</button></div><article class="report" id="report"></article></section>
+</main>
+</div>
+<script>
+(function(){
+'use strict';
+var APP_NS='classroomResearchApp.v3';
+var currentUser={name:'ผู้ใช้งาน',username:'default-user'};
+var state={data:{},references:[],lastSaved:null,googleClientId:''};
+var accessToken=null,tokenClient=null,lastSearch=[];
+
+function q(s){return document.querySelector(s)}
+function qa(s){return Array.prototype.slice.call(document.querySelectorAll(s))}
+function dataKey(){return APP_NS+'.data.'+currentUser.username}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
+function safeStore(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function safeRead(k){try{return localStorage.getItem(k)}catch(e){return null}}
+
+function showAppUser(){
+  var chip=q('#userChip'),label=q('#userLabel'),av=q('#userAvatar');
+  if(chip)chip.style.display='flex';
+  if(label)label.textContent=currentUser.name+' ('+currentUser.username+')';
+  if(av)av.textContent=(currentUser.name||'U').charAt(0).to<script src="app.js?v=20260929-1"></script>
