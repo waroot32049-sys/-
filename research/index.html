@@ -136,14 +136,31 @@ hr{border:0;border-top:1px solid var(--line)}
 <section id="chapter2" class="view">
 <div class="card"><h2>บทที่ 2 เอกสารและงานวิจัยที่เกี่ยวข้อง</h2>
 <div class="grid">
-<div><label>คำค้น</label><input id="searchQ" placeholder="เช่น Active Learning การอ่านออกเขียนได้"/></div>
-<div><label>กลุ่มคลัง ThaiJO ที่ค้น</label><select id="oaiGroup"><option value="edu">สังคมศาสตร์ 01–08</option><option value="social">สังคมศาสตร์ 09–16</option><option value="social2">สังคมศาสตร์ 17–20</option><option value="all">ทุกกลุ่ม (ใช้เวลานาน)</option></select></div>
+<div><label>คำค้น / หัวข้อวิจัย</label><input id="searchQ" placeholder="เช่น Active Learning การอ่านออกเขียนได้"/></div>
+<div><label>จำนวนผลลัพธ์ต่อฐาน</label><select id="resultLimit"><option>10</option><option selected>20</option><option>30</option></select></div>
 </div>
-<div class="row" style="margin-top:10px"><button onclick="searchThaiJo()">ค้น ThaiJO อัตโนมัติ</button><a class="btn secondary" href="https://www.tci-thaijo.org/th" target="_blank" rel="noopener">เปิด ThaiJO</a><span id="searchStatus" class="help"></span></div>
-<div class="note">การค้นอัตโนมัติใช้ OAI-PMH ของ ThaiJO และค้นจาก metadata ที่ดึงได้ จึงอาจไม่ครอบคลุมบทความทั้งหมดในครั้งเดียว หากเบราว์เซอร์บล็อก CORS ให้ใช้ปุ่มเปิด ThaiJO แล้วนำรายการอ้างอิงกลับมาบันทึกในระบบ</div>
+<div class="row" style="margin-top:10px">
+<button onclick="searchAllSources()">ค้นพร้อมกัน</button>
+<button class="secondary" onclick="searchOpenAlex()">OpenAlex</button>
+<button class="secondary" onclick="searchCrossref()">Crossref</button>
+<button class="secondary" onclick="searchSemanticScholar()">Semantic Scholar</button>
+<button class="secondary" onclick="searchThaiJo()">ThaiJO</button>
+<span id="searchStatus" class="help"></span>
+</div>
+<div class="note">ฐานข้อมูลที่ค้นอัตโนมัติในแอปใช้ API/metadata ที่เปิดให้เรียกจากเว็บได้ ได้แก่ OpenAlex, Crossref, Semantic Scholar และ ThaiJO OAI-PMH ส่วน Google Scholar, Scopus และ Web of Science ไม่มี public browser API แบบเดียวกัน จึงเปิดเป็นลิงก์ค้นโดยตรงและให้ผู้ใช้ตรวจสอบต้นฉบับก่อนเพิ่มอ้างอิง</div>
+<div class="row">
+<a id="gsLink" class="btn secondary" href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a>
+<a id="scopusLink" class="btn secondary" href="https://www.scopus.com/" target="_blank" rel="noopener">Scopus</a>
+<a id="wosLink" class="btn secondary" href="https://www.webofscience.com/" target="_blank" rel="noopener">Web of Science</a>
+<a id="thaiJoLink" class="btn secondary" href="https://www.tci-thaijo.org/" target="_blank" rel="noopener">ThaiJO</a>
+</div>
 <div id="searchResults"></div>
 </div>
-<div class="card"><label>สังเคราะห์กรอบแนวคิด/ทฤษฎีและงานวิจัยที่เกี่ยวข้อง</label><textarea data-k="ch2Synthesis" style="min-height:220px"></textarea></div>
+<div class="card">
+<label>หัวข้อทฤษฎี/แนวคิดหลักที่ต้องทบทวน</label><textarea data-k="ch2Framework"></textarea>
+<label>สังเคราะห์เอกสารและงานวิจัยที่เกี่ยวข้อง</label><textarea data-k="ch2Synthesis" style="min-height:220px"></textarea>
+<label>ช่องว่างจากงานเดิมที่งานวิจัยนี้จะเติมเต็ม</label><textarea data-k="researchGap"></textarea>
+</div>
 </section>
 
 <section id="chapter3" class="view">
@@ -159,7 +176,8 @@ hr{border:0;border-top:1px solid var(--line)}
 <div><label>ตารางเวลาปฏิบัติการวิจัย</label><textarea data-k="timeline"></textarea></div>
 </div>
 </div>
-<div class="card"><h3>ตัวช่วยตรวจคุณภาพเครื่องมือ</h3><p class="help">ค่าด้านล่างเป็นเกณฑ์ทั่วไปที่นิยมใช้ในงานวิจัยบางประเภท ไม่ใช่ข้อกำหนดตายตัว ควรระบุแหล่งอ้างอิงและเหตุผลที่เลือกใช้ในงานของตน</p>
+<div class="card"><h3>ตัวช่วยตรวจคุณภาพเครื่องมือ</h3><p class="help">ระบบช่วยคำนวณและเตือนค่าที่ใช้บ่อย แต่ไม่มี “ค่ามาตรฐานเดียว” ที่ใช้ได้กับทุกเครื่องมือ ควรเลือกดัชนีให้ตรงชนิดเครื่องมือ ออกแบบการตรวจคุณภาพล่วงหน้า และอ้างแหล่งวิธีวิจัยที่ตรวจสอบได้</p>
+<div class="grid"><div><label>ชนิดเครื่องมือ</label><select data-k="instrumentType"><option>แบบทดสอบผลสัมฤทธิ์</option><option>แบบสอบถาม/มาตรประมาณค่า</option><option>แบบสังเกต</option><option>แบบสัมภาษณ์</option><option>แบบประเมินชิ้นงาน/รูบริก</option><option>นวัตกรรม/สื่อการเรียนรู้</option></select></div><div><label>หลักฐานคุณภาพที่ต้องรายงาน</label><textarea data-k="qualityEvidence" placeholder="เช่น ความตรงเชิงเนื้อหา ความเชื่อมั่น ค่าความยาก อำนาจจำแนก ความสอดคล้องระหว่างผู้ประเมิน..."></textarea></div></div>
 <div class="grid3">
 <div><label>IOC</label><input id="iocRatings" placeholder="-1,1,1,0,1"/><button style="margin-top:8px" onclick="calcIOC()">คำนวณ</button><div id="iocOut" class="help"></div></div>
 <div><label>Cronbach's alpha</label><input id="alphaValue" type="number" step=".001" placeholder="0.82"/><button style="margin-top:8px" onclick="checkAlpha()">ตรวจค่า</button><div id="alphaOut" class="help"></div></div>
@@ -234,8 +252,129 @@ function removeRef(i){state.references.splice(i,1);saveSilent();renderRefs()}
 function renderRefs(){q('#refList').innerHTML=state.references.length?state.references.map((r,i)=>`<div class="ref"><div>${esc(r.citation)}</div><button class="danger" style="margin-top:8px" onclick="removeRef(${i})">ลบ</button></div>`).join(''):'<p class="help">ยังไม่มีรายการ</p>';refreshDashboard()}
 function saveSilent(){collect();state.lastSaved=new Date().toISOString();localStorage.setItem(dataKey(),JSON.stringify(state));refreshDashboard()}
 const groups={edu:[1,2,3,4,5,6,7,8],social:[9,10,11,12,13,14,15,16],social2:[17,18,19,20],all:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]};
-async function searchThaiJo(){const kw=q('#searchQ').value.trim().toLowerCase();if(!kw)return alert('กรอกคำค้นก่อน');q('#searchStatus').textContent='กำลังค้น...';q('#searchResults').innerHTML='';let all=[];const nums=groups[q('#oaiGroup').value];for(const n of nums){const host='so'+String(n).padStart(2,'0');const url=`https://${host}.tci-thaijo.org/index.php/index/oai?verb=ListRecords&metadataPrefix=oai_dc`;try{const r=await fetch(url);if(!r.ok)continue;const xml=new DOMParser().parseFromString(await r.text(),'text/xml');[...xml.querySelectorAll('record')].forEach(rec=>{const t=rec.querySelector('title')?.textContent?.trim()||'';const desc=[...rec.querySelectorAll('description')].map(x=>x.textContent).join(' ');const subj=[...rec.querySelectorAll('subject')].map(x=>x.textContent).join(' ');const hay=(t+' '+desc+' '+subj).toLowerCase();if(hay.includes(kw)){all.push({title:t,creators:[...rec.querySelectorAll('creator')].map(x=>x.textContent.trim()),date:rec.querySelector('date')?.textContent?.trim()||'',source:rec.querySelector('source')?.textContent?.trim()||'',identifiers:[...rec.querySelectorAll('identifier')].map(x=>x.textContent.trim()),description:desc.slice(0,500),host})}})}catch(e){console.warn(host,e)}if(nums.length>8)await new Promise(r=>setTimeout(r,6500));}
-all=all.slice(0,40);q('#searchStatus').textContent=`พบ ${all.length} รายการจาก metadata ที่สแกนได้`;q('#searchResults').innerHTML=all.length?all.map((r,i)=>`<div class="ref"><h4>${esc(r.title)}</h4><div class="meta">${esc((r.creators||[]).join(', '))} · ${esc(r.date)} · ${esc(r.host)}</div><p>${esc(r.description||'')}</p><div class="row"><button onclick='addReference(${JSON.stringify(r).replace(/'/g,"&#39;")})'>เพิ่มอ้างอิง</button>${(r.identifiers||[]).find(x=>/^https?:/i.test(x))?`<a class="btn secondary" target="_blank" rel="noopener" href="${esc((r.identifiers||[]).find(x=>/^https?:/i.test(x)))}">เปิดต้นฉบับ</a>`:''}</div></div>`).join(''):'<p class="help">ไม่พบจาก metadata ชุดที่ดึงได้ ลองคำค้นสั้นลงหรือค้นใน ThaiJO โดยตรง</p>'}
+let lastSearch=[];
+function searchTerms(){return q('#searchQ').value.trim()}
+function searchLimit(){return Math.max(5,Math.min(30,Number(q('#resultLimit')?.value||20)))}
+function updateExternalLinks(){
+  const kw=searchTerms();
+  if(q('#gsLink')) q('#gsLink').href='https://scholar.google.com/scholar?q='+encodeURIComponent(kw);
+  if(q('#scopusLink')) q('#scopusLink').href='https://www.scopus.com/results/results.uri?sort=plf-f&src=s&sid=&sot=b&sdt=b&sl=0&s='+encodeURIComponent(kw);
+  if(q('#wosLink')) q('#wosLink').href='https://www.webofscience.com/wos/woscc/basic-search';
+  if(q('#thaiJoLink')) q('#thaiJoLink').href='https://www.tci-thaijo.org/?q='+encodeURIComponent(kw);
+}
+function normalizeUrl(u){return /^https?:/i.test(u||'')?u:''}
+function renderSearchCards(items,label){
+  lastSearch=items||[];
+  q('#searchStatus').textContent=label+' พบ '+lastSearch.length+' รายการ';
+  q('#searchResults').innerHTML=lastSearch.length?lastSearch.map((r,i)=>`<div class="ref">
+    <h4>${esc(r.title||'ไม่ปรากฏชื่อเรื่อง')}</h4>
+    <div class="meta">${esc((r.creators||[]).join(', ')||'ไม่ปรากฏผู้แต่ง')} · ${esc(r.date||'ไม่ปรากฏปี')} · ${esc(r.source||r.provider||'')}</div>
+    ${r.citedBy!=null?`<div class="small">อ้างถึงโดยประมาณ ${Number(r.citedBy).toLocaleString('th-TH')} ครั้ง (ตามฐาน ${esc(r.provider||'')})</div>`:''}
+    <p>${esc((r.description||'').slice(0,700))}</p>
+    <div class="row"><button onclick="addReference(lastSearch[${i}])">เพิ่มอ้างอิง</button>
+    ${normalizeUrl(r.url)?`<a class="btn secondary" target="_blank" rel="noopener" href="${esc(r.url)}">เปิดต้นฉบับ/ระเบียน</a>`:''}</div>
+  </div>`).join(''):'<p class="help">ไม่พบรายการ ลองใช้คำค้นที่สั้นลงหรือใช้ลิงก์ฐานข้อมูลภายนอก</p>';
+}
+async function searchOpenAlex(silent=false){
+  const kw=searchTerms(); if(!kw){if(!silent)alert('กรอกคำค้นก่อน');return []}
+  updateExternalLinks(); if(!silent)q('#searchStatus').textContent='กำลังค้น OpenAlex...';
+  try{
+    const u='https://api.openalex.org/works?search='+encodeURIComponent(kw)+'&per-page='+searchLimit()+'&sort=cited_by_count:desc';
+    const j=await (await fetch(u)).json();
+    const rows=(j.results||[]).map(x=>({
+      title:x.title||'',
+      creators:(x.authorships||[]).map(a=>a.author?.display_name).filter(Boolean),
+      date:x.publication_year?String(x.publication_year):'',
+      source:x.primary_location?.source?.display_name||'',
+      identifiers:[x.doi,x.id].filter(Boolean),
+      url:x.doi||x.primary_location?.landing_page_url||x.id||'',
+      description:'',
+      provider:'OpenAlex',
+      citedBy:x.cited_by_count
+    }));
+    if(!silent)renderSearchCards(rows,'OpenAlex'); return rows;
+  }catch(e){if(!silent)q('#searchStatus').textContent='OpenAlex ใช้งานไม่ได้ชั่วคราว';return []}
+}
+async function searchCrossref(silent=false){
+  const kw=searchTerms(); if(!kw){if(!silent)alert('กรอกคำค้นก่อน');return []}
+  updateExternalLinks(); if(!silent)q('#searchStatus').textContent='กำลังค้น Crossref...';
+  try{
+    const u='https://api.crossref.org/works?query.bibliographic='+encodeURIComponent(kw)+'&rows='+searchLimit()+'&select=DOI,title,author,published-print,published-online,container-title,URL,is-referenced-by-count,abstract';
+    const j=await (await fetch(u)).json();
+    const rows=(j.message?.items||[]).map(x=>{
+      const dp=(x['published-print']||x['published-online'])?.['date-parts']?.[0]||[];
+      return {
+        title:(x.title||[])[0]||'',
+        creators:(x.author||[]).map(a=>[a.given,a.family].filter(Boolean).join(' ')).filter(Boolean),
+        date:dp[0]?String(dp[0]):'',
+        source:(x['container-title']||[])[0]||'',
+        identifiers:[x.DOI?('https://doi.org/'+x.DOI):'',x.URL].filter(Boolean),
+        url:x.DOI?('https://doi.org/'+x.DOI):(x.URL||''),
+        description:String(x.abstract||'').replace(/<[^>]+>/g,''),
+        provider:'Crossref',
+        citedBy:x['is-referenced-by-count']
+      }
+    });
+    if(!silent)renderSearchCards(rows,'Crossref'); return rows;
+  }catch(e){if(!silent)q('#searchStatus').textContent='Crossref ใช้งานไม่ได้ชั่วคราว';return []}
+}
+async function searchSemanticScholar(silent=false){
+  const kw=searchTerms(); if(!kw){if(!silent)alert('กรอกคำค้นก่อน');return []}
+  updateExternalLinks(); if(!silent)q('#searchStatus').textContent='กำลังค้น Semantic Scholar...';
+  try{
+    const u='https://api.semanticscholar.org/graph/v1/paper/search?query='+encodeURIComponent(kw)+'&limit='+searchLimit()+'&fields=title,authors,year,venue,url,externalIds,abstract,citationCount';
+    const r=await fetch(u);
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=await r.json();
+    const rows=(j.data||[]).map(x=>({
+      title:x.title||'',
+      creators:(x.authors||[]).map(a=>a.name).filter(Boolean),
+      date:x.year?String(x.year):'',
+      source:x.venue||'',
+      identifiers:[x.externalIds?.DOI?('https://doi.org/'+x.externalIds.DOI):'',x.url].filter(Boolean),
+      url:x.externalIds?.DOI?('https://doi.org/'+x.externalIds.DOI):(x.url||''),
+      description:x.abstract||'',
+      provider:'Semantic Scholar',
+      citedBy:x.citationCount
+    }));
+    if(!silent)renderSearchCards(rows,'Semantic Scholar'); return rows;
+  }catch(e){if(!silent)q('#searchStatus').textContent='Semantic Scholar อาจจำกัดการเรียกจากเบราว์เซอร์/อัตราการใช้งาน';return []}
+}
+async function searchThaiJo(silent=false){
+  const kw=searchTerms().toLowerCase(); if(!kw){if(!silent)alert('กรอกคำค้นก่อน');return []}
+  updateExternalLinks(); if(!silent)q('#searchStatus').textContent='กำลังค้น ThaiJO...';
+  let all=[]; const nums=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+  for(const n of nums){
+    const host='so'+String(n).padStart(2,'0');
+    const url=`https://${host}.tci-thaijo.org/index.php/index/oai?verb=ListRecords&metadataPrefix=oai_dc`;
+    try{
+      const r=await fetch(url); if(!r.ok)continue;
+      const xml=new DOMParser().parseFromString(await r.text(),'text/xml');
+      [...xml.querySelectorAll('record')].forEach(rec=>{
+        const t=rec.querySelector('title')?.textContent?.trim()||'';
+        const desc=[...rec.querySelectorAll('description')].map(x=>x.textContent).join(' ');
+        const subj=[...rec.querySelectorAll('subject')].map(x=>x.textContent).join(' ');
+        if((t+' '+desc+' '+subj).toLowerCase().includes(kw)){
+          const ids=[...rec.querySelectorAll('identifier')].map(x=>x.textContent.trim());
+          all.push({title:t,creators:[...rec.querySelectorAll('creator')].map(x=>x.textContent.trim()),date:rec.querySelector('date')?.textContent?.trim()||'',source:rec.querySelector('source')?.textContent?.trim()||'',identifiers:ids,url:ids.find(x=>/^https?:/i.test(x))||'',description:desc.slice(0,700),provider:'ThaiJO'});
+        }
+      });
+    }catch(e){}
+    if(all.length>=searchLimit())break;
+  }
+  all=all.slice(0,searchLimit());
+  if(!silent)renderSearchCards(all,'ThaiJO'); return all;
+}
+async function searchAllSources(){
+  const kw=searchTerms(); if(!kw)return alert('กรอกคำค้นก่อน');
+  updateExternalLinks(); q('#searchStatus').textContent='กำลังค้นหลายฐานพร้อมกัน...';q('#searchResults').innerHTML='';
+  const settled=await Promise.all([searchOpenAlex(true),searchCrossref(true),searchSemanticScholar(true),searchThaiJo(true)]);
+  const seen=new Set(), merged=[];
+  settled.flat().forEach(x=>{const k=(x.identifiers||[]).find(v=>/doi.org/i.test(v))||((x.title||'').toLowerCase().replace(/\s+/g,' ').trim());if(k&&!seen.has(k)){seen.add(k);merged.push(x)}});
+  merged.sort((a,b)=>(b.citedBy||0)-(a.citedBy||0));
+  renderSearchCards(merged.slice(0,Math.max(searchLimit()*2,30)),'รวม 4 ฐาน');
+}
+q('#searchQ')?.addEventListener('input',updateExternalLinks);
 function calcIOC(){const a=q('#iocRatings').value.split(',').map(Number).filter(Number.isFinite);if(!a.length)return;const v=a.reduce((s,x)=>s+x,0)/a.length;q('#iocOut').innerHTML=`IOC = <b>${v.toFixed(3)}</b> ${v>=.5?'<span class="good">ผ่านเกณฑ์ทั่วไป ≥ 0.50</span>':'<span class="bad">ต่ำกว่าเกณฑ์ทั่วไป 0.50</span>'}`}
 function checkAlpha(){const v=Number(q('#alphaValue').value);q('#alphaOut').innerHTML=Number.isFinite(v)?`α = <b>${v.toFixed(3)}</b> ${v>=.7?'<span class="good">ถึงเกณฑ์ทั่วไป 0.70</span>':'<span class="bad">ต่ำกว่าเกณฑ์ทั่วไป 0.70</span>'}`:''}
 function checkItem(){const p=Number(q('#pValue').value),r=Number(q('#rValue').value);if(!Number.isFinite(p)||!Number.isFinite(r))return;const okp=p>=.2&&p<=.8, okr=r>=.2;q('#itemOut').innerHTML=`p=${p.toFixed(2)} ${okp?'✓ ช่วงทั่วไป .20–.80':'ควรพิจารณา'}<br>r=${r.toFixed(2)} ${okr?'✓ ≥ .20':'ควรพิจารณา'}`}
@@ -255,7 +394,7 @@ function renderReport(){collect();const d=state.data;const refs=state.references
 <div class="cover"><h1>${esc(d.title||d.draftTitle||'ชื่อเรื่องวิจัย')}</h1><p>${esc(d.researcher||'ผู้วิจัย')}</p><p>${esc(d.organization||'หน่วยงาน')}</p><p>ปีการศึกษา ${esc(d.academicYear||'-')}</p></div>
 <div class="pagebreak"><h2>บทคัดย่อ</h2><p>โปรดจัดทำบทคัดย่อสรุปปัญหา วิธีดำเนินการวิจัย และข้อค้นพบสำคัญจากข้อมูลที่บันทึกไว้ในระบบก่อนพิมพ์ฉบับสมบูรณ์</p></div>
 <div class="pagebreak"><h2>บทที่ 1<br>บทนำ</h2>${sec('ความเป็นมาและความสำคัญของปัญหา',d.ch1Background)}${sec('วัตถุประสงค์การวิจัย',d.objectives)}${sec('สมมติฐาน',d.hypotheses)}${sec('ข้อตกลงเบื้องต้น',d.assumptions)}${sec('ขอบเขตการวิจัย',d.scope)}${sec('นิยามศัพท์เฉพาะ',d.definitions)}${sec('ประโยชน์ที่คาดว่าจะได้รับ',d.benefits)}</div>
-<div class="pagebreak"><h2>บทที่ 2<br>เอกสารและงานวิจัยที่เกี่ยวข้อง</h2><p>${esc(d.ch2Synthesis||'-')}</p></div>
+<div class="pagebreak"><h2>บทที่ 2<br>เอกสารและงานวิจัยที่เกี่ยวข้อง</h2>${sec('กรอบแนวคิด/ทฤษฎีหลัก',d.ch2Framework)}${sec('การสังเคราะห์เอกสารและงานวิจัยที่เกี่ยวข้อง',d.ch2Synthesis)}${sec('ช่องว่างจากงานเดิม',d.researchGap)}</div>
 <div class="pagebreak"><h2>บทที่ 3<br>วิธีดำเนินการวิจัย</h2>${sec('ประชากร/กลุ่มตัวอย่าง',d.population)}${sec('วิธีเลือกกลุ่มตัวอย่าง',d.sampling)}${sec('เครื่องมือในการแก้ปัญหา/นวัตกรรม',d.instrumentIntervention)}${sec('เครื่องมือในการเก็บรวบรวมข้อมูล',d.instrumentData)}${sec('การสร้างและตรวจคุณภาพเครื่องมือ',d.instrumentQuality)}${sec('การเก็บรวบรวมข้อมูล',d.dataCollection)}${sec('สถิติและวิธีวิเคราะห์ข้อมูล',d.analysisPlan)}${sec('ตารางเวลาปฏิบัติการวิจัย',d.timeline)}</div>
 <div class="pagebreak"><h2>บทที่ 4<br>ผลการวิเคราะห์ข้อมูล</h2><p>${esc(d.resultsNarrative||'-')}</p>${sec('ตาราง/แผนภูมิ/คำอธิบายประกอบ',d.resultsTables)}</div>
 <div class="pagebreak"><h2>บทที่ 5<br>สรุป อภิปรายผล และข้อเสนอแนะ</h2>${sec('สรุปวิธีดำเนินการโดยย่อ',d.ch5MethodSummary)}${sec('สรุปผลการวิจัย',d.ch5Summary)}${sec('อภิปรายผล',d.discussion)}${sec('ข้อเสนอแนะในการนำผลไปใช้',d.recommendUse)}${sec('ข้อเสนอแนะสำหรับการวิจัยต่อไป',d.recommendFuture)}</div>
