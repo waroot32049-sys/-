@@ -39,10 +39,10 @@ hr{border:0;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
-<div id="authScreen" class="auth-screen">
+<div id="authScreen" class="auth-screen hidden">
   <div class="auth-box">
     <h1>ลงชื่อเข้าใช้ระบบวิจัยในชั้นเรียน</h1>
-    <p>กรอกชื่อผู้ใช้แล้วกดเข้าใช้งาน ระบบจะเปิดให้ใช้งานได้ทันทีและแยกข้อมูลตามชื่อผู้ใช้บนอุปกรณ์นี้</p>
+    <p>หน้านี้ใช้สำหรับเปลี่ยนผู้ใช้เท่านั้น แอปเปิดใช้งานได้ทันทีแม้ไม่ลงชื่อเข้าใช้ และจะแยกข้อมูลตามชื่อผู้ใช้บนอุปกรณ์นี้</p>
     <label>ชื่อ-สกุลผู้เข้าใช้</label>
     <input id="quickName" placeholder="เช่น วรุธ ภิชาเศวตว์" autocomplete="name"/>
     <label style="margin-top:10px">ชื่อผู้ใช้</label>
@@ -235,14 +235,34 @@ function safeUser(v){return String(v||'').trim().toLowerCase().replace(/[^a-z0-9
 function quickLogin(){try{const name=q('#quickName').value.trim();let username=safeUser(q('#quickUsername').value);const msg=q('#loginMsg');msg.textContent='';if(!name){msg.textContent='กรอกชื่อ-สกุลก่อนเข้าใช้งาน';q('#quickName').focus();return}if(!username)username='user-'+Date.now();startSession({name,username})}catch(e){q('#loginMsg').textContent='เปิดใช้งานไม่สำเร็จ กรุณารีเฟรชหน้าแล้วลองใหม่'}}
 function enterDefault(){startSession({name:'ผู้ใช้งาน',username:'default-user'})}
 function startSession(u){currentUser={name:u.name||'ผู้ใช้งาน',username:u.username||'default-user'};try{localStorage.setItem(SESSION_KEY,JSON.stringify(currentUser))}catch(e){}q('#authScreen').classList.add('hidden');q('#userChip').style.display='flex';q('#userLabel').textContent=currentUser.name+' ('+currentUser.username+')';q('#userAvatar').textContent=(currentUser.name||'U').trim().charAt(0).toUpperCase();loadUserData()}
-function logoutUser(){saveSilent();try{localStorage.removeItem(SESSION_KEY)}catch(e){}currentUser=null;q('#authScreen').classList.remove('hidden');q('#userChip').style.display='none';q('#loginMsg').textContent=''}
-function restoreSession(){try{const s=JSON.parse(localStorage.getItem(SESSION_KEY));if(s&&s.username){startSession(s);return}}catch(e){}q('#authScreen').classList.remove('hidden')}
+function logoutUser(){
+  saveSilent();
+  try{localStorage.removeItem(SESSION_KEY)}catch(e){}
+  currentUser=null;
+  q('#userChip').style.display='none';
+  q('#quickName').value='';
+  q('#quickUsername').value='';
+  q('#loginMsg').textContent='';
+  q('#authScreen').classList.remove('hidden');
+}
+function restoreSession(){
+  try{
+    const s=JSON.parse(localStorage.getItem(SESSION_KEY));
+    if(s&&s.username){startSession(s);return}
+  }catch(e){}
+  startSession({name:'ผู้ใช้งาน',username:'default-user'});
+}
 function loadUserData(){state={data:{},references:[],lastSaved:null,googleClientId:''};try{const s=JSON.parse(localStorage.getItem(dataKey()));if(s)state={...state,...s}}catch(e){};qa('[data-k]').forEach(el=>el.value=state.data[el.dataset.k]||'');q('#googleClientId').value=state.googleClientId||'';renderRefs();refreshDashboard();renderReport()}
 function load(){restoreSession()}
 function collect(){qa('[data-k]').forEach(el=>state.data[el.dataset.k]=el.value.trim());state.googleClientId=q('#googleClientId').value.trim();}
-function saveAll(){if(!currentUser)return;collect();state.lastSaved=new Date().toISOString();localStorage.setItem(dataKey(),JSON.stringify(state));refreshDashboard();alert('บันทึกข้อมูลของ '+currentUser.name+' แล้ว');}
+function saveAll(){
+  if(!currentUser)return;
+  collect();state.lastSaved=new Date().toISOString();
+  try{localStorage.setItem(dataKey(),JSON.stringify(state))}catch(e){}
+  refreshDashboard();alert('บันทึกข้อมูลของ '+currentUser.name+' แล้ว');
+}
 qa('#nav button').forEach(b=>b.onclick=()=>{qa('#nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');qa('.view').forEach(v=>v.classList.remove('active'));q('#'+b.dataset.v).classList.add('active');if(b.dataset.v==='printView')renderReport();});
-qa('[data-k]').forEach(el=>el.addEventListener('change',()=>{collect();localStorage.setItem(dataKey(),JSON.stringify(state));refreshDashboard()}));
+qa('[data-k]').forEach(el=>el.addEventListener('change',()=>{collect();try{localStorage.setItem(dataKey(),JSON.stringify(state))}catch(e){}refreshDashboard()}));
 function refreshDashboard(){collect();const vals=Object.values(state.data);const filled=vals.filter(x=>String(x).trim()).length;const total=Math.max(1,qa('[data-k]').length);const pct=Math.round(filled/total*100);q('#progBar').style.width=pct+'%';q('#progTxt').textContent=pct+'%';q('#refCount').textContent=state.references.length;const ch=[['ch1Background','objectives'],['ch2Synthesis'],['population','instrumentData'],['resultsNarrative'],['ch5Summary','discussion']];q('#chapterCount').textContent=ch.filter(g=>g.every(k=>(state.data[k]||'').trim())).length+'/5';q('#lastSaved').textContent=state.lastSaved?new Date(state.lastSaved).toLocaleString('th-TH'):'ยังไม่บันทึก';}
 function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function apaFromRecord(r){const au=(r.creators||[]).filter(Boolean).join(', ')||'ไม่ปรากฏผู้แต่ง';const y=(r.date||'ม.ป.ป.').match(/\d{4}/)?.[0]||'ม.ป.ป.';const src=r.source?'. '+r.source:'';const id=(r.identifiers||[]).find(x=>/^https?:/i.test(x))||'';return `${au}. (${y}). ${r.title||'ไม่ปรากฏชื่อเรื่อง'}${src}. ${id}`.trim()}
@@ -250,7 +270,11 @@ function addReference(r){const citation=apaFromRecord(r);if(!state.references.so
 function addManualRef(){const t=q('#manualRef').value.trim();if(!t)return;state.references.push({citation:t,meta:{manual:true}});q('#manualRef').value='';saveSilent();renderRefs()}
 function removeRef(i){state.references.splice(i,1);saveSilent();renderRefs()}
 function renderRefs(){q('#refList').innerHTML=state.references.length?state.references.map((r,i)=>`<div class="ref"><div>${esc(r.citation)}</div><button class="danger" style="margin-top:8px" onclick="removeRef(${i})">ลบ</button></div>`).join(''):'<p class="help">ยังไม่มีรายการ</p>';refreshDashboard()}
-function saveSilent(){collect();state.lastSaved=new Date().toISOString();localStorage.setItem(dataKey(),JSON.stringify(state));refreshDashboard()}
+function saveSilent(){
+  collect();state.lastSaved=new Date().toISOString();
+  try{localStorage.setItem(dataKey(),JSON.stringify(state))}catch(e){}
+  refreshDashboard()
+}
 const groups={edu:[1,2,3,4,5,6,7,8],social:[9,10,11,12,13,14,15,16],social2:[17,18,19,20],all:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]};
 let lastSearch=[];
 function searchTerms(){return q('#searchQ').value.trim()}
