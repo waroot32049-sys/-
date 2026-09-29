@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#0f766e"/>
+<title>ระบบช่วยจัดทำวิจัยในชั้นเรียน</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+:root{--bg:#f6f8fb;--card:#fff;--ink:#172033;--muted:#667085;--pri:#0f766e;--pri2:#115e59;--line:#e4e7ec;--warn:#a15c00;--good:#067647;--bad:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans Thai",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{position:sticky;top:0;z-index:9;background:#fff;border-bottom:1px solid var(--line);padding:12px 18px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.brand{font-weight:800}.brand small{display:block;color:var(--muted);font-weight:500}
+button,.btn{border:0;border-radius:10px;padding:9px 13px;cursor:pointer;font:inherit;background:var(--pri);color:#fff;text-decoration:none;display:inline-block}
+button.secondary,.btn.secondary{background:#fff;color:var(--pri);border:1px solid var(--pri)}button.gray{background:#475467}button.danger{background:#b42318}
+.layout{display:grid;grid-template-columns:255px 1fr;min-height:calc(100vh - 66px)}
+nav{background:#fff;border-right:1px solid var(--line);padding:14px;position:sticky;top:66px;height:calc(100vh - 66px);overflow:auto}
+nav button{display:block;width:100%;text-align:left;background:transparent;color:#344054;padding:10px;border-radius:9px;margin:2px 0}
+nav button.active{background:#ecfdf3;color:#067647;font-weight:700}
+main{padding:20px;max-width:1200px;width:100%;margin:auto}.view{display:none}.view.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+label{font-weight:700;font-size:.94rem;display:block;margin-bottom:5px}input,textarea,select{width:100%;padding:10px 11px;border:1px solid #d0d5dd;border-radius:9px;background:#fff;font:inherit;color:var(--ink)}textarea{min-height:120px;resize:vertical}
+.help{color:var(--muted);font-size:.88rem}.note{padding:10px 12px;border-radius:9px;background:#fffaeb;color:#7a2e0e;margin:10px 0}.good{color:var(--good)}.bad{color:var(--bad)}
+.progress{height:10px;background:#eaecf0;border-radius:99px;overflow:hidden}.progress span{display:block;height:100%;background:var(--pri)}
+.kpi{font-size:1.7rem;font-weight:800}.small{font-size:.86rem;color:var(--muted)}
+.ref{border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0}.ref h4{margin:0 0 4px}.ref .meta{font-size:.86rem;color:var(--muted)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.right{margin-left:auto}.pill{display:inline-block;border:1px solid var(--line);padding:3px 8px;border-radius:999px;font-size:.78rem;background:#fff}
+.report{background:#fff;color:#000;max-width:794px;margin:0 auto;padding:28mm 22mm;min-height:1123px}.report h1,.report h2{text-align:center}.report h3{margin-top:1.3em}.report p{text-align:justify;text-indent:2.5em;white-space:pre-wrap}.report .cover{min-height:900px;display:flex;flex-direction:column;justify-content:center;text-align:center}.report .cover p{text-indent:0;text-align:center}
+hr{border:0;border-top:1px solid var(--line)}
+@media(max-width:850px){.layout{grid-template-columns:1fr}nav{position:relative;top:0;height:auto;border-right:0;border-bottom:1px solid var(--line);display:flex;overflow:auto;gap:4px}nav button{min-width:max-content}.grid,.grid3{grid-template-columns:1fr}header{position:relative}.report{padding:16mm 12mm}}
+@media print{header,nav,.no-print{display:none!important}.layout{display:block}.view{display:none!important}#printView{display:block!important}main{padding:0;max-width:none}.report{box-shadow:none;max-width:none;padding:20mm 22mm}.pagebreak{break-before:page}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">ระบบช่วยจัดทำวิจัยในชั้นเรียน <small>โครงสร้าง A-P-A-O-R และรายงานฉบับเต็ม 5 บท</small></div>
+  <div class="row"><button class="secondary" onclick="saveAll()">บันทึก</button><button onclick="openPrint()">พิมพ์/บันทึก PDF</button></div>
+</header>
+<div class="layout">
+<nav id="nav">
+  <button data-v="dashboard" class="active">ภาพรวม</button>
+  <button data-v="setup">ข้อมูลโครงการ</button>
+  <button data-v="analyze">1 วิเคราะห์ปัญหา</button>
+  <button data-v="plan">2 วางแผนแก้ปัญหา</button>
+  <button data-v="chapter1">บทที่ 1 บทนำ</button>
+  <button data-v="chapter2">บทที่ 2 เอกสาร/งานวิจัย</button>
+  <button data-v="chapter3">บทที่ 3 วิธีดำเนินการ</button>
+  <button data-v="chapter4">บทที่ 4 ผลการวิจัย</button>
+  <button data-v="chapter5">บทที่ 5 สรุป/อภิปราย</button>
+  <button data-v="references">บรรณานุกรม</button>
+  <button data-v="backup">สำรองข้อมูล</button>
+  <button data-v="printView">ตรวจฉบับพิมพ์</button>
+</nav>
+<main>
+<section id="dashboard" class="view active">
+  <div class="card"><h2>ภาพรวมงานวิจัย</h2><div class="progress"><span id="progBar" style="width:0%"></span></div><p><b id="progTxt">0%</b> ของช่องข้อมูลหลักที่กรอกแล้ว</p></div>
+  <div class="grid3">
+    <div class="card"><div class="small">งานอ้างอิงที่บันทึก</div><div class="kpi" id="refCount">0</div></div>
+    <div class="card"><div class="small">สถานะบทที่ 1–5</div><div class="kpi" id="chapterCount">0/5</div></div>
+    <div class="card"><div class="small">บันทึกล่าสุด</div><div class="kpi" style="font-size:1rem" id="lastSaved">ยังไม่บันทึก</div></div>
+  </div>
+  <div class="card"><h3>ลำดับงานตามคู่มือ</h3><p>ระบบจัดขั้นตอนเป็น 4 ระยะ: วิเคราะห์ปัญหา (Analysing) → กำหนดวิธีแก้ปัญหา (Planning) → ดำเนินการและสังเกตผล (Acting and Observing) → สรุปผลและเขียนรายงาน (Reflecting) จากนั้นจัดรายงานฉบับเต็มเป็นส่วนนำ บทที่ 1–5 และส่วนอ้างอิง</p></div>
+</section>
+
+<section id="setup" class="view">
+<div class="card"><h2>ข้อมูลโครงการวิจัย</h2>
+<div class="grid">
+<div><label>ชื่อเรื่องวิจัย</label><textarea data-k="title"></textarea></div>
+<div><label>ผู้วิจัย</label><input data-k="researcher"/></div>
+<div><label>หน่วยงาน/โรงเรียน</label><input data-k="organization"/></div>
+<div><label>ปีการศึกษา</label><input data-k="academicYear"/></div>
+<div><label>รายวิชา/ชั้นเรียน</label><input data-k="classInfo"/></div>
+<div><label>กลุ่มเป้าหมายโดยย่อ</label><input data-k="targetBrief"/></div>
+</div></div>
+</section>
+
+<section id="analyze" class="view">
+<div class="card"><h2>ขั้นที่ 1 วิเคราะห์ปัญหาการเรียนการสอน</h2>
+<p class="help">พิจารณาผลผลิตของผู้เรียน แล้วแยกสาเหตุจากปัจจัย (Input) และกระบวนการ (Process) เพื่อเลือกปัญหาที่ครูสามารถแก้ไขได้</p>
+<div class="grid">
+<div><label>สภาพปัญหาที่พบ/หลักฐานเชิงประจักษ์</label><textarea data-k="problemEvidence"></textarea></div>
+<div><label>ผลผลิตที่ไม่เป็นไปตามเป้าหมาย</label><textarea data-k="productGap"></textarea></div>
+<div><label>สาเหตุจากปัจจัย (Input)</label><textarea data-k="inputCauses"></textarea></div>
+<div><label>สาเหตุจากกระบวนการ (Process)</label><textarea data-k="processCauses"></textarea></div>
+</div>
+<label>ปัญหาวิจัยที่เลือกแก้</label><textarea data-k="selectedProblem"></textarea>
+</div>
+</section>
+
+<section id="plan" class="view">
+<div class="card"><h2>ขั้นที่ 2 กำหนดวิธีแก้ปัญหา/แนวทางแก้ไข</h2>
+<div class="grid">
+<div><label>สาเหตุหลักที่เลือก 1 สาเหตุ</label><textarea data-k="chosenCause"></textarea></div>
+<div><label>วิธีแก้ปัญหา/นวัตกรรม</label><textarea data-k="intervention"></textarea></div>
+<div><label>ศึกษาเรื่อง/ปัญหาอะไร</label><input data-k="studyWhat"/></div>
+<div><label>ศึกษากับใคร</label><input data-k="studyWho"/></div>
+<div><label>ศึกษาอย่างไร</label><input data-k="studyHow"/></div>
+<div><label>ชื่อเรื่องที่สังเคราะห์ได้</label><textarea data-k="draftTitle"></textarea></div>
+</div></div>
+</section>
+
+<section id="chapter1" class="view">
+<div class="card"><h2>บทที่ 1 บทนำ</h2>
+<label>1. ความเป็นมาและความสำคัญของปัญหา</label><textarea data-k="ch1Background"></textarea>
+<div class="grid">
+<div><label>2. วัตถุประสงค์การวิจัย</label><textarea data-k="objectives"></textarea></div>
+<div><label>3. สมมติฐาน (ถ้ามี)</label><textarea data-k="hypotheses"></textarea></div>
+<div><label>4. ข้อตกลงเบื้องต้น</label><textarea data-k="assumptions"></textarea></div>
+<div><label>5. ขอบเขตการวิจัย</label><textarea data-k="scope"></textarea></div>
+<div><label>6. นิยามศัพท์เฉพาะ</label><textarea data-k="definitions"></textarea></div>
+<div><label>7. ประโยชน์ที่คาดว่าจะได้รับ</label><textarea data-k="benefits"></textarea></div>
+</div></div>
+</section>
+
+<section id="chapter2" class="view">
+<div class="card"><h2>บทที่ 2 เอกสารและงานวิจัยที่เกี่ยวข้อง</h2>
+<div class="grid">
+<div><label>คำค้น</label><input id="searchQ" placeholder="เช่น Active Learning การอ่านออกเขียนได้"/></div>
+<div><label>กลุ่มคลัง ThaiJO ที่ค้น</label><select id="oaiGroup"><option value="edu">สังคมศาสตร์ 01–08</option><option value="social">สังคมศาสตร์ 09–16</option><option value="social2">สังคมศาสตร์ 17–20</option><option value="all">ทุกกลุ่ม (ใช้เวลานาน)</option></select></div>
+</div>
+<div class="row" style="margin-top:10px"><button onclick="searchThaiJo()">ค้น ThaiJO อัตโนมัติ</button><a class="btn secondary" href="https://www.tci-thaijo.org/th" target="_blank" rel="noopener">เปิด ThaiJO</a><span id="searchStatus" class="help"></span></div>
+<div class="note">การค้นอัตโนมัติใช้ OAI-PMH ของ ThaiJO และค้นจาก metadata ที่ดึงได้ จึงอาจไม่ครอบคลุมบทความทั้งหมดในครั้งเดียว หากเบราว์เซอร์บล็อก CORS ให้ใช้ปุ่มเปิด ThaiJO แล้วนำรายการอ้างอิงกลับมาบันทึกในระบบ</div>
+<div id="searchResults"></div>
+</div>
+<div class="card"><label>สังเคราะห์กรอบแนวคิด/ทฤษฎีและงานวิจัยที่เกี่ยวข้อง</label><textarea data-k="ch2Synthesis" style="min-height:220px"></textarea></div>
+</section>
+
+<section id="chapter3" class="view">
+<div class="card"><h2>บทที่ 3 วิธีดำเนินการวิจัย</h2>
+<div class="grid">
+<div><label>1. ประชากร/กลุ่มตัวอย่าง</label><textarea data-k="population"></textarea></div>
+<div><label>วิธีเลือกกลุ่มตัวอย่าง</label><textarea data-k="sampling"></textarea></div>
+<div><label>2. เครื่องมือแก้ปัญหา/นวัตกรรม</label><textarea data-k="instrumentIntervention"></textarea></div>
+<div><label>2. เครื่องมือเก็บรวบรวมข้อมูล</label><textarea data-k="instrumentData"></textarea></div>
+<div><label>3. ขั้นตอนสร้างและตรวจคุณภาพเครื่องมือ</label><textarea data-k="instrumentQuality"></textarea></div>
+<div><label>4. วิธีเก็บรวบรวมข้อมูล</label><textarea data-k="dataCollection"></textarea></div>
+<div><label>5. สถิติ/วิธีวิเคราะห์ข้อมูล</label><textarea data-k="analysisPlan"></textarea></div>
+<div><label>ตารางเวลาปฏิบัติการวิจัย</label><textarea data-k="timeline"></textarea></div>
+</div>
+</div>
+<div class="card"><h3>ตัวช่วยตรวจคุณภาพเครื่องมือ</h3><p class="help">ค่าด้านล่างเป็นเกณฑ์ทั่วไปที่นิยมใช้ในงานวิจัยบางประเภท ไม่ใช่ข้อกำหนดตายตัว ควรระบุแหล่งอ้างอิงและเหตุผลที่เลือกใช้ในงานของตน</p>
+<div class="grid3">
+<div><label>IOC</label><input id="iocRatings" placeholder="-1,1,1,0,1"/><button style="margin-top:8px" onclick="calcIOC()">คำนวณ</button><div id="iocOut" class="help"></div></div>
+<div><label>Cronbach's alpha</label><input id="alphaValue" type="number" step=".001" placeholder="0.82"/><button style="margin-top:8px" onclick="checkAlpha()">ตรวจค่า</button><div id="alphaOut" class="help"></div></div>
+<div><label>ข้อสอบ: p / r</label><div class="row"><input id="pValue" type="number" step=".01" placeholder="p" style="width:45%"><input id="rValue" type="number" step=".01" placeholder="r" style="width:45%"></div><button style="margin-top:8px" onclick="checkItem()">ตรวจค่า</button><div id="itemOut" class="help"></div></div>
+</div></div>
+</section>
+
+<section id="chapter4" class="view">
+<div class="card"><h2>บทที่ 4 ผลการวิเคราะห์ข้อมูล</h2>
+<label>ผลการวิเคราะห์ตามวัตถุประสงค์/สมมติฐาน</label><textarea data-k="resultsNarrative" style="min-height:220px"></textarea>
+<label>ตาราง/แผนภูมิ/คำอธิบายประกอบ</label><textarea data-k="resultsTables"></textarea>
+</div>
+<div class="card"><h3>คำนวณสถิติพื้นฐานจากคะแนน</h3><div class="grid"><div><label>ก่อนเรียน (คั่นด้วย ,)</label><textarea id="preScores" placeholder="10,12,9,15"></textarea></div><div><label>หลังเรียน (คั่นด้วย ,)</label><textarea id="postScores" placeholder="15,16,13,18"></textarea></div></div><button onclick="calcStats()">คำนวณ</button><pre id="statsOut"></pre></div>
+</section>
+
+<section id="chapter5" class="view">
+<div class="card"><h2>บทที่ 5 สรุป อภิปรายผล และข้อเสนอแนะ</h2>
+<label>สรุปวิธีดำเนินการโดยย่อ</label><textarea data-k="ch5MethodSummary"></textarea>
+<label>สรุปผลการวิจัยตามวัตถุประสงค์</label><textarea data-k="ch5Summary"></textarea>
+<label>อภิปรายผล เชื่อมโยงทฤษฎี/งานวิจัยเดิม และข้อจำกัด</label><textarea data-k="discussion" style="min-height:200px"></textarea>
+<div class="grid"><div><label>ข้อเสนอแนะในการนำผลไปใช้</label><textarea data-k="recommendUse"></textarea></div><div><label>ข้อเสนอแนะสำหรับการวิจัยต่อไป</label><textarea data-k="recommendFuture"></textarea></div></div>
+</div>
+</section>
+
+<section id="references" class="view">
+<div class="card"><h2>บรรณานุกรม</h2><p class="help">รายการจาก ThaiJO จะถูกเพิ่มที่นี่อัตโนมัติเมื่อกด “เพิ่มอ้างอิง” ควรตรวจชื่อผู้แต่ง ปี ชื่อวารสาร เล่ม/ฉบับ หน้า DOI/URL กับต้นฉบับก่อนพิมพ์</p>
+<div id="refList"></div>
+<hr><h3>เพิ่มรายการด้วยตนเอง</h3>
+<div class="grid"><input id="manualRef" placeholder="พิมพ์รายการบรรณานุกรมฉบับสมบูรณ์"/><button onclick="addManualRef()">เพิ่มรายการ</button></div></div>
+</section>
+
+<section id="backup" class="view">
+<div class="card"><h2>สำรองและกู้คืนข้อมูล</h2>
+<div class="row"><button onclick="exportJson()">ดาวน์โหลด JSON</button><label class="btn secondary" style="font-weight:400">นำเข้า JSON<input id="importFile" type="file" accept=".json,application/json" style="display:none"></label></div>
+<hr><h3>Google Drive</h3>
+<p class="help">การสำรองตรงจากเว็บไปยัง Google Drive ต้องใช้ Google OAuth Client ID ของเว็บนี้ 1 ครั้ง โดยเพิ่มโดเมน GitHub Pages เป็น Authorized JavaScript origin แล้วระบบจะขอสิทธิ์เฉพาะไฟล์ที่แอปสร้าง (drive.file)</p>
+<div class="grid"><div><label>Google OAuth Client ID</label><input id="googleClientId" placeholder="xxxxxxxx.apps.googleusercontent.com"></div><div><label>สถานะ</label><div id="driveStatus" class="help">ยังไม่เชื่อมต่อ</div></div></div>
+<div class="row" style="margin-top:10px"><button onclick="connectDrive()">เชื่อม Google Drive</button><button class="secondary" onclick="backupDrive()">สำรองตอนนี้</button><button class="secondary" onclick="restoreDrive()">กู้คืนล่าสุด</button></div>
+</div>
+</section>
+
+<section id="printView" class="view"><div class="no-print row" style="margin-bottom:12px"><button onclick="renderReport()">อัปเดตฉบับพิมพ์</button><button onclick="window.print()">พิมพ์/บันทึก PDF</button></div><article class="report" id="report"></article></section>
+</main>
+</div>
+<script>
+const KEY='classroomResearchApp.v1';
+let state={data:{},references:[],lastSaved:null,googleClientId:''};
+let accessToken=null, tokenClient=null;
+const q=s=>document.querySelector(s), qa=s=>[...document.querySelectorAll(s)];
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)state={...state,...s}}catch(e){};qa('[data-k]').forEach(el=>el.value=state.data[el.dataset.k]||'');q('#googleClientId').value=state.googleClientId||'';renderRefs();refreshDashboard();}
+function collect(){qa('[data-k]').forEach(el=>state.data[el.dataset.k]=el.value.trim());state.googleClientId=q('#googleClientId').value.trim();}
+function saveAll(){collect();state.lastSaved=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state));refreshDashboard();alert('บันทึกข้อมูลในอุปกรณ์แล้ว');}
+qa('#nav button').forEach(b=>b.onclick=()=>{qa('#nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');qa('.view').forEach(v=>v.classList.remove('active'));q('#'+b.dataset.v).classList.add('active');if(b.dataset.v==='printView')renderReport();});
+qa('[data-k]').forEach(el=>el.addEventListener('change',()=>{collect();localStorage.setItem(KEY,JSON.stringify(state));refreshDashboard()}));
+function refreshDashboard(){collect();const vals=Object.values(state.data);const filled=vals.filter(x=>String(x).trim()).length;const total=Math.max(1,qa('[data-k]').length);const pct=Math.round(filled/total*100);q('#progBar').style.width=pct+'%';q('#progTxt').textContent=pct+'%';q('#refCount').textContent=state.references.length;const ch=[['ch1Background','objectives'],['ch2Synthesis'],['population','instrumentData'],['resultsNarrative'],['ch5Summary','discussion']];q('#chapterCount').textContent=ch.filter(g=>g.every(k=>(state.data[k]||'').trim())).length+'/5';q('#lastSaved').textContent=state.lastSaved?new Date(state.lastSaved).toLocaleString('th-TH'):'ยังไม่บันทึก';}
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function apaFromRecord(r){const au=(r.creators||[]).filter(Boolean).join(', ')||'ไม่ปรากฏผู้แต่ง';const y=(r.date||'ม.ป.ป.').match(/\d{4}/)?.[0]||'ม.ป.ป.';const src=r.source?'. '+r.source:'';const id=(r.identifiers||[]).find(x=>/^https?:/i.test(x))||'';return `${au}. (${y}). ${r.title||'ไม่ปรากฏชื่อเรื่อง'}${src}. ${id}`.trim()}
+function addReference(r){const citation=apaFromRecord(r);if(!state.references.some(x=>x.citation===citation)){state.references.push({citation,meta:r});saveSilent();renderRefs();alert('เพิ่มรายการอ้างอิงแล้ว')}}
+function addManualRef(){const t=q('#manualRef').value.trim();if(!t)return;state.references.push({citation:t,meta:{manual:true}});q('#manualRef').value='';saveSilent();renderRefs()}
+function removeRef(i){state.references.splice(i,1);saveSilent();renderRefs()}
+function renderRefs(){q('#refList').innerHTML=state.references.length?state.references.map((r,i)=>`<div class="ref"><div>${esc(r.citation)}</div><button class="danger" style="margin-top:8px" onclick="removeRef(${i})">ลบ</button></div>`).join(''):'<p class="help">ยังไม่มีรายการ</p>';refreshDashboard()}
+function saveSilent(){collect();state.lastSaved=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state));refreshDashboard()}
+const groups={edu:[1,2,3,4,5,6,7,8],social:[9,10,11,12,13,14,15,16],social2:[17,18,19,20],all:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]};
+async function searchThaiJo(){const kw=q('#searchQ').value.trim().toLowerCase();if(!kw)return alert('กรอกคำค้นก่อน');q('#searchStatus').textContent='กำลังค้น...';q('#searchResults').innerHTML='';let all=[];const nums=groups[q('#oaiGroup').value];for(const n of nums){const host='so'+String(n).padStart(2,'0');const url=`https://${host}.tci-thaijo.org/index.php/index/oai?verb=ListRecords&metadataPrefix=oai_dc`;try{const r=await fetch(url);if(!r.ok)continue;const xml=new DOMParser().parseFromString(await r.text(),'text/xml');[...xml.querySelectorAll('record')].forEach(rec=>{const t=rec.querySelector('title')?.textContent?.trim()||'';const desc=[...rec.querySelectorAll('description')].map(x=>x.textContent).join(' ');const subj=[...rec.querySelectorAll('subject')].map(x=>x.textContent).join(' ');const hay=(t+' '+desc+' '+subj).toLowerCase();if(hay.includes(kw)){all.push({title:t,creators:[...rec.querySelectorAll('creator')].map(x=>x.textContent.trim()),date:rec.querySelector('date')?.textContent?.trim()||'',source:rec.querySelector('source')?.textContent?.trim()||'',identifiers:[...rec.querySelectorAll('identifier')].map(x=>x.textContent.trim()),description:desc.slice(0,500),host})}})}catch(e){console.warn(host,e)}if(nums.length>8)await new Promise(r=>setTimeout(r,6500));}
+all=all.slice(0,40);q('#searchStatus').textContent=`พบ ${all.length} รายการจาก metadata ที่สแกนได้`;q('#searchResults').innerHTML=all.length?all.map((r,i)=>`<div class="ref"><h4>${esc(r.title)}</h4><div class="meta">${esc((r.creators||[]).join(', '))} · ${esc(r.date)} · ${esc(r.host)}</div><p>${esc(r.description||'')}</p><div class="row"><button onclick='addReference(${JSON.stringify(r).replace(/'/g,"&#39;")})'>เพิ่มอ้างอิง</button>${(r.identifiers||[]).find(x=>/^https?:/i.test(x))?`<a class="btn secondary" target="_blank" rel="noopener" href="${esc((r.identifiers||[]).find(x=>/^https?:/i.test(x)))}">เปิดต้นฉบับ</a>`:''}</div></div>`).join(''):'<p class="help">ไม่พบจาก metadata ชุดที่ดึงได้ ลองคำค้นสั้นลงหรือค้นใน ThaiJO โดยตรง</p>'}
+function calcIOC(){const a=q('#iocRatings').value.split(',').map(Number).filter(Number.isFinite);if(!a.length)return;const v=a.reduce((s,x)=>s+x,0)/a.length;q('#iocOut').innerHTML=`IOC = <b>${v.toFixed(3)}</b> ${v>=.5?'<span class="good">ผ่านเกณฑ์ทั่วไป ≥ 0.50</span>':'<span class="bad">ต่ำกว่าเกณฑ์ทั่วไป 0.50</span>'}`}
+function checkAlpha(){const v=Number(q('#alphaValue').value);q('#alphaOut').innerHTML=Number.isFinite(v)?`α = <b>${v.toFixed(3)}</b> ${v>=.7?'<span class="good">ถึงเกณฑ์ทั่วไป 0.70</span>':'<span class="bad">ต่ำกว่าเกณฑ์ทั่วไป 0.70</span>'}`:''}
+function checkItem(){const p=Number(q('#pValue').value),r=Number(q('#rValue').value);if(!Number.isFinite(p)||!Number.isFinite(r))return;const okp=p>=.2&&p<=.8, okr=r>=.2;q('#itemOut').innerHTML=`p=${p.toFixed(2)} ${okp?'✓ ช่วงทั่วไป .20–.80':'ควรพิจารณา'}<br>r=${r.toFixed(2)} ${okr?'✓ ≥ .20':'ควรพิจารณา'}`}
+function nums(id){return q(id).value.split(/[\s,]+/).map(Number).filter(Number.isFinite)}
+function mean(a){return a.reduce((s,x)=>s+x,0)/a.length}function sd(a){if(a.length<2)return 0;const m=mean(a);return Math.sqrt(a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1))}
+function calcStats(){const pre=nums('#preScores'),post=nums('#postScores');if(!pre.length&&!post.length)return;let out=[];if(pre.length)out.push(`ก่อนเรียน: n=${pre.length}, Mean=${mean(pre).toFixed(3)}, SD=${sd(pre).toFixed(3)}`);if(post.length)out.push(`หลังเรียน: n=${post.length}, Mean=${mean(post).toFixed(3)}, SD=${sd(post).toFixed(3)}`);if(pre.length===post.length&&pre.length>1){const d=post.map((x,i)=>x-pre[i]);const t=mean(d)/(sd(d)/Math.sqrt(d.length));out.push(`ผลต่างเฉลี่ย=${mean(d).toFixed(3)}, paired t=${t.toFixed(3)}, df=${d.length-1} (ระบบนี้ยังไม่คำนวณ p-value)`)}q('#statsOut').textContent=out.join('\n')}
+function exportJson(){collect();const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='classroom-research-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href)}
+q('#importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const s=JSON.parse(await f.text());state={...state,...s};localStorage.setItem(KEY,JSON.stringify(state));location.reload()}catch(err){alert('ไฟล์ไม่ถูกต้อง')}};
+function initTokenClient(){const cid=q('#googleClientId').value.trim();if(!cid)return alert('กรอก Google OAuth Client ID ก่อน');if(!window.google?.accounts?.oauth2)return alert('Google Identity Services ยังโหลดไม่เสร็จ ลองอีกครั้ง');state.googleClientId=cid;saveSilent();tokenClient=google.accounts.oauth2.initTokenClient({client_id:cid,scope:'https://www.googleapis.com/auth/drive.file',callback:r=>{if(r.error)return q('#driveStatus').textContent='เชื่อมต่อไม่สำเร็จ: '+r.error;accessToken=r.access_token;q('#driveStatus').innerHTML='<span class="good">เชื่อมต่อแล้ว</span>'}})}
+function connectDrive(){initTokenClient();tokenClient?.requestAccessToken({prompt:'consent'})}
+async function ensureDrive(){if(accessToken)return true;connectDrive();return false}
+async function driveFolder(){const h={Authorization:'Bearer '+accessToken};let r=await fetch("https://www.googleapis.com/drive/v3/files?q="+encodeURIComponent("name='Classroom Research Backups' and mimeType='application/vnd.google-apps.folder' and trashed=false")+"&fields=files(id,name)&spaces=drive",{headers:h});let j=await r.json();if(j.files?.length)return j.files[0].id;r=await fetch('https://www.googleapis.com/drive/v3/files?fields=id',{method:'POST',headers:{...h,'Content-Type':'application/json'},body:JSON.stringify({name:'Classroom Research Backups',mimeType:'application/vnd.google-apps.folder'})});j=await r.json();return j.id}
+async function backupDrive(){collect();if(!accessToken){connectDrive();alert('หลังเชื่อมต่อสำเร็จ กด “สำรองตอนนี้” อีกครั้ง');return}try{const folder=await driveFolder();const meta={name:'ResearchBackup-'+new Date().toISOString().replace(/[:.]/g,'-')+'.json',parents:[folder],mimeType:'application/json'};const boundary='----research'+Date.now();const body='--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+JSON.stringify(meta)+'\r\n--'+boundary+'\r\nContent-Type: application/json\r\n\r\n'+JSON.stringify(state)+'\r\n--'+boundary+'--';const r=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink',{method:'POST',headers:{Authorization:'Bearer '+accessToken,'Content-Type':'multipart/related; boundary='+boundary},body});if(!r.ok)throw new Error(await r.text());const j=await r.json();q('#driveStatus').innerHTML='<span class="good">สำรองแล้ว: '+esc(j.name)+'</span>'}catch(e){q('#driveStatus').textContent='สำรองไม่สำเร็จ: '+e.message}}
+async function restoreDrive(){if(!accessToken){connectDrive();alert('หลังเชื่อมต่อสำเร็จ กด “กู้คืนล่าสุด” อีกครั้ง');return}try{const folder=await driveFolder();const u='https://www.googleapis.com/drive/v3/files?q='+encodeURIComponent("'"+folder+"' in parents and name contains 'ResearchBackup-' and trashed=false")+'&orderBy=modifiedTime desc&pageSize=1&fields=files(id,name,modifiedTime)';let r=await fetch(u,{headers:{Authorization:'Bearer '+accessToken}}),j=await r.json();if(!j.files?.length)return alert('ยังไม่มีไฟล์สำรอง');r=await fetch('https://www.googleapis.com/drive/v3/files/'+j.files[0].id+'?alt=media',{headers:{Authorization:'Bearer '+accessToken}});const s=await r.json();if(!confirm('กู้คืนจาก '+j.files[0].name+' และแทนที่ข้อมูลในเครื่องหรือไม่?'))return;state={...state,...s};localStorage.setItem(KEY,JSON.stringify(state));location.reload()}catch(e){q('#driveStatus').textContent='กู้คืนไม่สำเร็จ: '+e.message}}
+function sec(title,txt){return `<h3>${esc(title)}</h3><p>${esc(txt||'-')}</p>`}
+function renderReport(){collect();const d=state.data;const refs=state.references.map(x=>'<p style="text-indent:0">'+esc(x.citation)+'</p>').join('')||'<p style="text-indent:0">-</p>';q('#report').innerHTML=`
+<div class="cover"><h1>${esc(d.title||d.draftTitle||'ชื่อเรื่องวิจัย')}</h1><p>${esc(d.researcher||'ผู้วิจัย')}</p><p>${esc(d.organization||'หน่วยงาน')}</p><p>ปีการศึกษา ${esc(d.academicYear||'-')}</p></div>
+<div class="pagebreak"><h2>บทคัดย่อ</h2><p>โปรดจัดทำบทคัดย่อสรุปปัญหา วิธีดำเนินการวิจัย และข้อค้นพบสำคัญจากข้อมูลที่บันทึกไว้ในระบบก่อนพิมพ์ฉบับสมบูรณ์</p></div>
+<div class="pagebreak"><h2>บทที่ 1<br>บทนำ</h2>${sec('ความเป็นมาและความสำคัญของปัญหา',d.ch1Background)}${sec('วัตถุประสงค์การวิจัย',d.objectives)}${sec('สมมติฐาน',d.hypotheses)}${sec('ข้อตกลงเบื้องต้น',d.assumptions)}${sec('ขอบเขตการวิจัย',d.scope)}${sec('นิยามศัพท์เฉพาะ',d.definitions)}${sec('ประโยชน์ที่คาดว่าจะได้รับ',d.benefits)}</div>
+<div class="pagebreak"><h2>บทที่ 2<br>เอกสารและงานวิจัยที่เกี่ยวข้อง</h2><p>${esc(d.ch2Synthesis||'-')}</p></div>
+<div class="pagebreak"><h2>บทที่ 3<br>วิธีดำเนินการวิจัย</h2>${sec('ประชากร/กลุ่มตัวอย่าง',d.population)}${sec('วิธีเลือกกลุ่มตัวอย่าง',d.sampling)}${sec('เครื่องมือในการแก้ปัญหา/นวัตกรรม',d.instrumentIntervention)}${sec('เครื่องมือในการเก็บรวบรวมข้อมูล',d.instrumentData)}${sec('การสร้างและตรวจคุณภาพเครื่องมือ',d.instrumentQuality)}${sec('การเก็บรวบรวมข้อมูล',d.dataCollection)}${sec('สถิติและวิธีวิเคราะห์ข้อมูล',d.analysisPlan)}${sec('ตารางเวลาปฏิบัติการวิจัย',d.timeline)}</div>
+<div class="pagebreak"><h2>บทที่ 4<br>ผลการวิเคราะห์ข้อมูล</h2><p>${esc(d.resultsNarrative||'-')}</p>${sec('ตาราง/แผนภูมิ/คำอธิบายประกอบ',d.resultsTables)}</div>
+<div class="pagebreak"><h2>บทที่ 5<br>สรุป อภิปรายผล และข้อเสนอแนะ</h2>${sec('สรุปวิธีดำเนินการโดยย่อ',d.ch5MethodSummary)}${sec('สรุปผลการวิจัย',d.ch5Summary)}${sec('อภิปรายผล',d.discussion)}${sec('ข้อเสนอแนะในการนำผลไปใช้',d.recommendUse)}${sec('ข้อเสนอแนะสำหรับการวิจัยต่อไป',d.recommendFuture)}</div>
+<div class="pagebreak"><h2>บรรณานุกรม</h2>${refs}</div>
+<div class="pagebreak"><h2>ภาคผนวก</h2><p>แนบเครื่องมือวิจัย แบบทดสอบ แบบสอบถาม แบบประเมิน ผลการตรวจคุณภาพเครื่องมือ ตารางคะแนน และเอกสารหลักฐานอื่นที่เกี่ยวข้อง</p></div>`}
+}
+function openPrint(){qa('#nav button').find(x=>x.dataset.v==='printView').click();setTimeout(()=>window.print(),150)}
+load();renderReport();
+</script>
+</body></html>
