@@ -42,26 +42,15 @@ hr{border:0;border-top:1px solid var(--line)}
 <div id="authScreen" class="auth-screen">
   <div class="auth-box">
     <h1>ลงชื่อเข้าใช้ระบบวิจัยในชั้นเรียน</h1>
-    <p>ข้อมูลของผู้ใช้แต่ละคนจะแยกออกจากกันบนอุปกรณ์นี้</p>
-    <div class="auth-tabs">
-      <button id="tabLogin" onclick="showAuthMode('login')">เข้าสู่ระบบ</button>
-      <button id="tabRegister" class="secondary" onclick="showAuthMode('register')">สร้างผู้ใช้ใหม่</button>
-    </div>
-    <div id="loginForm">
-      <label>ชื่อผู้ใช้</label><input id="loginUsername" autocomplete="username" placeholder="เช่น waroot"/>
-      <label style="margin-top:10px">รหัสผ่าน/PIN</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="อย่างน้อย 4 ตัวอักษร"/>
-      <button style="width:100%;margin-top:14px" onclick="loginUser()">เข้าสู่ระบบและเริ่มใช้งาน</button>
-      <div id="loginMsg" class="help" style="margin-top:10px"></div>
-    </div>
-    <div id="registerForm" style="display:none">
-      <label>ชื่อ-สกุล</label><input id="regName" placeholder="ชื่อผู้ใช้งาน"/>
-      <label style="margin-top:10px">ชื่อผู้ใช้</label><input id="regUsername" autocomplete="username" placeholder="ใช้ตัวอักษร/ตัวเลข"/>
-      <label style="margin-top:10px">รหัสผ่าน/PIN</label><input id="regPassword" type="password" autocomplete="new-password" placeholder="อย่างน้อย 4 ตัวอักษร"/>
-      <label style="margin-top:10px">ยืนยันรหัสผ่าน/PIN</label><input id="regPassword2" type="password" autocomplete="new-password"/>
-      <button style="width:100%;margin-top:14px" onclick="registerUser()">สร้างผู้ใช้และเข้าใช้งานทันที</button>
-      <div id="registerMsg" class="help" style="margin-top:10px"></div>
-    </div>
-    <p class="small" style="margin-top:16px">บัญชีแบบนี้ทำงานได้ทันทีโดยไม่ต้องตั้งค่าเซิร์ฟเวอร์เพิ่มเติม หากเปลี่ยนอุปกรณ์ให้ใช้เมนูสำรอง/กู้คืนข้อมูล</p>
+    <p>กรอกชื่อผู้ใช้แล้วกดเข้าใช้งาน ระบบจะเปิดให้ใช้งานได้ทันทีและแยกข้อมูลตามชื่อผู้ใช้บนอุปกรณ์นี้</p>
+    <label>ชื่อ-สกุลผู้เข้าใช้</label>
+    <input id="quickName" placeholder="เช่น วรุธ ภิชาเศวตว์" autocomplete="name"/>
+    <label style="margin-top:10px">ชื่อผู้ใช้</label>
+    <input id="quickUsername" placeholder="เช่น waroot" autocomplete="username"/>
+    <button type="button" id="quickLoginBtn" style="width:100%;margin-top:14px" onclick="quickLogin()">เข้าใช้งานทันที</button>
+    <button type="button" class="secondary" style="width:100%;margin-top:8px" onclick="enterDefault()">เข้าใช้งานแบบผู้ใช้ทั่วไป</button>
+    <div id="loginMsg" class="help" style="margin-top:10px"></div>
+    <p class="small" style="margin-top:16px">ไม่ต้องสมัครสมาชิกและไม่ต้องตั้งค่าระบบเพิ่ม ข้อมูลเก็บในเบราว์เซอร์ของเครื่องนี้</p>
   </div>
 </div>
 <header>
@@ -224,14 +213,12 @@ let state={data:{},references:[],lastSaved:null,googleClientId:''};
 function dataKey(){return APP_NS+'.data.'+(currentUser?.username||'guest')}
 let accessToken=null, tokenClient=null;
 const q=s=>document.querySelector(s), qa=s=>[...document.querySelectorAll(s)];
-async function hashText(s){const b=new TextEncoder().encode(s);const h=await crypto.subtle.digest('SHA-256',b);return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,'0')).join('')}
-function users(){try{return JSON.parse(localStorage.getItem(USERS_KEY))||[]}catch(e){return []}}
-function showAuthMode(mode){q('#loginForm').style.display=mode==='login'?'block':'none';q('#registerForm').style.display=mode==='register'?'block':'none';q('#tabLogin').className=mode==='login'?'':'secondary';q('#tabRegister').className=mode==='register'?'':'secondary'}
-async function registerUser(){const name=q('#regName').value.trim(),username=q('#regUsername').value.trim().toLowerCase(),p=q('#regPassword').value,p2=q('#regPassword2').value,msg=q('#registerMsg');msg.textContent='';if(!name||!username)return msg.textContent='กรอกชื่อและชื่อผู้ใช้ให้ครบ';if(!/^[a-zA-Z0-9._-]{3,30}$/.test(username))return msg.textContent='ชื่อผู้ใช้ใช้ตัวอักษรอังกฤษ ตัวเลข . _ - จำนวน 3–30 ตัว';if(p.length<4)return msg.textContent='รหัสผ่าน/PIN ต้องมีอย่างน้อย 4 ตัวอักษร';if(p!==p2)return msg.textContent='รหัสผ่านไม่ตรงกัน';const us=users();if(us.some(x=>x.username===username))return msg.textContent='ชื่อผู้ใช้นี้มีแล้ว';const u={name,username,passwordHash:await hashText(p),createdAt:new Date().toISOString()};us.push(u);localStorage.setItem(USERS_KEY,JSON.stringify(us));startSession(u)}
-async function loginUser(){const username=q('#loginUsername').value.trim().toLowerCase(),p=q('#loginPassword').value,msg=q('#loginMsg');msg.textContent='';const u=users().find(x=>x.username===username);if(!u||u.passwordHash!==await hashText(p))return msg.textContent='ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';startSession(u)}
-function startSession(u){currentUser={name:u.name,username:u.username};sessionStorage.setItem(SESSION_KEY,JSON.stringify(currentUser));q('#authScreen').classList.add('hidden');q('#userChip').style.display='flex';q('#userLabel').textContent=u.name+' ('+u.username+')';q('#userAvatar').textContent=(u.name||u.username).trim().charAt(0).toUpperCase();loadUserData()}
-function logoutUser(){saveSilent();sessionStorage.removeItem(SESSION_KEY);currentUser=null;q('#authScreen').classList.remove('hidden');q('#userChip').style.display='none';q('#loginPassword').value=''}
-function restoreSession(){try{const s=JSON.parse(sessionStorage.getItem(SESSION_KEY));if(s&&users().some(u=>u.username===s.username)){startSession(users().find(u=>u.username===s.username));return}}catch(e){}q('#authScreen').classList.remove('hidden');if(users().length===0)showAuthMode('register');else showAuthMode('login')}
+function safeUser(v){return String(v||'').trim().toLowerCase().replace(/[^a-z0-9._-]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,40)}
+function quickLogin(){try{const name=q('#quickName').value.trim();let username=safeUser(q('#quickUsername').value);const msg=q('#loginMsg');msg.textContent='';if(!name){msg.textContent='กรอกชื่อ-สกุลก่อนเข้าใช้งาน';q('#quickName').focus();return}if(!username)username='user-'+Date.now();startSession({name,username})}catch(e){q('#loginMsg').textContent='เปิดใช้งานไม่สำเร็จ กรุณารีเฟรชหน้าแล้วลองใหม่'}}
+function enterDefault(){startSession({name:'ผู้ใช้งาน',username:'default-user'})}
+function startSession(u){currentUser={name:u.name||'ผู้ใช้งาน',username:u.username||'default-user'};try{localStorage.setItem(SESSION_KEY,JSON.stringify(currentUser))}catch(e){}q('#authScreen').classList.add('hidden');q('#userChip').style.display='flex';q('#userLabel').textContent=currentUser.name+' ('+currentUser.username+')';q('#userAvatar').textContent=(currentUser.name||'U').trim().charAt(0).toUpperCase();loadUserData()}
+function logoutUser(){saveSilent();try{localStorage.removeItem(SESSION_KEY)}catch(e){}currentUser=null;q('#authScreen').classList.remove('hidden');q('#userChip').style.display='none';q('#loginMsg').textContent=''}
+function restoreSession(){try{const s=JSON.parse(localStorage.getItem(SESSION_KEY));if(s&&s.username){startSession(s);return}}catch(e){}q('#authScreen').classList.remove('hidden')}
 function loadUserData(){state={data:{},references:[],lastSaved:null,googleClientId:''};try{const s=JSON.parse(localStorage.getItem(dataKey()));if(s)state={...state,...s}}catch(e){};qa('[data-k]').forEach(el=>el.value=state.data[el.dataset.k]||'');q('#googleClientId').value=state.googleClientId||'';renderRefs();refreshDashboard();renderReport()}
 function load(){restoreSession()}
 function collect(){qa('[data-k]').forEach(el=>state.data[el.dataset.k]=el.value.trim());state.googleClientId=q('#googleClientId').value.trim();}
